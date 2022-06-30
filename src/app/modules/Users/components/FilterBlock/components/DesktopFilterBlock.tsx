@@ -1,19 +1,18 @@
 import { Box, FormControl, InputLabel, MenuItem, Select, Stack } from '@mui/material'
+import { usersActions } from 'app/modules/Users/slice'
+import { selectFilter } from 'app/modules/Users/slice/selectors'
+import { TUserStatus } from 'app/modules/Users/slice/types'
 import React from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { EPosition } from 'types'
 
-import { usersActions } from '../slice'
-import { selectFilter } from '../slice/selectors'
-import { TUserStatus } from '../slice/types'
-
-export const FilterForm: React.FC = () => {
+export const DesktopFilterBlock: React.FC = () => {
     const dispatch = useDispatch()
 
     const filter = useSelector(selectFilter)
 
     return (
-        <Box mb={1} px={4} display={'flex'} justifyContent={'flex-end'}>
+        <Box mb={4} px={4} display={'flex'} justifyContent={'flex-end'}>
             <Stack direction={'row'} spacing={2}>
                 <FormControl sx={{ width: '200px' }} variant="standard">
                     <InputLabel>Должность</InputLabel>
@@ -32,6 +31,10 @@ export const FilterForm: React.FC = () => {
                         }}
                     >
                         {[
+                            {
+                                label: 'Все',
+                                value: '',
+                            },
                             {
                                 label: 'Продавец',
                                 value: 'seller',
@@ -77,6 +80,10 @@ export const FilterForm: React.FC = () => {
                         }}
                     >
                         {[
+                            {
+                                label: 'Все',
+                                value: '',
+                            },
                             {
                                 value: '1',
                                 label: 'Академ',

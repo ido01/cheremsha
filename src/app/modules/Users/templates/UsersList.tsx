@@ -1,16 +1,18 @@
-import { Box, Typography } from '@mui/material'
+import { FilterAlt as FilterAltIcon } from '@mui/icons-material'
+import { Box, Button, Typography, useMediaQuery, useTheme } from '@mui/material'
 import Table, { TableEmptyRow } from 'app/components/Table'
 import { TitleBlock } from 'app/components/TitleBlock'
 import { AvatarImage } from 'app/modules/Profile/components/AvatarImage'
 import moment from 'moment'
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { EStatus } from 'types'
 import { TLimit, TTableOrder, TTableRowData } from 'types/ITable'
 import { IUser } from 'types/IUser'
 import { convertPlaceName } from 'utils/convertUtils'
 
-import { FilterForm } from '../components/FilterForm'
+import { FilterBlock } from '../components/FilterBlock'
+import { MobileUserView } from '../components/MobileUserView'
 import { usersActions } from '../slice'
 import {
     selectFilter,
@@ -24,6 +26,11 @@ import { UserModal } from './UserModal'
 
 export const UsersList: React.FC = () => {
     const dispatch = useDispatch()
+
+    const [isFilterOpen, setFilterOpen] = useState<boolean>(false)
+
+    const theme = useTheme()
+    const isMobile = useMediaQuery(theme.breakpoints.between('xs', 'md'))
 
     const status = useSelector(selectStatus)
     const users = useSelector(selectUsers)
@@ -95,6 +102,8 @@ export const UsersList: React.FC = () => {
         },
     ]
 
+    const mobileView = (item: IUser) => <MobileUserView user={item} />
+
     // useEffect(() => {
     //     dispatch(usersActions.cleanUsers())
     //     dispatch(usersActions.loadUsers())
@@ -127,10 +136,22 @@ export const UsersList: React.FC = () => {
 
     return (
         <>
-            <TitleBlock title={'Сотрудники'} count={count} />
+            <TitleBlock
+                title={'Сотрудники'}
+                count={count}
+                endNode={
+                    isMobile ? (
+                        <Button variant="text" onClick={() => setFilterOpen(true)} sx={{ textTransform: 'uppercase' }}>
+                            <FilterAltIcon />
+                        </Button>
+                    ) : (
+                        <></>
+                    )
+                }
+            />
 
             <Box pt={4} flex="1 0 100%" sx={{ overflow: 'auto', maxHeight: { md: 'calc( 100vh - 90px )' } }}>
-                <FilterForm />
+                <FilterBlock open={isFilterOpen} onClose={() => setFilterOpen(false)} />
 
                 <Table
                     items={users}
@@ -138,6 +159,7 @@ export const UsersList: React.FC = () => {
                     order={order}
                     pagination={pagination}
                     isLoading={status === EStatus.PENDING}
+                    mobileView={mobileView}
                     handleOrderChange={handleOrderChange}
                     handleLimitChange={handleLimitChange}
                     handlePageChange={handlePageChange}

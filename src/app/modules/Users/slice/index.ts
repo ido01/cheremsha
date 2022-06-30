@@ -62,6 +62,7 @@ const slice = createSlice({
     reducers: {
         cleanUsers(state) {
             usersAdapter.setAll(state, [])
+            state.pagination.page = 1
             state.pagination.total_pages = 1
             state.total_count = 0
         },
