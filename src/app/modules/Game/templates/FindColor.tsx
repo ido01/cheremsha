@@ -1,11 +1,10 @@
+import { CheckCircleOutline as CheckCircleOutlineIcon, HighlightOff as HighlightOffIcon } from '@mui/icons-material'
 import {
     Box,
     Button,
     Dialog,
     DialogActions,
     DialogContent,
-    DialogContentText,
-    DialogTitle,
     Grid,
     Paper,
     Typography,
@@ -60,7 +59,7 @@ export const FindColor: React.FC = () => {
 
     const itemHeight = useMemo(() => {
         if (!ref.current || !lines) return 50
-        return (ref.current.offsetHeight - 2 * (isMobile ? 8 : 8 * 4)) / lines - 8
+        return (ref.current.offsetHeight - 2 * (isMobile ? 8 * 2 : 8 * 4)) / lines - 8
     }, [lines])
 
     const xs = useMemo(() => {
@@ -171,7 +170,6 @@ export const FindColor: React.FC = () => {
                 display: 'flex',
                 flexDirection: 'column',
                 flex: '1 0 auto',
-                py: 2,
             }}
         >
             <Paper
@@ -281,14 +279,69 @@ export const FindColor: React.FC = () => {
             </Paper>
 
             <Dialog open={openEnd} aria-labelledby="alert-dialog-title">
-                <DialogTitle>Упс!</DialogTitle>
+                {game && points > game?.best ? (
+                    <DialogContent>
+                        <Box
+                            sx={{
+                                display: 'flex',
+                                justifyContent: 'center',
+                                flexDirection: 'column',
+                                alignItems: 'center',
+                            }}
+                        >
+                            <CheckCircleOutlineIcon color="success" sx={{ fontSize: 120, mb: 4 }} />
 
-                <DialogContent>
-                    <DialogContentText>Вы проиграли, ваш результат:</DialogContentText>
-                    <Box sx={{ display: 'flex', justifyContent: 'center' }}>
-                        <Typography fontWeight="bold">{points}</Typography>
-                    </Box>
-                </DialogContent>
+                            <Typography variant="h5">Вы набрали: {points}</Typography>
+                            <Typography variant="h5">Вы лучший!</Typography>
+                        </Box>
+
+                        <Box
+                            sx={{
+                                mt: 2,
+                                display: 'flex',
+                                justifyContent: 'center',
+                                flexDirection: 'column',
+                                alignItems: 'center',
+                            }}
+                        >
+                            <Typography sx={{ textAlign: 'center' }}>Нужно гордиться собой!</Typography>
+                            <Typography sx={{ textAlign: 'center' }}>Я горжусь тобой!</Typography>
+                            <Typography sx={{ textAlign: 'center' }}>
+                                Ну хватит, надо еще постараться и стать лучше.
+                            </Typography>
+                        </Box>
+                    </DialogContent>
+                ) : (
+                    <DialogContent>
+                        <Box
+                            sx={{
+                                display: 'flex',
+                                justifyContent: 'center',
+                                flexDirection: 'column',
+                                alignItems: 'center',
+                            }}
+                        >
+                            <HighlightOffIcon color="error" sx={{ fontSize: 120, mb: 4 }} />
+
+                            <Typography variant="h5">Вы набрали: {points}</Typography>
+                            <Typography variant="h5">Лучший: {game?.best}</Typography>
+                        </Box>
+
+                        <Box
+                            sx={{
+                                mt: 2,
+                                display: 'flex',
+                                justifyContent: 'center',
+                                flexDirection: 'column',
+                                alignItems: 'center',
+                            }}
+                        >
+                            <Typography sx={{ textAlign: 'center' }}>Это не повод откисать!</Typography>
+                            <Typography sx={{ textAlign: 'center' }}>Помни, есть кто-то хуже тебя!</Typography>
+                            <Typography sx={{ textAlign: 'center' }}>Всегда так было, всегда так будет.</Typography>
+                        </Box>
+                    </DialogContent>
+                )}
 
                 <DialogActions>
                     <Button fullWidth onClick={handleCloseEnd} color="primary" variant="contained">

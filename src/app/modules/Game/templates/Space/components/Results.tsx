@@ -1,16 +1,19 @@
-import { Box, Button, Typography } from '@mui/material'
+import CloseIcon from '@mui/icons-material/Close'
+import { Box, Dialog, IconButton, Typography } from '@mui/material'
+import * as Colors from '@mui/material/colors'
 import Table from 'app/components/Table'
 import { AvatarImage } from 'app/modules/Profile/components/AvatarImage'
 import React, { useEffect, useState } from 'react'
-import { EGameState, IGame, IGamesResponse } from 'types/IGame'
+import { IGame, IGamesResponse } from 'types/IGame'
 import { TTableRowData } from 'types/ITable'
 import { request } from 'utils/request'
 
-interface FindColorResultsProps {
-    onChangeState: (state: EGameState) => void
+interface ResultsProps {
+    isOpen: boolean
+    handleClose: () => void
 }
 
-export const FindColorResults: React.FC<FindColorResultsProps> = ({ onChangeState }) => {
+export const Results: React.FC<ResultsProps> = ({ isOpen, handleClose }) => {
     const [items, setItems] = useState<IGame[]>([])
     const [isLoading, setLoading] = useState<boolean>(false)
 
@@ -66,29 +69,49 @@ export const FindColorResults: React.FC<FindColorResultsProps> = ({ onChangeStat
     ]
 
     useEffect(() => {
-        setLoading(true)
-        request('games/find_color/list')
-            .then((response: IGamesResponse) => {
-                setLoading(false)
-                setItems(response.data)
-            })
-            .catch(() => {
-                setLoading(false)
-            })
-    }, [])
+        if (isOpen) {
+            setLoading(true)
+            request('games/planet/list')
+                .then((response: IGamesResponse) => {
+                    setLoading(false)
+                    setItems(response.data)
+                })
+                .catch(() => {
+                    setLoading(false)
+                })
+        } else {
+            setItems([])
+        }
+    }, [isOpen])
 
     return (
-        <Box
-            sx={{
-                flex: '1 0 auto',
-                overflow: 'auto',
-            }}
-        >
-            <Button fullWidth variant="outlined" sx={{ my: 2 }} onClick={() => onChangeState(EGameState.INIT)}>
-                Назад
-            </Button>
-
-            <Table isLoading={isLoading} items={items} rows={tableRows} />
-        </Box>
+        <Dialog fullWidth open={isOpen}>
+            <Box
+                sx={{
+                    width: '100%',
+                    bgcolor: Colors.blueGrey[700],
+                    p: 4,
+                    display: 'flex',
+                    flexDirection: 'column',
+                    gap: 2,
+                    flex: 'auto',
+                }}
+            >
+                <IconButton
+                    sx={{
+                        position: 'absolute',
+                        top: 20,
+                        right: 20,
+                    }}
+                    onClick={handleClose}
+                >
+                    <CloseIcon sx={{ color: Colors.blueGrey[50] }} />
+                </IconButton>
+                <Typography variant="h4" color="white">
+                    Таблица лидеров
+                </Typography>
+                <Table disableBorder disablePadding isLoading={isLoading} items={items} rows={tableRows} />
+            </Box>
+        </Dialog>
     )
 }

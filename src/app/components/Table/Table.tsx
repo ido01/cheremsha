@@ -21,6 +21,7 @@ interface TableProps {
     isDraggable?: boolean
     isLoading?: boolean
     disablePadding?: boolean
+    disableBorder?: boolean
     mobileView?: (data: any) => React.ReactNode
     handleOrderChange?: (order: TTableOrder) => void
     handleLimitChange?: (limit: TLimit) => void
@@ -36,6 +37,7 @@ export const Table: React.FC<TableProps> = ({
     isDraggable,
     isLoading,
     disablePadding,
+    disableBorder,
     mobileView,
     handleOrderChange,
     handleLimitChange,
@@ -52,7 +54,7 @@ export const Table: React.FC<TableProps> = ({
                     sx={{
                         pb: 1.5,
                         px: { md: 2 },
-                        borderBottom: '1px solid #f2f2f7',
+                        borderBottom: disableBorder ? undefined : '1px solid #f2f2f7',
                     }}
                 >
                     <Grid container columnSpacing={2}>
@@ -88,12 +90,14 @@ export const Table: React.FC<TableProps> = ({
             )}
 
             <Box>
-                {items.map((item) => (
+                {items.map((item, index) => (
                     <DragTableItem
+                        index={index}
                         item={item}
                         rows={rows}
                         key={`${item.type}${item.id}`}
                         isDraggable={isDraggable}
+                        disableBorder={disableBorder}
                         mobileView={mobileView}
                         handleClickRow={handleClickRow}
                     />

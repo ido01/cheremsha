@@ -10,7 +10,7 @@ export type TTableRowData = {
     xs?: number
     md?: number
     headerXs?: number
-    element: (data: any) => React.ReactNode
+    element: (data: any, index?: number) => React.ReactNode
 }
 
 export type TTableOrder = {

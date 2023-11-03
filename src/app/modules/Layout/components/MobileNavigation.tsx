@@ -43,12 +43,13 @@ export const MobileNavigation: React.FC = () => {
             icon: <SportsEsportsIcon />,
             title: 'Лишний цвет',
             path: '/game',
+            id: 3,
         },
         {
             icon: <AvatarImage name={profile.name} image={profile.avatar?.thumb} size={'24px'} />,
             title: 'Профиль',
             path: '/profile',
-            id: 3,
+            id: 4,
         },
         // {
         //     icon: <QuizIcon />,

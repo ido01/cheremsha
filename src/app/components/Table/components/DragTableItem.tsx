@@ -6,17 +6,21 @@ import { TTableRowData } from 'types/ITable'
 import { TableRow } from './TableRow'
 
 interface DragTableItemProps {
+    index: number
     item: any
     rows: TTableRowData[]
     isDraggable?: boolean
+    disableBorder?: boolean
     mobileView?: (data: any) => React.ReactNode
     handleClickRow?: (data: any) => void
 }
 
 export const DragTableItem: React.FC<DragTableItemProps> = ({
+    index,
     item,
     rows,
     isDraggable,
+    disableBorder,
     mobileView,
     handleClickRow,
 }) => {
@@ -53,36 +57,36 @@ export const DragTableItem: React.FC<DragTableItemProps> = ({
                 minHeight={'56px'}
                 py={1.25}
                 px={{ md: 2 }}
-                sx={{ borderBottom: '1px solid #F4F6FB' }}
+                sx={{ borderBottom: disableBorder ? undefined : '1px solid #F4F6FB' }}
             >
                 {(!isMobile || !mobileView) && (
                     <Grid container columnSpacing={2}>
-                        {rows.map((row, index) => (
-                            <React.Fragment key={index}>
+                        {rows.map((row, i) => (
+                            <React.Fragment key={i}>
                                 {row.xs ? (
                                     <Grid item xs={row.xs} md={row.md || row.xs}>
                                         <TableRow>
-                                            {!index && isDraggable && (
+                                            {!i && isDraggable && (
                                                 <Box>
                                                     <IconButton>
                                                         <DndSVG />
                                                     </IconButton>
                                                 </Box>
                                             )}
-                                            {row.element(item)}
+                                            {row.element(item, index)}
                                         </TableRow>
                                     </Grid>
                                 ) : (
                                     <Grid item xs>
                                         <TableRow>
-                                            {!index && isDraggable && (
+                                            {!i && isDraggable && (
                                                 <Box>
                                                     <IconButton>
                                                         <DndSVG />
                                                     </IconButton>
                                                 </Box>
                                             )}
-                                            {row.element(item)}
+                                            {row.element(item, index)}
                                         </TableRow>
                                     </Grid>
                                 )}

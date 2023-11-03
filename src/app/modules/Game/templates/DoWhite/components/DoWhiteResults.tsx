@@ -1,16 +1,12 @@
-import { Box, Button, Typography } from '@mui/material'
+import { Box, Typography } from '@mui/material'
 import Table from 'app/components/Table'
 import { AvatarImage } from 'app/modules/Profile/components/AvatarImage'
 import React, { useEffect, useState } from 'react'
-import { EGameState, IGame, IGamesResponse } from 'types/IGame'
+import { IGame, IGamesResponse } from 'types/IGame'
 import { TTableRowData } from 'types/ITable'
 import { request } from 'utils/request'
 
-interface FindColorResultsProps {
-    onChangeState: (state: EGameState) => void
-}
-
-export const FindColorResults: React.FC<FindColorResultsProps> = ({ onChangeState }) => {
+export const DoWhiteResults: React.FC = () => {
     const [items, setItems] = useState<IGame[]>([])
     const [isLoading, setLoading] = useState<boolean>(false)
 
@@ -67,7 +63,7 @@ export const FindColorResults: React.FC<FindColorResultsProps> = ({ onChangeStat
 
     useEffect(() => {
         setLoading(true)
-        request('games/find_color/list')
+        request('games/do_white/list')
             .then((response: IGamesResponse) => {
                 setLoading(false)
                 setItems(response.data)
@@ -82,13 +78,10 @@ export const FindColorResults: React.FC<FindColorResultsProps> = ({ onChangeStat
             sx={{
                 flex: '1 0 auto',
                 overflow: 'auto',
+                p: 1,
             }}
         >
-            <Button fullWidth variant="outlined" sx={{ my: 2 }} onClick={() => onChangeState(EGameState.INIT)}>
-                Назад
-            </Button>
-
-            <Table isLoading={isLoading} items={items} rows={tableRows} />
+            <Table disablePadding isLoading={isLoading} items={items} rows={tableRows} />
         </Box>
     )
 }

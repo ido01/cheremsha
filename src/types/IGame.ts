@@ -21,4 +21,5 @@ export interface IGame {
     game: string
     best: number
     try: number
+    help_id: number
 }

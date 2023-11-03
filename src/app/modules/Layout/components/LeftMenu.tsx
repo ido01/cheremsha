@@ -7,6 +7,7 @@ import {
     Percent as PercentIcon,
     Quiz as QuizIcon,
     School as SchoolIcon,
+    SportsEsports as SportsEsportsIcon,
     StackedLineChart as StackedLineChartIcon,
 } from '@mui/icons-material'
 import { Box, colors, Container, Divider, IconButton, Paper } from '@mui/material'
@@ -70,6 +71,11 @@ export const LeftMenu: React.FC = () => {
             icon: <ContactsIcon />,
             title: 'Важные контакты',
             path: '/contacts',
+        },
+        {
+            icon: <SportsEsportsIcon />,
+            title: 'Игры',
+            path: '/game',
         },
     ]
 
