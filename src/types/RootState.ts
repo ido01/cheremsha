@@ -8,6 +8,7 @@ import { IFavoritesState } from 'app/modules/Favorites/slice/types'
 import { IFileState } from 'app/modules/File/slice/types'
 import { ILocationsState } from 'app/modules/Locations/types'
 import { ILogState } from 'app/modules/Log/slice/types'
+import { IPollsState } from 'app/modules/Polls/slice/types'
 import { IProfileState } from 'app/modules/Profile/slice/types'
 import { IQuizState } from 'app/modules/Quiz/slice/types'
 import { IResultsState } from 'app/modules/Results/slice/types'
@@ -23,6 +24,7 @@ export interface RootState {
     file: IFileState
     locations: ILocationsState
     log: ILogState
+    polls: IPollsState
     profile: IProfileState
     quiz: IQuizState
     results: IResultsState

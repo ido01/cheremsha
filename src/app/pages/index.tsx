@@ -16,6 +16,7 @@ import { FaqPages } from './FaqPages'
 import { GamePage } from './GamePages'
 import { MainPage } from './MainPage'
 import { MotivationPages } from './MotivationPages'
+import { PollsPages } from './PollsPages'
 import { ProfilePages } from './ProfilePages'
 import { QuizPages } from './QuizPages'
 import { SchoolPages } from './SchoolPages'
@@ -51,6 +52,7 @@ export const Pages: React.FC = () => (
                     <Route exact path={['/contacts']} component={ContactsPage} />
                     <Route exact path={['/users', '/users/*']} component={UsersPages} />
                     <Route exact path={['/events', '/events/*']} component={EventsPages} />
+                    <Route exact path={['/polls', '/polls/*']} component={PollsPages} />
                     <Route exact path={['/doc']} component={DocumentsList} />
                     <Route exact path={['/peoples']} component={PeoplesList} />
                     <Route exact path={['/game']} component={GameList} />

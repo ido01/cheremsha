@@ -9,6 +9,7 @@ import { favoritesReducer } from 'app/modules/Favorites/slice'
 import { fileReducer } from 'app/modules/File/slice'
 import { locationsReducer } from 'app/modules/Locations'
 import { logReducer } from 'app/modules/Log/slice'
+import { pollsReducer } from 'app/modules/Polls/slice'
 import { profileReducer } from 'app/modules/Profile/slice'
 import { quizReducer } from 'app/modules/Quiz/slice'
 import { resultsReducer } from 'app/modules/Results/slice'
@@ -27,6 +28,7 @@ export function createReducer(injectedReducers: InjectedReducersType = {}): Redu
         file: fileReducer,
         locations: locationsReducer,
         log: logReducer,
+        polls: pollsReducer,
         profile: profileReducer,
         quiz: quizReducer,
         results: resultsReducer,

@@ -5,6 +5,7 @@ import {
     Group as GroupIcon,
     Menu as MenuIcon,
     Percent as PercentIcon,
+    Poll as PollIcon,
     Quiz as QuizIcon,
     School as SchoolIcon,
     SportsEsports as SportsEsportsIcon,
@@ -15,9 +16,10 @@ import { Logo } from 'app/components/Logo/Logo'
 import { favoritesActions } from 'app/modules/Favorites/slice'
 import { selectfavorites } from 'app/modules/Favorites/slice/selectors'
 import { AvatarImage } from 'app/modules/Profile/components/AvatarImage'
-import { selectProfile } from 'app/modules/Profile/slice/selectors'
+import { selectProfile, selectProfileRole } from 'app/modules/Profile/slice/selectors'
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
+import { ERole } from 'types'
 import { TMenuItem } from 'types/TMenuItem'
 
 import { MenuItem } from './MenuItem'
@@ -28,6 +30,7 @@ export const LeftMenu: React.FC = () => {
     const [isLage, setLage] = useState<boolean>(true)
 
     const profile = useSelector(selectProfile)
+    const profileRole = useSelector(selectProfileRole)
 
     const favorites = useSelector(selectfavorites)
 
@@ -78,6 +81,14 @@ export const LeftMenu: React.FC = () => {
             path: '/game',
         },
     ]
+
+    if (profileRole === ERole.ADMIN) {
+        menuItems.push({
+            icon: <PollIcon />,
+            title: 'Опрос',
+            path: '/polls',
+        })
+    }
 
     useEffect(() => {
         dispatch(favoritesActions.loadFavorites())
