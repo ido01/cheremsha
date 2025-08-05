@@ -1,9 +1,10 @@
-import { Box, Grid, Typography } from '@mui/material'
+import DownloadIcon from '@mui/icons-material/Download'
+import { Box, Button, Grid, Typography } from '@mui/material'
 import { LabelText } from 'app/components/LabelText'
 import { selectLocation } from 'app/modules/Locations/selectors'
 import React from 'react'
 import { useSelector } from 'react-redux'
-import { convertGenderName, convertPositionName } from 'utils/convertUtils'
+import { convertGenderName } from 'utils/convertUtils'
 
 import { selectProfile } from '../slice/selectors'
 
@@ -13,6 +14,29 @@ export const AccountData: React.FC = () => {
 
     return (
         <Box>
+            <Box mb={1}>
+                <Typography variant="h5" fontWeight={500}>
+                    Санитарная книжка
+                </Typography>
+            </Box>
+
+            <Box mb={4}>
+                {!profile.doc_file && <Typography variant="body3">Не загружена</Typography>}
+                {!!profile.doc_file && (
+                    <Button
+                        component="a"
+                        target="_blank"
+                        href={profile.doc_file.url}
+                        role={undefined}
+                        variant="contained"
+                        tabIndex={-1}
+                        startIcon={<DownloadIcon />}
+                    >
+                        {profile.doc_file.name}
+                    </Button>
+                )}
+            </Box>
+
             <Box mb={4}>
                 <Typography variant="h5" fontWeight={500}>
                     Личные данные
@@ -71,7 +95,7 @@ export const AccountData: React.FC = () => {
 
             <Grid container rowSpacing={2} columnSpacing={2}>
                 <Grid item xs={12} md={4}>
-                    <LabelText label="О себе" text={convertPositionName(profile.position)} />
+                    <LabelText label="Должность" text={profile.job || ''} />
                 </Grid>
 
                 <Grid item xs={12} md={4}>

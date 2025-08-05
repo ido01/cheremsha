@@ -1,4 +1,4 @@
-import { EGender, EPosition, ERole } from '.'
+import { EGender, ERole } from '.'
 import { IFile } from './IFile'
 import { IQuizState } from './IQuizState'
 
@@ -9,6 +9,10 @@ export type IUsersCollectionResponse = {
         total: number
         totalPages: number
     }
+}
+
+export type ITinyUserCollectionResponse = {
+    data: ITinyUser[]
 }
 
 export interface IUserItemResponse {
@@ -33,8 +37,12 @@ export interface IUser {
     name: string
     last_name: string
     address: string
+    position_id: number
+    job?: string
     fid: string
     avatar?: IFile
+    doc: string
+    doc_file?: IFile
     university: string
     birthday: string
     day: number
@@ -46,7 +54,6 @@ export interface IUser {
     about: string
     place_id: string
     first_date: string
-    position: EPosition
     rate: number
     phone: string
     email: string
@@ -55,4 +62,9 @@ export interface IUser {
     createdAt: string
     state?: IQuizState
     quiz?: IQuizState
+}
+
+export interface ITinyUser {
+    id: string
+    label: string
 }

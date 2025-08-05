@@ -34,6 +34,7 @@ export const LogList: React.FC = () => {
                 return 'Место работы'
             case 'first_date':
                 return 'Первый рабочий день'
+            case 'position_id':
             case 'position':
                 return 'Должность'
             case 'phone':

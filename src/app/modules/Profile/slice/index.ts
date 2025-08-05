@@ -10,11 +10,13 @@ const initialProfile: IUser = {
     active: false,
     ban: false,
     role: ERole.GUEST,
+    position_id: 0,
     gender: 'male',
     name: '',
     last_name: '',
     address: '',
     fid: '',
+    doc: '',
     university: '',
     birthday: '',
     day: 0,
@@ -26,7 +28,6 @@ const initialProfile: IUser = {
     about: '',
     place_id: '1',
     first_date: '',
-    position: 'seller',
     rate: 0,
     phone: '',
     email: '',
@@ -59,17 +60,41 @@ const slice = createSlice({
             state.status = EStatus.FINISHED
             state.form.status = EStatus.FINISHED
         },
+        profileAvatarLoaded(state, action: PayloadAction<IProfileResponse>) {
+            state.data = action.payload.profile
+            state.form.data.fid = action.payload.profile.fid
+            state.form.data.avatar = action.payload.profile.avatar
+            state.status = EStatus.FINISHED
+            state.form.status = EStatus.FINISHED
+        },
+        profileDocLoaded(state, action: PayloadAction<IProfileResponse>) {
+            state.data = action.payload.profile
+            state.form.data.doc = action.payload.profile.doc
+            state.form.data.doc_file = action.payload.profile.doc_file
+            state.status = EStatus.FINISHED
+            state.form.status = EStatus.FINISHED
+        },
         updateProfile(state, action: PayloadAction<IUser>) {
             state.form.status = EStatus.PENDING
+            action.payload
+        },
+        draftProfile(state, action: PayloadAction<IUser>) {
             action.payload
         },
         updateAvatar(state, action: PayloadAction<string>) {
             state.form.status = EStatus.PENDING
             action.payload
         },
+        updateDoc(state, action: PayloadAction<string>) {
+            state.form.status = EStatus.PENDING
+            action.payload
+        },
         statusError(state) {
             state.status = EStatus.ERROR
             state.form.status = EStatus.ERROR
+        },
+        setProfile(state, action: PayloadAction<IUser>) {
+            state.form.data = action.payload
         },
     },
 })

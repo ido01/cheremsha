@@ -51,7 +51,7 @@ export const UserModal: React.FC = () => {
     }
 
     useEffect(() => {
-        if (user) {
+        if (user && profileRole === ERole.ADMIN) {
             dispatch(logActions.loadLog(user?.id))
         }
     }, [user?.id])
@@ -124,7 +124,9 @@ export const UserModal: React.FC = () => {
 
                         <Container>
                             <TabPanel value="user" sx={{ p: 0 }}>
-                                {user && <UserModalContent profileRole={profileRole} user={user} />}
+                                {user && (
+                                    <UserModalContent handleClose={handleClose} profileRole={profileRole} user={user} />
+                                )}
                             </TabPanel>
                             <TabPanel value="test" sx={{ p: 0 }}>
                                 {user && <ResultUserList user={user} />}

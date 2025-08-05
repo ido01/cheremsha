@@ -1,5 +1,5 @@
 import { Typography } from '@mui/material'
-import moment from 'moment'
+import dayjs from 'dayjs'
 import React from 'react'
 import { IDocument } from 'types/IDocument'
 
@@ -9,6 +9,6 @@ interface DocumentDateRowProps {
 
 export const DocumentDateRow: React.FC<DocumentDateRowProps> = ({ item }) => (
     <Typography variant="body2" color="grey.600">
-        {moment(item.createdAt).locale('ru').format('LL')}
+        {dayjs(item.createdAt).locale('ru').format('D MMM YYYY')}
     </Typography>
 )

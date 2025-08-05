@@ -23,7 +23,7 @@ export function* loadUsers() {
                 orderRow: order.row,
                 status: filter.status,
                 place_id: filter.place_id,
-                position: filter.position,
+                position_id: filter.position_id,
                 query: filter.query,
             },
         })
@@ -40,7 +40,7 @@ export function* loadContacts() {
         const order: TTableOrder = yield select(selectOrder)
         const filter: IUserFilter = yield select(selectFilter)
 
-        const response: IUsersCollectionResponse = yield call(request, `contacts`, {
+        const response: IUsersCollectionResponse = yield call(request, `favorites`, {
             params: {
                 page: pagination.page,
                 limit: pagination.limit,
@@ -48,7 +48,7 @@ export function* loadContacts() {
                 orderRow: order.row,
                 status: filter.status,
                 place_id: filter.place_id,
-                position: filter.position,
+                position_id: filter.position_id,
                 query: filter.query,
             },
         })

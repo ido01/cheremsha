@@ -13,6 +13,7 @@ const slice = createSlice({
         entities: {},
         status: EStatus.INITIAL,
         title: '',
+        count: 0,
     }),
     reducers: {
         loadPolls(state) {
@@ -24,6 +25,7 @@ const slice = createSlice({
         pollsLoaded(state, action: PayloadAction<IPollsResponse>) {
             pollsAdapter.setAll(state, action.payload.questions)
             state.title = action.payload.title
+            state.count = action.payload.count
             state.status = EStatus.FINISHED
         },
         statusError(state) {

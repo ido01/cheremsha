@@ -9,7 +9,7 @@ import { ERole, EStatus } from 'types'
 import { PollsListView } from '../components/PollsListView'
 import { PollsSettings } from '../components/PollsSettings'
 import { pollsActions } from '../slice'
-import { selectStatus, selectTitle } from '../slice/selectors'
+import { selectCount, selectStatus, selectTitle } from '../slice/selectors'
 
 export const PollsList: React.FC = () => {
     const dispatch = useDispatch()
@@ -18,6 +18,7 @@ export const PollsList: React.FC = () => {
 
     const profileRole = useSelector(selectProfileRole)
     const title = useSelector(selectTitle)
+    const count = useSelector(selectCount)
     const status = useSelector(selectStatus)
 
     const handleSettingOpen = () => {
@@ -36,6 +37,7 @@ export const PollsList: React.FC = () => {
         <>
             <TitleBlock
                 title={'Опрос'}
+                count={count}
                 searchDisabled
                 endNode={
                     profileRole === ERole.ADMIN ? (

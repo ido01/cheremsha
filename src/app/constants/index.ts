@@ -1,4 +1,4 @@
-import { EGender, EPosition, ERole, EState } from 'types'
+import { EGender, ERole, EState } from 'types'
 import { EQuestionType } from 'types/IQuestion'
 import { EQuizState } from 'types/IQuizState'
 
@@ -16,7 +16,8 @@ export const ROLE_NAME: { [key in ERole]: string } = {
     admin: 'Администратор',
 }
 
-export const POSITION_NAME: { [key in EPosition]: string } = {
+const POSITION_NAME: { [key in string]: string } = {
+    barista: 'Бариста',
     seller: 'Продавец',
     topSeller: 'Старший продавец',
     hookah: 'Кальянщик',

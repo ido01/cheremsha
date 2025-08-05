@@ -1,5 +1,15 @@
-import { Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Typography } from '@mui/material'
+import {
+    Box,
+    Button,
+    Dialog,
+    DialogActions,
+    DialogContent,
+    DialogContentText,
+    DialogTitle,
+    Typography,
+} from '@mui/material'
 import { AccountDataForm } from 'app/modules/Profile/components/AccountDataForm'
+import { AvatarForm } from 'app/modules/Profile/components/AvatarForm'
 import { selectProfile } from 'app/modules/Profile/slice/selectors'
 import React, { useState } from 'react'
 import { useSelector } from 'react-redux'
@@ -18,6 +28,10 @@ export const Questionnaire: React.FC = () => {
             <Typography variant="h4" fontWeight={500} sx={{ mb: 2 }}>
                 {!profile.name ? 'Заполните анкету, что бы она отправилась на рассмотрение' : 'Заявка на рассмотрении'}
             </Typography>
+
+            <Box sx={{ pb: 4 }}>
+                <AvatarForm />
+            </Box>
 
             <AccountDataForm onEditFinish={() => setOpen(true)} />
 

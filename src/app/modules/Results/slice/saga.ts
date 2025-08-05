@@ -22,7 +22,7 @@ export function* loadResults(action: PayloadAction<string>) {
                 order: order.order,
                 orderRow: order.row,
                 place_id: filter.place_id,
-                position: filter.position,
+                position_id: filter.position_id,
                 query: filter.query,
                 state: filter.state,
             },

@@ -5,7 +5,6 @@ import { AvatarImage } from 'app/modules/Profile/components/AvatarImage'
 import React from 'react'
 import { useSelector } from 'react-redux'
 import { IUser } from 'types/IUser'
-import { convertPositionName } from 'utils/convertUtils'
 
 interface MobileContactViewProps {
     user: IUser
@@ -22,7 +21,7 @@ export const MobileContactView: React.FC<MobileContactViewProps> = ({ user }) =>
                     <Box ml={2}>
                         <Typography variant="body2">{`${user.last_name} ${user.name}`}</Typography>
                         <Typography variant="body3" color="grey.800">
-                            <a href={`tel:${user.phone}`}>{user.phone}</a>
+                            {user.phone}
                         </Typography>
                     </Box>
                 </Box>
@@ -50,7 +49,7 @@ export const MobileContactView: React.FC<MobileContactViewProps> = ({ user }) =>
                     </Typography>
 
                     <Typography variant="body2" lineHeight="1.4">
-                        {convertPositionName(user.position)}
+                        {user.job || ''}
                     </Typography>
                 </Box>
             </Box>

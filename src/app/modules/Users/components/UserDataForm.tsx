@@ -1,10 +1,11 @@
-import { DesktopDatePicker, LoadingButton, LocalizationProvider } from '@mui/lab'
-import AdapterDateFns from '@mui/lab/AdapterDateFns'
+import { LoadingButton } from '@mui/lab'
 import { Box, FormControl, Grid, InputLabel, MenuItem, Select, TextField, Typography } from '@mui/material'
+import { DatePicker } from '@mui/x-date-pickers/DatePicker'
 import { PhoneField } from 'app/components/PhoneField'
 import { selectLocations } from 'app/modules/Locations/selectors'
+import { selectPositions } from 'app/modules/Positions/slice/selectors'
+import dayjs from 'dayjs'
 import { useFormik } from 'formik'
-import moment from 'moment'
 import React, { useMemo } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { ERole, EStatus } from 'types'
@@ -18,73 +19,11 @@ export const UserDataForm: React.FC = () => {
 
     const { data, status } = useSelector(selectForm)
     const locations = useSelector(selectLocations)
+    const positions = useSelector(selectPositions)
 
     const places = useMemo(() => {
         return locations.map((location) => ({ label: location.name, value: location.id }))
     }, [locations])
-
-    const positions = [
-        {
-            label: 'Продавец',
-            value: 'seller',
-        },
-        {
-            label: 'Старший продавец',
-            value: 'topSeller',
-        },
-        {
-            label: 'Кальянщик',
-            value: 'hookah',
-        },
-        {
-            label: 'Старший кальянщик',
-            value: 'topHookah',
-        },
-        {
-            label: 'Управляющий',
-            value: 'manager',
-        },
-        {
-            label: 'Маркетолог',
-            value: 'marketer',
-        },
-        {
-            label: 'Сотрудник офиса',
-            value: 'office',
-        },
-        {
-            label: 'Сотрудник склада',
-            value: 'sklad',
-        },
-        {
-            label: 'Менеджер и Управляющий',
-            value: 'managerControl',
-        },
-        {
-            label: 'Бухгалтер',
-            value: 'accountant',
-        },
-        {
-            label: 'Кладовщик',
-            value: 'storekeeper',
-        },
-        {
-            label: 'Техник',
-            value: 'technician',
-        },
-        {
-            label: 'Оптовый менеджер',
-            value: 'opt',
-        },
-        {
-            label: 'Владелец',
-            value: 'owner',
-        },
-        {
-            label: 'Создатель',
-            value: 'creator',
-        },
-    ]
 
     const validationSchema = yup.object({
         email: yup.string().email('Не корректный Email').required(),
@@ -97,13 +36,7 @@ export const UserDataForm: React.FC = () => {
         validateOnChange: true,
         enableReinitialize: true,
         onSubmit: (values) => {
-            dispatch(
-                usersActions.updateUser({
-                    ...values,
-                    birthday: moment(values.birthday).format('yyyy-MM-DD'),
-                    first_date: moment(values.first_date).format('yyyy-MM-DD'),
-                })
-            )
+            dispatch(usersActions.updateUser(values))
         },
     })
 
@@ -125,7 +58,7 @@ export const UserDataForm: React.FC = () => {
 
             <Grid container rowSpacing={4} columnSpacing={2}>
                 <Grid item xs={12} md={4}>
-                    <FormControl fullWidth variant="outlined" error={!!formik.errors?.position}>
+                    <FormControl fullWidth variant="outlined" error={!!formik.errors?.role}>
                         <InputLabel>Роль</InputLabel>
                         <Select
                             value={formik.values.role || ERole.GUEST}
@@ -155,19 +88,19 @@ export const UserDataForm: React.FC = () => {
                 </Grid>
 
                 <Grid item xs={12} md={4}>
-                    <FormControl fullWidth variant="outlined" error={!!formik.errors?.position}>
+                    <FormControl fullWidth variant="outlined" error={!!formik.errors?.position_id}>
                         <InputLabel>Должность</InputLabel>
                         <Select
-                            value={formik.values.position || ''}
+                            value={formik.values.position_id || ''}
                             label="Должность"
                             onChange={(e) => {
                                 const { value } = e.target
 
-                                formik.setFieldValue('position', value)
+                                formik.setFieldValue('position_id', value)
                             }}
                         >
                             {positions.map((position, index) => (
-                                <MenuItem key={index} value={position.value}>
+                                <MenuItem key={index} value={position.id}>
                                     {position.label}
                                 </MenuItem>
                             ))}
@@ -197,18 +130,15 @@ export const UserDataForm: React.FC = () => {
                 </Grid>
 
                 <Grid item xs={12} md={4}>
-                    <LocalizationProvider dateAdapter={AdapterDateFns}>
-                        <DesktopDatePicker
-                            label="Первый день работы"
-                            inputFormat="dd.MM.yyyy"
-                            mask="__.__.____"
-                            value={formik.values.first_date}
-                            onChange={(val) => {
-                                formik.setFieldValue('first_date', val)
-                            }}
-                            renderInput={(params) => <TextField fullWidth variant="outlined" {...params} />}
-                        />
-                    </LocalizationProvider>
+                    <DatePicker
+                        label="Первый день работы"
+                        value={dayjs(formik.values.first_date)}
+                        onChange={(val) => {
+                            if (val) {
+                                formik.setFieldValue('first_date', val?.format('YYYY-MM-DD'))
+                            }
+                        }}
+                    />
                 </Grid>
             </Grid>
 
@@ -298,18 +228,15 @@ export const UserDataForm: React.FC = () => {
                 </Grid>
 
                 <Grid item xs={12} md={4}>
-                    <LocalizationProvider dateAdapter={AdapterDateFns}>
-                        <DesktopDatePicker
-                            label="Дата рождения"
-                            inputFormat="dd.MM.yyyy"
-                            mask="__.__.____"
-                            value={formik.values.birthday}
-                            onChange={(val) => {
-                                formik.setFieldValue('birthday', val)
-                            }}
-                            renderInput={(params) => <TextField fullWidth variant="outlined" {...params} />}
-                        />
-                    </LocalizationProvider>
+                    <DatePicker
+                        label="Дата рождения"
+                        value={dayjs(formik.values.birthday)}
+                        onChange={(val) => {
+                            if (val) {
+                                formik.setFieldValue('birthday', val?.format('YYYY-MM-DD'))
+                            }
+                        }}
+                    />
                 </Grid>
 
                 <Grid item xs={12} md={4} />

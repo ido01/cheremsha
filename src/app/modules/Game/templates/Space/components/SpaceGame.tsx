@@ -333,7 +333,6 @@ export const SpaceGame: React.FC = () => {
             tick_time.current = new Date().getTime()
             if (!isGameInit.current) {
                 isGameInit.current = true
-                console.log('menu(3)')
                 move()
             }
         }
@@ -1134,7 +1133,6 @@ export const SpaceGame: React.FC = () => {
             status.current = ESpaceStatus.INIT
             setStatus(ESpaceStatus.INIT)
             tick_time.current = new Date().getTime()
-            console.log('menu(1)')
             move()
         }
         status.current = ESpaceStatus.INIT
@@ -1152,7 +1150,6 @@ export const SpaceGame: React.FC = () => {
         status.current = ESpaceStatus.GAME
         setStatus(ESpaceStatus.GAME)
         tick_time.current = new Date().getTime()
-        console.log('menu(2)')
         move()
     }
 

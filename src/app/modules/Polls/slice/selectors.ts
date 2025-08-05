@@ -11,4 +11,6 @@ export const selectStatus = createSelector([selectDomain], (state) => state.stat
 
 export const selectTitle = createSelector([selectDomain], (state) => state.title)
 
+export const selectCount = createSelector([selectDomain], (state) => state.count)
+
 export const selectPolls = createSelector([selectDomain], (state) => selectAll(state))

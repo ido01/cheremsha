@@ -9,7 +9,7 @@ import { usersActions } from 'app/modules/Users/slice'
 import React, { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { ERole } from 'types'
-import { convertGenderName, convertPositionName, convertRoleName } from 'utils/convertUtils'
+import { convertGenderName, convertRoleName } from 'utils/convertUtils'
 
 import { favoritesActions } from '../slice'
 import { selectFavoriteById, selectModal } from '../slice/selectors'
@@ -140,10 +140,7 @@ export const FavoriteModal: React.FC = () => {
                                     </Grid>
 
                                     <Grid item xs={6}>
-                                        <LabelText
-                                            label="Должность"
-                                            text={convertPositionName(user?.position || 'seller')}
-                                        />
+                                        <LabelText label="Должность" text={user?.job || ''} />
                                     </Grid>
 
                                     <Grid item xs={6}>

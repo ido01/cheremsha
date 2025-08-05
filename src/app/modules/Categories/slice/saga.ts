@@ -23,7 +23,6 @@ export function* loadCategory(action: PayloadAction<string>) {
         yield put(categoriesActions.categoryReloaded(response.data))
 
         if (response.data.parentId && response.data.parentId !== '0') {
-            console.log('try')
             yield put(categoriesActions.reloadCategory(response.data.parentId))
         }
     } catch (error: any) {

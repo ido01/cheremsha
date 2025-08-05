@@ -22,7 +22,7 @@ export const MobileUserView: React.FC<MobileUserViewProps> = ({ user }) => {
                         <Typography variant="body2">{`${user.last_name} ${user.name}`}</Typography>
 
                         <Typography variant="body3" color="grey.800">
-                            <a href={`tel:${user.phone}`}>{user.phone}</a>
+                            {user.phone}
                         </Typography>
                     </Box>
                 </Box>

@@ -1,17 +1,21 @@
-import { DesktopDatePicker, LoadingButton, LocalizationProvider } from '@mui/lab'
-import AdapterDateFns from '@mui/lab/AdapterDateFns'
+import 'date-fns/locale/ru'
+
+import { LoadingButton } from '@mui/lab'
 import { Box, FormControl, Grid, InputLabel, MenuItem, Select, TextField, Typography } from '@mui/material'
+import { DatePicker } from '@mui/x-date-pickers/DatePicker'
 import { PhoneField } from 'app/components/PhoneField'
 import { selectLocations } from 'app/modules/Locations/selectors'
+import { selectPositions } from 'app/modules/Positions/slice/selectors'
+import dayjs from 'dayjs'
 import { useFormik } from 'formik'
-import moment from 'moment'
-import React, { useMemo } from 'react'
+import React, { useEffect, useMemo } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { ERole, EStatus } from 'types'
+import { EStatus } from 'types'
 import * as yup from 'yup'
 
 import { profileActions } from '../slice'
-import { selectForm, selectProfileRole } from '../slice/selectors'
+import { selectForm } from '../slice/selectors'
+import { DocForm } from './DocForm'
 
 interface AccountDataFormProps {
     onEditFinish: () => void
@@ -20,132 +24,13 @@ interface AccountDataFormProps {
 export const AccountDataForm: React.FC<AccountDataFormProps> = ({ onEditFinish }) => {
     const dispatch = useDispatch()
 
-    const profileRole = useSelector(selectProfileRole)
     const { data, status } = useSelector(selectForm)
     const locations = useSelector(selectLocations)
+    const positions = useSelector(selectPositions)
 
     const places = useMemo(() => {
         return locations.map((location) => ({ label: location.name, value: location.id }))
     }, [locations])
-
-    const positions =
-        profileRole === ERole.ADMIN
-            ? [
-                  {
-                      label: 'Продавец',
-                      value: 'seller',
-                  },
-                  {
-                      label: 'Старший продавец',
-                      value: 'topSeller',
-                  },
-                  {
-                      label: 'Кальянщик',
-                      value: 'hookah',
-                  },
-                  {
-                      label: 'Старший кальянщик',
-                      value: 'topHookah',
-                  },
-                  {
-                      label: 'Управляющий',
-                      value: 'manager',
-                  },
-                  {
-                      label: 'Маркетолог',
-                      value: 'marketer',
-                  },
-                  {
-                      label: 'Сотрудник офиса',
-                      value: 'office',
-                  },
-                  {
-                      label: 'Сотрудник склада',
-                      value: 'sklad',
-                  },
-                  {
-                      label: 'Менеджер и Управляющий',
-                      value: 'managerControl',
-                  },
-                  {
-                      label: 'Бухгалтер',
-                      value: 'accountant',
-                  },
-                  {
-                      label: 'Кладовщик',
-                      value: 'storekeeper',
-                  },
-                  {
-                      label: 'Техник',
-                      value: 'technician',
-                  },
-                  {
-                      label: 'Оптовый менеджер',
-                      value: 'opt',
-                  },
-                  {
-                      label: 'Владелец',
-                      value: 'owner',
-                  },
-                  {
-                      label: 'Создатель',
-                      value: 'creator',
-                  },
-              ]
-            : [
-                  {
-                      label: 'Продавец',
-                      value: 'seller',
-                  },
-                  {
-                      label: 'Старший продавец',
-                      value: 'topSeller',
-                  },
-                  {
-                      label: 'Кальянщик',
-                      value: 'hookah',
-                  },
-                  {
-                      label: 'Старший кальянщик',
-                      value: 'topHookah',
-                  },
-                  {
-                      label: 'Управляющий',
-                      value: 'manager',
-                  },
-                  {
-                      label: 'Маркетолог',
-                      value: 'marketer',
-                  },
-                  {
-                      label: 'Сотрудник офиса',
-                      value: 'office',
-                  },
-                  {
-                      label: 'Сотрудник склада',
-                      value: 'sklad',
-                  },
-                  {
-                      label: 'Менеджер и Управляющий',
-                      value: 'managerControl',
-                  },
-                  {
-                      label: 'Бухгалтер',
-                      value: 'accountant',
-                  },
-                  {
-                      label: 'Кладовщик',
-                      value: 'storekeeper',
-                  },
-                  {
-                      label: 'Техник',
-                      value: 'technician',
-                  },
-                  {
-                      label: 'Оптовый менеджер',
-                      value: 'opt',
-                  },
-              ]
 
     const validationSchema = yup.object({
         email: yup.string().email('Не корректный Email').required(),
@@ -154,11 +39,10 @@ export const AccountDataForm: React.FC<AccountDataFormProps> = ({ onEditFinish }
         address: yup.string().required(),
         university: yup.string().required(),
         birthday: yup.string().required(),
-        hobby: yup.string().required(),
-        about: yup.string().required(),
-        place_id: yup.string().required(),
+        hobby: yup.string(),
+        about: yup.string(),
+        place_id: yup.string(),
         first_date: yup.string().required(),
-        position: yup.string().required(),
         phone: yup.string().required(),
     })
 
@@ -170,15 +54,19 @@ export const AccountDataForm: React.FC<AccountDataFormProps> = ({ onEditFinish }
         enableReinitialize: true,
         onSubmit: (values) => {
             onEditFinish()
-            dispatch(
-                profileActions.updateProfile({
-                    ...values,
-                    birthday: moment(values.birthday).format('yyyy-MM-DD'),
-                    first_date: moment(values.first_date).format('yyyy-MM-DD'),
-                })
-            )
+            dispatch(profileActions.updateProfile(values))
         },
     })
+
+    const handleBlur = () => {
+        if (!formik.values.active) {
+            dispatch(profileActions.draftProfile(formik.values))
+        }
+    }
+
+    useEffect(() => {
+        dispatch(profileActions.setProfile(formik.values))
+    }, [formik.values])
 
     return (
         <Box
@@ -206,6 +94,7 @@ export const AccountDataForm: React.FC<AccountDataFormProps> = ({ onEditFinish }
                         value={formik.values.last_name || ''}
                         error={!!formik.errors.last_name && formik.touched.last_name}
                         onChange={formik.handleChange}
+                        onBlur={handleBlur}
                     />
                 </Grid>
 
@@ -218,6 +107,7 @@ export const AccountDataForm: React.FC<AccountDataFormProps> = ({ onEditFinish }
                         value={formik.values.name || ''}
                         error={!!formik.errors.name && formik.touched.name}
                         onChange={formik.handleChange}
+                        onBlur={handleBlur}
                     />
                 </Grid>
 
@@ -230,6 +120,7 @@ export const AccountDataForm: React.FC<AccountDataFormProps> = ({ onEditFinish }
                         value={formik.values.phone || ''}
                         error={!!formik.errors.phone && formik.touched.phone}
                         onChange={formik.handleChange}
+                        onBlur={handleBlur}
                     />
                 </Grid>
 
@@ -242,6 +133,7 @@ export const AccountDataForm: React.FC<AccountDataFormProps> = ({ onEditFinish }
                         value={formik.values.email || ''}
                         error={!!formik.errors.email}
                         onChange={formik.handleChange}
+                        onBlur={handleBlur}
                     />
                 </Grid>
 
@@ -255,6 +147,7 @@ export const AccountDataForm: React.FC<AccountDataFormProps> = ({ onEditFinish }
                                 const { value } = e.target
 
                                 formik.setFieldValue('gender', value)
+                                handleBlur()
                             }}
                         >
                             {[
@@ -276,25 +169,15 @@ export const AccountDataForm: React.FC<AccountDataFormProps> = ({ onEditFinish }
                 </Grid>
 
                 <Grid item xs={12} md={4}>
-                    <LocalizationProvider dateAdapter={AdapterDateFns}>
-                        <DesktopDatePicker
-                            label="Дата рождения"
-                            inputFormat="dd.MM.yyyy"
-                            mask="__.__.____"
-                            value={formik.values.birthday}
-                            onChange={(val) => {
-                                formik.setFieldValue('birthday', val)
-                            }}
-                            renderInput={(params) => (
-                                <TextField
-                                    fullWidth
-                                    variant="outlined"
-                                    {...params}
-                                    error={!!formik.errors.birthday && formik.touched.birthday}
-                                />
-                            )}
-                        />
-                    </LocalizationProvider>
+                    <DatePicker
+                        label="Дата рождения"
+                        value={dayjs(formik.values.birthday)}
+                        onChange={(val) => {
+                            if (val) {
+                                formik.setFieldValue('birthday', val?.format('YYYY-MM-DD'))
+                            }
+                        }}
+                    />
                 </Grid>
 
                 <Grid item xs={12} md={4}>
@@ -306,6 +189,7 @@ export const AccountDataForm: React.FC<AccountDataFormProps> = ({ onEditFinish }
                         value={formik.values.hobby || ''}
                         error={!!formik.errors.hobby && formik.touched.hobby}
                         onChange={formik.handleChange}
+                        onBlur={handleBlur}
                     />
                 </Grid>
 
@@ -318,6 +202,7 @@ export const AccountDataForm: React.FC<AccountDataFormProps> = ({ onEditFinish }
                         value={formik.values.address || ''}
                         error={!!formik.errors.address && formik.touched.address}
                         onChange={formik.handleChange}
+                        onBlur={handleBlur}
                     />
                 </Grid>
 
@@ -330,6 +215,7 @@ export const AccountDataForm: React.FC<AccountDataFormProps> = ({ onEditFinish }
                         value={formik.values.university || ''}
                         error={!!formik.errors.university && formik.touched.university}
                         onChange={formik.handleChange}
+                        onBlur={handleBlur}
                     />
                 </Grid>
 
@@ -344,6 +230,7 @@ export const AccountDataForm: React.FC<AccountDataFormProps> = ({ onEditFinish }
                         value={formik.values.about || ''}
                         error={!!formik.errors.about && formik.touched.about}
                         onChange={formik.handleChange}
+                        onBlur={handleBlur}
                     />
                 </Grid>
             </Grid>
@@ -359,20 +246,21 @@ export const AccountDataForm: React.FC<AccountDataFormProps> = ({ onEditFinish }
                     <FormControl
                         fullWidth
                         variant="outlined"
-                        error={!!formik.errors?.position && formik.touched.position}
+                        error={!!formik.errors?.position_id && formik.touched.position_id}
                     >
                         <InputLabel>Должность</InputLabel>
                         <Select
-                            value={formik.values.position || ''}
+                            value={formik.values.position_id || ''}
                             label="Должность"
                             onChange={(e) => {
                                 const { value } = e.target
 
-                                formik.setFieldValue('position', value)
+                                formik.setFieldValue('position_id', value)
+                                handleBlur()
                             }}
                         >
                             {positions.map((position, index) => (
-                                <MenuItem key={index} value={position.value}>
+                                <MenuItem key={index} value={position.id}>
                                     {position.label}
                                 </MenuItem>
                             ))}
@@ -394,6 +282,7 @@ export const AccountDataForm: React.FC<AccountDataFormProps> = ({ onEditFinish }
                                 const { value } = e.target
 
                                 formik.setFieldValue('place_id', value)
+                                handleBlur()
                             }}
                         >
                             {places.map((place, index) => (
@@ -406,25 +295,21 @@ export const AccountDataForm: React.FC<AccountDataFormProps> = ({ onEditFinish }
                 </Grid>
 
                 <Grid item xs={12} md={4}>
-                    <LocalizationProvider dateAdapter={AdapterDateFns}>
-                        <DesktopDatePicker
-                            label="Первый день работы"
-                            inputFormat="dd.MM.yyyy"
-                            mask="__.__.____"
-                            value={formik.values.first_date}
-                            onChange={(val) => {
-                                formik.setFieldValue('first_date', val)
-                            }}
-                            renderInput={(params) => (
-                                <TextField
-                                    fullWidth
-                                    variant="outlined"
-                                    {...params}
-                                    error={!!formik.errors.first_date && formik.touched.first_date}
-                                />
-                            )}
-                        />
-                    </LocalizationProvider>
+                    <DatePicker
+                        label="Первый день работы"
+                        value={dayjs(formik.values.first_date)}
+                        onChange={(val) => {
+                            if (val) {
+                                formik.setFieldValue('first_date', val?.format('YYYY-MM-DD'))
+                            }
+                        }}
+                    />
+                </Grid>
+            </Grid>
+
+            <Grid mt={4} container rowSpacing={2} columnSpacing={2}>
+                <Grid item xs={12} md={4}>
+                    <DocForm profile={formik.values} />
                 </Grid>
             </Grid>
 

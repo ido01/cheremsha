@@ -1,6 +1,6 @@
 import {
-    CalendarMonth as CalendarMonthIcon,
     Group as GroupIcon,
+    Home as HomeIcon,
     School as SchoolIcon,
     SportsEsports as SportsEsportsIcon,
 } from '@mui/icons-material'
@@ -22,34 +22,39 @@ export const MobileNavigation: React.FC = () => {
 
     const menuItems: TMenuItem[] = [
         {
+            icon: <HomeIcon />,
+            title: 'Главная',
+            path: '/',
+            id: 0,
+        },
+        {
             icon: <GroupIcon />,
             title: 'Сотрудники',
             path: '/peoples',
-            id: 0,
+            id: 1,
         },
         {
             icon: <SchoolIcon />,
             title: 'Документы',
             path: '/doc',
-            id: 1,
-        },
-        {
-            icon: <CalendarMonthIcon />,
-            title: 'Календарь',
-            path: '/events',
             id: 2,
         },
+        // {
+        //     icon: <TaskAltIcon />,
+        //     title: 'Задачи',
+        //     path: '/taskList',
+        //     id: 3,
+        // },
         {
             icon: <SportsEsportsIcon />,
             title: 'Игры',
             path: '/game',
-            id: 3,
+            id: 4,
         },
         {
-            icon: <AvatarImage name={profile.name} image={profile.avatar?.thumb} size={'24px'} />,
+            icon: <AvatarImage name={profile.name} image={profile.avatar?.thumb} size={'35px'} />,
             title: 'Профиль',
             path: '/profile',
-            id: 4,
         },
         // {
         //     icon: <QuizIcon />,
@@ -88,7 +93,7 @@ export const MobileNavigation: React.FC = () => {
     }
 
     return (
-        <Box sx={{ position: 'fixed', bottom: 0, left: 0, width: '100%', pb: 2, backgroundColor: '#fff' }}>
+        <Box sx={{ position: 'fixed', bottom: 0, left: 0, width: '100%', pb: 2, backgroundColor: '#fff', zIndex: 2 }}>
             <BottomNavigation showLabels value={value}>
                 {menuItems.map((item, index) => (
                     <BottomNavigationAction

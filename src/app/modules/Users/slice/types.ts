@@ -1,12 +1,12 @@
 import { EntityState } from '@reduxjs/toolkit'
-import { EPosition, EStatus } from 'types'
+import { EStatus } from 'types'
 import { TTableOrder, TTablePagination } from 'types/ITable'
 import { IUser } from 'types/IUser'
 
 export type TUserStatus = 'all' | 'new' | 'active' | 'blocked'
 
 export interface IUserFilter {
-    position: EPosition | ''
+    position_id: string
     place_id: string
     status: TUserStatus
     query: string

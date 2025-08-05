@@ -15,7 +15,7 @@ export const TextAreaEdit: React.FC<TextAreaEditProps> = ({ value, onChange }) =
     return (
         <Box width="100%">
             <Editor
-                apiKey="mlk7jwikqcr7oxuekvammh9ffgf1icb8dd901rtfjben3n2w"
+                apiKey="xnk50yfbqv537gxly6kuu0okwlx0zxqqalzvhtkwkjqk96hp"
                 initialValue={value}
                 init={{
                     height: 300,

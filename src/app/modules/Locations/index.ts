@@ -14,8 +14,9 @@ const slice = createSlice({
         status: EStatus.INITIAL,
     }),
     reducers: {
-        loadLocations(state) {
+        loadLocations(state, action: PayloadAction<string>) {
             state.status = EStatus.PENDING
+            action
         },
         locationsLoaded(state, action: PayloadAction<ILocationsResponse>) {
             locationsAdapter.setMany(state, action.payload.data)

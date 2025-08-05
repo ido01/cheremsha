@@ -33,7 +33,7 @@ const slice = createSlice({
             total_pages: 0,
         },
         filter: {
-            position: '',
+            position_id: '',
             place_id: '',
             query: '',
             state: '',

@@ -1,10 +1,9 @@
 import { Contacts as ContactsIcon, Group as GroupIcon } from '@mui/icons-material'
-import { Box, Typography } from '@mui/material'
-import Table from 'app/components/Table'
+import { Box, Container, Grid, useMediaQuery, useTheme } from '@mui/material'
+import { ITile, Tile } from 'app/components/Tile'
 import { TitleBlock } from 'app/components/TitleBlock'
 import React from 'react'
 import { useHistory } from 'react-router-dom'
-import { TTableRowData } from 'types/ITable'
 
 interface ILink {
     icon: React.ReactNode
@@ -14,47 +13,49 @@ interface ILink {
 
 export const PeoplesList: React.FC = () => {
     const history = useHistory()
+    const theme = useTheme()
+    const isMobile = useMediaQuery(theme.breakpoints.between('xs', 'md'))
 
     const links: ILink[] = [
         {
-            icon: <ContactsIcon />,
+            icon: <ContactsIcon fontSize="large" />,
             title: 'Важные контакты',
             path: '/contacts',
         },
         {
-            icon: <GroupIcon />,
-            title: 'Все',
+            icon: <GroupIcon fontSize="large" />,
+            title: 'Все сотрудники',
             path: '/users',
         },
     ]
 
-    const tableRows: TTableRowData[] = [
-        {
-            title: 'Название',
-            name: 'name',
-            xs: 12,
-            element: (item: ILink) => (
-                <Box display={'flex'} alignItems={'center'} pl={1}>
-                    {item.icon}
-
-                    <Typography variant="body1" sx={{ ml: item.icon ? 2 : 5 }}>
-                        {item.title}
-                    </Typography>
-                </Box>
-            ),
-        },
-    ]
-
-    const handleClickRow = (item: ILink) => {
+    const handleClickRow = (item: ITile) => {
         history.push(item.path)
     }
 
     return (
         <>
-            <TitleBlock title={'Сотрудники'} />
+            <TitleBlock title={'Контакты'} searchDisabled />
 
-            <Box flex="1 0 100%" sx={{ overflow: 'auto', maxHeight: { md: 'calc( 100vh - 90px )' } }}>
-                <Table items={links} rows={tableRows} handleClickRow={handleClickRow} />
+            <Box
+                flex="1 0 100%"
+                sx={{
+                    pt: 2,
+                    pb: 1,
+                    bgcolor: isMobile ? 'grey.200' : 'grey.50',
+                    overflow: 'auto',
+                    maxHeight: { md: 'calc( 100vh - 90px )' },
+                }}
+            >
+                <Container>
+                    <Grid container spacing={2}>
+                        {links.map((link, index) => (
+                            <Grid item key={index} xs={isMobile ? 6 : 4}>
+                                <Tile data={link} onClick={handleClickRow} />
+                            </Grid>
+                        ))}
+                    </Grid>
+                </Container>
             </Box>
         </>
     )

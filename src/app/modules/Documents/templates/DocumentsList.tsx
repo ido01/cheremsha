@@ -6,89 +6,107 @@ import {
     School as SchoolIcon,
     StackedLineChart as StackedLineChartIcon,
 } from '@mui/icons-material'
-import { Box, Typography } from '@mui/material'
-import Table from 'app/components/Table'
+import { Box, Container, Grid, useMediaQuery, useTheme } from '@mui/material'
+import { ITile, Tile } from 'app/components/Tile'
 import { TitleBlock } from 'app/components/TitleBlock'
 import { selectProfileRole } from 'app/modules/Profile/slice/selectors'
 import React from 'react'
 import { useSelector } from 'react-redux'
 import { useHistory } from 'react-router-dom'
 import { ERole } from 'types'
-import { TTableRowData } from 'types/ITable'
-
-interface ILink {
-    icon: React.ReactNode
-    title: string
-    path: string
-}
 
 export const DocumentsList: React.FC = () => {
     const history = useHistory()
+    const theme = useTheme()
+    const isMobile = useMediaQuery(theme.breakpoints.between('xs', 'md'))
 
     const profileRole = useSelector(selectProfileRole)
 
-    const links: ILink[] = [
-        {
-            icon: <QuizIcon />,
-            title: 'Гайд',
-            path: '/faq',
-        },
-        {
-            icon: <SchoolIcon />,
-            title: 'Обучение',
-            path: '/school',
-        },
-        {
-            icon: <StackedLineChartIcon />,
-            title: 'Мотивация',
-            path: '/motivation',
-        },
-        {
-            icon: <PercentIcon />,
-            title: 'Акции',
-            path: '/actions',
-        },
-        {
-            icon: <DesignServicesIcon />,
-            title: 'Тестирование',
-            path: '/quiz',
-        },
-    ]
-    if (profileRole === ERole.ADMIN) {
+    const links: ITile[] = isMobile
+        ? [
+              {
+                  icon: <QuizIcon fontSize="large" />,
+                  title: 'Гайд',
+                  path: '/faq',
+              },
+              {
+                  icon: <SchoolIcon fontSize="large" />,
+                  title: 'Обучение',
+                  path: '/school',
+              },
+              {
+                  icon: <StackedLineChartIcon fontSize="large" />,
+                  title: 'Мотивация',
+                  path: '/motivation',
+              },
+              {
+                  icon: <PercentIcon fontSize="large" />,
+                  title: 'Акции',
+                  path: '/actions',
+              },
+              {
+                  icon: <DesignServicesIcon fontSize="large" />,
+                  title: 'Тестирование',
+                  path: '/quiz',
+              },
+          ]
+        : [
+              {
+                  icon: <QuizIcon fontSize="large" />,
+                  title: 'Гайд',
+                  path: '/faq',
+              },
+              {
+                  icon: <SchoolIcon fontSize="large" />,
+                  title: 'Обучение',
+                  path: '/school',
+              },
+              {
+                  icon: <StackedLineChartIcon fontSize="large" />,
+                  title: 'Мотивация',
+                  path: '/motivation',
+              },
+              {
+                  icon: <PercentIcon fontSize="large" />,
+                  title: 'Акции',
+                  path: '/actions',
+              },
+          ]
+    if (profileRole === ERole.ADMIN && isMobile) {
         links.push({
-            icon: <PollIcon />,
+            icon: <PollIcon fontSize="large" />,
             title: 'Опрос',
             path: '/polls',
         })
     }
 
-    const tableRows: TTableRowData[] = [
-        {
-            title: 'Название',
-            name: 'name',
-            xs: 12,
-            element: (item: ILink) => (
-                <Box display={'flex'} alignItems={'center'} pl={1}>
-                    {item.icon}
-
-                    <Typography variant="body1" sx={{ ml: item.icon ? 2 : 5 }}>
-                        {item.title}
-                    </Typography>
-                </Box>
-            ),
-        },
-    ]
-
-    const handleClickRow = (item: ILink) => {
+    const handleClickRow = (item: ITile) => {
         history.push(item.path)
     }
 
     return (
         <>
-            <TitleBlock title={'Документы'} />
+            <TitleBlock title={'Документы'} searchDisabled />
 
-            <Box flex="1 0 100%" sx={{ overflow: 'auto', maxHeight: { md: 'calc( 100vh - 90px )' } }}>
-                <Table items={links} rows={tableRows} handleClickRow={handleClickRow} />
+            <Box
+                flex="1 0 100%"
+                sx={{
+                    pt: 2,
+                    pb: 1,
+                    bgcolor: isMobile ? 'grey.200' : 'grey.50',
+                    overflow: 'auto',
+                    maxHeight: { md: 'calc( 100vh - 90px )' },
+                }}
+            >
+                <Container>
+                    <Grid container spacing={2}>
+                        {links.map((link, index) => (
+                            <Grid item key={index} xs={isMobile ? 6 : 3}>
+                                <Tile data={link} onClick={handleClickRow} />
+                            </Grid>
+                        ))}
+                    </Grid>
+                </Container>
             </Box>
         </>
     )

@@ -3,8 +3,7 @@ import {
     KeyboardArrowDown as KeyboardArrowDownIcon,
     KeyboardArrowUp as KeyboardArrowUpIcon,
 } from '@mui/icons-material'
-import { DesktopDatePicker, LoadingButton, LocalizationProvider } from '@mui/lab'
-import AdapterDateFns from '@mui/lab/AdapterDateFns'
+import { LoadingButton } from '@mui/lab'
 import {
     Box,
     Button,
@@ -17,8 +16,10 @@ import {
     Select,
     TextField,
 } from '@mui/material'
+import { DatePicker } from '@mui/x-date-pickers/DatePicker'
 import { Modal } from 'app/components/Modal'
 import { ImageUploadForm } from 'app/modules/File/templates/ImageUploadForm'
+import dayjs from 'dayjs'
 import { useFormik } from 'formik'
 import moment from 'moment'
 import React from 'react'
@@ -175,18 +176,15 @@ export const EventForm: React.FC = () => {
                     />
 
                     <Box mt={2}>
-                        <LocalizationProvider dateAdapter={AdapterDateFns}>
-                            <DesktopDatePicker
-                                label="Дата события"
-                                inputFormat="dd.MM.yyyy"
-                                mask="__.__.____"
-                                value={formik.values.eventDate}
-                                onChange={(val) => {
-                                    formik.setFieldValue('eventDate', val)
-                                }}
-                                renderInput={(params) => <TextField fullWidth variant="outlined" {...params} />}
-                            />
-                        </LocalizationProvider>
+                        <DatePicker
+                            label="Дата события"
+                            value={dayjs(formik.values.eventDate)}
+                            onChange={(val) => {
+                                if (val) {
+                                    formik.setFieldValue('eventDate', val?.format('YYYY-MM-DD'))
+                                }
+                            }}
+                        />
                     </Box>
 
                     <Box mt={2}>

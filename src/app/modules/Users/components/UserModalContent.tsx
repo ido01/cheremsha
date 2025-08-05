@@ -1,4 +1,5 @@
 import { Delete as DeleteIcon, Edit as EditIcon } from '@mui/icons-material'
+import DownloadIcon from '@mui/icons-material/Download'
 import { LoadingButton } from '@mui/lab'
 import {
     Box,
@@ -23,7 +24,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { useHistory } from 'react-router-dom'
 import { ERole, EStatus } from 'types'
 import { IUser } from 'types/IUser'
-import { convertGenderName, convertPositionName, convertRoleName } from 'utils/convertUtils'
+import { convertGenderName, convertRoleName } from 'utils/convertUtils'
 import { getNoun } from 'utils/getNoun'
 
 import { usersActions } from '../slice'
@@ -32,9 +33,10 @@ import { selectForm } from '../slice/selectors'
 interface UserModalContentProps {
     profileRole: ERole
     user: IUser
+    handleClose?: () => void
 }
 
-export const UserModalContent: React.FC<UserModalContentProps> = ({ profileRole, user }) => {
+export const UserModalContent: React.FC<UserModalContentProps> = ({ profileRole, user, handleClose }) => {
     const history = useHistory()
     const dispatch = useDispatch()
 
@@ -70,6 +72,7 @@ export const UserModalContent: React.FC<UserModalContentProps> = ({ profileRole,
 
     const handleEditDocument = () => {
         if (user) {
+            handleClose?.()
             dispatch(usersActions.setForm(user))
             history.push(`/users/${user.id}`)
         }
@@ -93,6 +96,32 @@ export const UserModalContent: React.FC<UserModalContentProps> = ({ profileRole,
     return (
         <>
             <Grid container sx={{ mt: 2.5 }} spacing={2.5}>
+                {profileRole === ERole.ADMIN && (
+                    <Grid item xs={12}>
+                        <Box mb={1}>
+                            <Typography variant="caption" fontWeight={500}>
+                                Санитарная книжка
+                            </Typography>
+                        </Box>
+
+                        <Box>
+                            {!user.doc_file && <Typography variant="body3">Не загружена</Typography>}
+                            {!!user.doc_file && (
+                                <Button
+                                    component="a"
+                                    target="_blank"
+                                    href={user.doc_file.url}
+                                    role={undefined}
+                                    variant="contained"
+                                    tabIndex={-1}
+                                    startIcon={<DownloadIcon />}
+                                >
+                                    {user.doc_file.name}
+                                </Button>
+                            )}
+                        </Box>
+                    </Grid>
+                )}
                 {!user?.ban && user?.first_date && (
                     <Grid item xs={12}>
                         <LabelText
@@ -157,7 +186,7 @@ export const UserModalContent: React.FC<UserModalContentProps> = ({ profileRole,
                 </Grid>
 
                 <Grid item xs={isMobile ? 12 : 6}>
-                    <LabelText label="Должность" text={convertPositionName(user?.position || 'seller')} />
+                    <LabelText label="Должность" text={user?.job || ''} />
                 </Grid>
 
                 <Grid item xs={isMobile ? 12 : 6}>

@@ -41,7 +41,6 @@ export const ResultModal: React.FC = () => {
 
     useEffect(() => {
         if (activeId) {
-            console.log('tooooooooot')
             dispatch(resultsActions.loadResult({ id, uid: activeId }))
         }
     }, [activeId])

@@ -34,10 +34,17 @@ const slice = createSlice({
             data: {
                 id: '',
                 type: 'document',
+                task_status: EStatus.INITIAL,
                 path: 'faq',
+                uid: '',
                 parentId: '',
                 name: '',
+                end_date: '',
+                end_date_unix: 0,
+                deadTime: '',
                 info: [],
+                points: [],
+                users: [],
                 state: {
                     id: '',
                     state: EState.INITIAL,
@@ -128,6 +135,38 @@ const slice = createSlice({
         statusError(state) {
             state.status = EStatus.ERROR
             state.form.status = EStatus.ERROR
+        },
+        getUserTask(state, action: PayloadAction<string>) {
+            state
+            action.payload
+        },
+        completeUserTask(state, action: PayloadAction<string>) {
+            state
+            action.payload
+        },
+        rejectUserTask(state, action: PayloadAction<string>) {
+            state
+            action.payload
+        },
+        getPoint(state, action: PayloadAction<string>) {
+            state
+            action.payload
+        },
+        completePoint(state, action: PayloadAction<string>) {
+            state
+            action.payload
+        },
+        rejectPoint(state, action: PayloadAction<string>) {
+            state
+            action.payload
+        },
+        deleteTaskUser(state, action: PayloadAction<string>) {
+            state
+            action.payload
+        },
+        deleteTaskPoint(state, action: PayloadAction<string>) {
+            state
+            action.payload
         },
     },
 })

@@ -1,11 +1,11 @@
 import { EntityState } from '@reduxjs/toolkit'
-import { EPosition, EStatus } from 'types'
+import { EStatus } from 'types'
 import { IQuiz } from 'types/IQuiz'
 import { TTableOrder, TTablePagination } from 'types/ITable'
 import { IUser } from 'types/IUser'
 
 export interface IResultFilter {
-    position: EPosition | ''
+    position_id: string
     place_id: string
     query: string
     state: string

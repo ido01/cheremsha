@@ -32,6 +32,23 @@ export function* uploadImage(action: PayloadAction<File>) {
     }
 }
 
+export function* uploadDoc(action: PayloadAction<File>) {
+    try {
+        const data = new FormData()
+        data.append('file', action.payload)
+
+        const response: IFidResponse = yield call(request, `file/doc`, {
+            method: 'POST',
+            data: data,
+        })
+
+        yield put(profileActions.updateDoc(response.fid))
+        yield put(fileActions.statusFinished())
+    } catch (error: any) {
+        yield put(fileActions.statusError())
+    }
+}
+
 export function* createImage(action: PayloadAction<IFileRequest>) {
     try {
         const data = new FormData()
@@ -56,5 +73,6 @@ export function* createImage(action: PayloadAction<IFileRequest>) {
 
 export function* fileWatcher() {
     yield takeLeading(fileActions.uploadImage.type, uploadImage)
+    yield takeLeading(fileActions.uploadDoc.type, uploadDoc)
     yield takeLeading(fileActions.createImage.type, createImage)
 }

@@ -16,14 +16,15 @@ export const Modal: React.FC<ModalProps> = ({ children, open, title, handleClose
     return (
         <Drawer
             open={open}
-            anchor={isMobile ? 'bottom' : 'right'}
+            anchor={'bottom'}
             PaperProps={{
                 sx: {
-                    width: '100%',
-                    height: { xs: 'calc(100% - 40px)', md: '100%' },
-                    borderTopLeftRadius: { xs: '10px', md: '0px' },
-                    borderTopRightRadius: { xs: '10px', md: '0px' },
-                    maxWidth: { xs: '100%', md: '50%' },
+                    width: { xs: '100%', md: '900px' },
+                    height: 'calc(100% - 40px)', //{ xs: 'calc(100% - 40px)', md: '100%' },
+                    margin: '0 auto',
+                    borderTopLeftRadius: '10px', //{ xs: '10px', md: '0px' },
+                    borderTopRightRadius: '10px', //{ xs: '10px', md: '0px' },
+                    maxWidth: '100%',
                 },
             }}
             onClose={handleClose}

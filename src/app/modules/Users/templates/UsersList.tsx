@@ -4,7 +4,7 @@ import Table, { TableEmptyRow } from 'app/components/Table'
 import { TitleBlock } from 'app/components/TitleBlock'
 import { selectLocation } from 'app/modules/Locations/selectors'
 import { AvatarImage } from 'app/modules/Profile/components/AvatarImage'
-import moment from 'moment'
+import dayjs from 'dayjs'
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { EStatus } from 'types'
@@ -78,7 +78,7 @@ export const UsersList: React.FC = () => {
             xs: 2,
             element: (user: IUser) => (
                 <Typography variant="body2" color="grey.600">
-                    {moment(user.createdAt).format('L')}
+                    {dayjs(user.createdAt).locale('ru').format('D MMM YYYY')}
                 </Typography>
             ),
         },

@@ -23,7 +23,7 @@ import { Modal } from 'app/components/Modal'
 import dayjs from 'dayjs'
 import { useFormik } from 'formik'
 import md5 from 'md5'
-import React, { useEffect } from 'react'
+import React from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { EStatus } from 'types'
 import { EQuestionType } from 'types/IQuestion'
@@ -238,10 +238,6 @@ export const QuizForm: React.FC = () => {
             )
         }
     }
-
-    useEffect(() => {
-        console.log(formik.values)
-    }, [formik.values])
 
     const handleUpInfo = (index: number) => {
         dispatch(

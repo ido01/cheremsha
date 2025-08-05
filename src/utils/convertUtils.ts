@@ -2,22 +2,17 @@ import {
     DOCUMENT_STATE,
     GENDER_NAME,
     PLACE_NAME,
-    POSITION_NAME,
     QUESTION_TYPE,
     QUIZ_STATE,
     RESULT_STATE,
     ROLE_NAME,
 } from 'app/constants'
-import { EGender, EPosition, ERole, EState } from 'types'
+import { EGender, ERole, EState } from 'types'
 import { EQuestionType } from 'types/IQuestion'
 import { EQuizState } from 'types/IQuizState'
 
 export const convertGenderName = (gender: EGender) => {
     return GENDER_NAME[gender as EGender]
-}
-
-export const convertPositionName = (position: EPosition) => {
-    return POSITION_NAME[position as EPosition]
 }
 
 export const convertRoleName = (role: ERole) => {

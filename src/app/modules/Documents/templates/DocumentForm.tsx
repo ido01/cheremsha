@@ -1,17 +1,26 @@
+import 'dayjs/locale/ru'
+
 import {
     Delete as DeleteIcon,
     KeyboardArrowDown as KeyboardArrowDownIcon,
     KeyboardArrowUp as KeyboardArrowUpIcon,
 } from '@mui/icons-material'
 import { LoadingButton } from '@mui/lab'
-import { Box, Button, ButtonGroup, Container, IconButton, TextField } from '@mui/material'
+import { Autocomplete, Box, Button, ButtonGroup, Chip, Container, IconButton, TextField } from '@mui/material'
+import { DatePicker } from '@mui/x-date-pickers/DatePicker'
 import { Modal } from 'app/components/Modal'
 import { ImageUploadForm } from 'app/modules/File/templates/ImageUploadForm'
+import { selectLocations } from 'app/modules/Locations/selectors'
+import { tinyUsersActions } from 'app/modules/Users/slice/tiny'
+import { selectStatus, selectUsers } from 'app/modules/Users/slice/tiny/selectors'
+import dayjs, { Dayjs } from 'dayjs'
 import { useFormik } from 'formik'
-import React from 'react'
+import moment from 'moment'
+import React, { useEffect, useMemo, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { EStatus } from 'types'
 import { TDocumentInfoType } from 'types/IDocumentInfo'
+import { IDocumentTaskUser } from 'types/IDocumentTaskUser'
 import * as yup from 'yup'
 
 import { TextAreaEdit } from '../components/TextAreaEdit'
@@ -19,9 +28,38 @@ import { documentsActions } from '../slice'
 import { selectForm } from '../slice/selectors'
 
 export const DocumentForm: React.FC = () => {
+    dayjs.locale('ru')
     const dispatch = useDispatch()
 
     const { data, status, open } = useSelector(selectForm)
+    const locations = useSelector(selectLocations)
+    const statusUsers = useSelector(selectStatus)
+    const users = useSelector(selectUsers)
+
+    const [endDate, setEndDate] = useState<Dayjs | null>(dayjs(data.end_date.split('.').reverse().join('-')))
+    const [deadTime, setDeadTime] = useState<Dayjs | null>(dayjs(data.deadTime.split('.').reverse().join('-')))
+
+    const places = useMemo(() => {
+        return locations.map((location) => ({
+            id: '',
+            place_id: location.id,
+            document_id: data.id,
+            status: EStatus.INITIAL,
+            endAt: '',
+            name: location.name,
+        }))
+    }, [locations])
+
+    const usersList = useMemo<IDocumentTaskUser[]>(() => {
+        return users.map((user) => ({
+            id: '',
+            user_id: user.id,
+            document_id: data.id,
+            status: EStatus.INITIAL,
+            endAt: '',
+            name: user.label,
+        }))
+    }, [users])
 
     const validationSchema = yup.object({
         name: yup.string().required(),
@@ -38,6 +76,15 @@ export const DocumentForm: React.FC = () => {
                 dispatch(
                     documentsActions.updateDocument({
                         ...values,
+                        end_date: endDate
+                            ? moment(typeof endDate === 'string' ? endDate : endDate.format()).format('yyyy-MM-DD')
+                            : '',
+                        end_date_unix: endDate
+                            ? moment(typeof endDate === 'string' ? endDate : endDate.format())
+                                  .add(1, 'd')
+                                  .unix()
+                            : 0,
+                        deadTime: deadTime ? `${deadTime.add(1, 'd').unix()}` : '0',
                         info: values.info.map((info, index) => ({
                             ...info,
                             sort: index,
@@ -48,6 +95,15 @@ export const DocumentForm: React.FC = () => {
                 dispatch(
                     documentsActions.createDocument({
                         ...values,
+                        end_date: endDate
+                            ? moment(typeof endDate === 'string' ? endDate : endDate.format()).format('yyyy-MM-DD')
+                            : '',
+                        end_date_unix: endDate
+                            ? moment(typeof endDate === 'string' ? endDate : endDate.format())
+                                  .add(1, 'd')
+                                  .unix()
+                            : 0,
+                        deadTime: deadTime ? `${deadTime.add(1, 'd').unix()}` : '0',
                         info: values.info.map((info, index) => ({
                             ...info,
                             sort: index,
@@ -124,6 +180,12 @@ export const DocumentForm: React.FC = () => {
         dispatch(documentsActions.moveDownInfo(index))
     }
 
+    useEffect(() => {
+        if (statusUsers === EStatus.INITIAL) {
+            dispatch(tinyUsersActions.loadUsers())
+        }
+    }, [])
+
     return (
         <Modal
             open={open}
@@ -160,6 +222,104 @@ export const DocumentForm: React.FC = () => {
                         error={!!formik.errors.name}
                         onChange={formik.handleChange}
                     />
+
+                    {formik.values.path === 'task' && (
+                        <>
+                            <Box mt={2}>
+                                <DatePicker
+                                    label="Срок выполнения задачи"
+                                    // inputFormat="dd.MM.yyyy"
+                                    // mask="__.__.____"
+                                    value={deadTime}
+                                    onChange={(val) => {
+                                        setDeadTime(dayjs(val))
+                                    }}
+                                    // renderInput={(params) => <TextField fullWidth variant="outlined" {...params} />}
+                                />
+                            </Box>
+
+                            <Box mt={2}>
+                                <Autocomplete
+                                    multiple
+                                    id="tags-outlined"
+                                    options={places}
+                                    getOptionLabel={(option) => option.name}
+                                    value={formik.values.points}
+                                    filterSelectedOptions
+                                    onChange={(event, val) => {
+                                        formik.setFieldValue('points', val)
+                                    }}
+                                    renderTags={(tagValue, getTagProps) =>
+                                        tagValue.map((option, index) => (
+                                            <Chip
+                                                label={option.name}
+                                                {...getTagProps({ index })}
+                                                disabled={!!option.id}
+                                                key={option.place_id}
+                                            />
+                                        ))
+                                    }
+                                    renderInput={(params) => (
+                                        <TextField
+                                            {...params}
+                                            label="На какие точки назначена задача"
+                                            placeholder="Точки"
+                                        />
+                                    )}
+                                />
+                            </Box>
+
+                            <Box mt={2}>
+                                <Autocomplete
+                                    multiple
+                                    id="tags-outlined"
+                                    options={usersList}
+                                    value={formik.values.users}
+                                    getOptionLabel={(option) => option.name || option.user_id}
+                                    filterSelectedOptions
+                                    onChange={(event, val) => {
+                                        formik.setFieldValue('users', val)
+                                    }}
+                                    renderTags={(tagValue, getTagProps) =>
+                                        tagValue.map((option, index) => (
+                                            <Chip
+                                                label={option.name}
+                                                {...getTagProps({ index })}
+                                                disabled={!!option.id}
+                                                key={option.user_id}
+                                            />
+                                        ))
+                                    }
+                                    renderInput={(params) => (
+                                        <TextField
+                                            {...params}
+                                            label="Назначить выполнение задачи сотруднику"
+                                            placeholder="Сотрудники"
+                                        />
+                                    )}
+                                />
+                            </Box>
+                        </>
+                    )}
+
+                    {(formik.values.path === 'actions' || formik.values.path === 'motivation') && (
+                        <Box mt={2}>
+                            <DatePicker
+                                label={
+                                    formik.values.path === 'actions'
+                                        ? 'Дата окончания акции'
+                                        : 'Дата окончания мотивации'
+                                }
+                                // inputFormat="dd.MM.yyyy"
+                                // mask="__.__.____"
+                                value={endDate}
+                                onChange={(val) => {
+                                    setEndDate(val)
+                                }}
+                                // renderInput={(params) => <TextField fullWidth variant="outlined" {...params} />}
+                            />
+                        </Box>
+                    )}
 
                     {formik.values.info
                         .filter((info) => info.type !== 'delete')
@@ -203,7 +363,7 @@ export const DocumentForm: React.FC = () => {
                                     <IconButton
                                         disabled={
                                             formik.values.info.filter((info) => info.type !== 'delete').length ===
-                                            index - 1
+                                            index + 1
                                         }
                                         onClick={() => handleDownInfo(index)}
                                     >

@@ -13,7 +13,7 @@ import { EStatus } from 'types'
 import { EQuizState } from 'types/IQuizState'
 import { TLimit, TTableOrder, TTableRowData } from 'types/ITable'
 import { IUser } from 'types/IUser'
-import { convertPositionName, convertResultState } from 'utils/convertUtils'
+import { convertResultState } from 'utils/convertUtils'
 
 import { FilterBlock } from '../components/FilterBlock'
 import { MobileResultView } from '../components/MobileResultView'
@@ -86,7 +86,7 @@ export const ResultList: React.FC = () => {
             xs: 2,
             element: (user: IUser) => (
                 <Typography variant="body2" color="grey.600">
-                    {convertPositionName(user.position)}
+                    {user.job}
                 </Typography>
             ),
         },

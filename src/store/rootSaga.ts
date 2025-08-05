@@ -9,10 +9,13 @@ import { fileWatcher } from 'app/modules/File/slice/saga'
 import { locationsWatcher } from 'app/modules/Locations/saga'
 import { logWatcher } from 'app/modules/Log/slice/saga'
 import { pollsWatcher } from 'app/modules/Polls/slice/saga'
+import { positionsWatcher } from 'app/modules/Positions/slice/saga'
 import { profileWatcher } from 'app/modules/Profile/slice/saga'
 import { quizWatcher } from 'app/modules/Quiz/slice/saga'
 import { resultsWatcher } from 'app/modules/Results/slice/saga'
+import { settingsWatcher } from 'app/modules/Settings/slice/saga'
 import { usersWatcher } from 'app/modules/Users/slice/saga'
+import { tinyUsersWatcher } from 'app/modules/Users/slice/tiny/saga'
 import { all } from 'redux-saga/effects'
 
 export default function* rootSaga() {
@@ -27,9 +30,12 @@ export default function* rootSaga() {
         locationsWatcher(),
         logWatcher(),
         pollsWatcher(),
+        positionsWatcher(),
         profileWatcher(),
         resultsWatcher(),
+        settingsWatcher(),
         usersWatcher(),
+        tinyUsersWatcher(),
         quizWatcher(),
         workdaysWatcher(),
     ])

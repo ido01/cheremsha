@@ -1,54 +1,45 @@
 import {
+    AssistWalker as AssistWalkerIcon,
     CalendarMonth as CalendarMonthIcon,
-    Contacts as ContactsIcon,
     DesignServices as DesignServicesIcon,
     Group as GroupIcon,
     Menu as MenuIcon,
     Percent as PercentIcon,
     Poll as PollIcon,
-    Quiz as QuizIcon,
     School as SchoolIcon,
     SportsEsports as SportsEsportsIcon,
-    StackedLineChart as StackedLineChartIcon,
 } from '@mui/icons-material'
 import { Box, colors, Container, Divider, IconButton, Paper } from '@mui/material'
 import { Logo } from 'app/components/Logo/Logo'
-import { favoritesActions } from 'app/modules/Favorites/slice'
-import { selectfavorites } from 'app/modules/Favorites/slice/selectors'
 import { AvatarImage } from 'app/modules/Profile/components/AvatarImage'
 import { selectProfile, selectProfileRole } from 'app/modules/Profile/slice/selectors'
-import React, { useEffect, useState } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
+import React, { useState } from 'react'
+import { useSelector } from 'react-redux'
 import { ERole } from 'types'
 import { TMenuItem } from 'types/TMenuItem'
 
 import { MenuItem } from './MenuItem'
 
 export const LeftMenu: React.FC = () => {
-    const dispatch = useDispatch()
-
     const [isLage, setLage] = useState<boolean>(true)
 
     const profile = useSelector(selectProfile)
     const profileRole = useSelector(selectProfileRole)
 
-    const favorites = useSelector(selectfavorites)
-
     const menuItems: TMenuItem[] = [
-        {
-            icon: <QuizIcon />,
-            title: 'Гайд',
-            path: '/faq',
-        },
+        // {
+        //     icon: (
+        //         <Badge badgeContent={1} color="error">
+        //             <TaskAltIcon />
+        //         </Badge>
+        //     ),
+        //     title: 'Задачи',
+        //     path: '/tasks',
+        // },
         {
             icon: <SchoolIcon />,
-            title: 'Обучение',
-            path: '/school',
-        },
-        {
-            icon: <StackedLineChartIcon />,
-            title: 'Мотивация',
-            path: '/motivation',
+            title: 'Документы',
+            path: '/doc',
         },
         {
             icon: <PercentIcon />,
@@ -56,24 +47,14 @@ export const LeftMenu: React.FC = () => {
             path: '/actions',
         },
         {
+            icon: <GroupIcon />,
+            title: 'Контакты',
+            path: '/peoples',
+        },
+        {
             icon: <DesignServicesIcon />,
             title: 'Тестирование',
             path: '/quiz',
-        },
-        {
-            icon: <CalendarMonthIcon />,
-            title: 'Календарь',
-            path: '/events',
-        },
-        {
-            icon: <GroupIcon />,
-            title: 'Сотрудники',
-            path: '/users',
-        },
-        {
-            icon: <ContactsIcon />,
-            title: 'Важные контакты',
-            path: '/contacts',
         },
         {
             icon: <SportsEsportsIcon />,
@@ -88,11 +69,13 @@ export const LeftMenu: React.FC = () => {
             title: 'Опрос',
             path: '/polls',
         })
-    }
 
-    useEffect(() => {
-        dispatch(favoritesActions.loadFavorites())
-    }, [])
+        menuItems.push({
+            icon: <AssistWalkerIcon />,
+            title: 'Админка',
+            path: '/admin',
+        })
+    }
 
     return (
         <Paper
@@ -133,7 +116,7 @@ export const LeftMenu: React.FC = () => {
                         <MenuItem key={index} item={item} isLage={isLage} />
                     ))}
 
-                    {favorites.map((user) => (
+                    {/* {favorites.map((user) => (
                         <MenuItem
                             key={user.id}
                             item={{
@@ -146,11 +129,19 @@ export const LeftMenu: React.FC = () => {
                                 dispatch(favoritesActions.showModal())
                             }}
                         />
-                    ))}
+                    ))} */}
                 </Box>
             </Box>
 
             <Box mb={3.5}>
+                <MenuItem
+                    item={{
+                        icon: <CalendarMonthIcon />,
+                        title: 'Календарь',
+                        path: '/events',
+                    }}
+                    isLage={isLage}
+                />
                 <MenuItem
                     item={{
                         icon: <AvatarImage name={profile.name} image={profile.avatar?.thumb} size={'24px'} />,

@@ -1,17 +1,9 @@
 import { Rocket as RocketIcon, SportsEsports as SportsEsportsIcon, Widgets as WidgetsIcon } from '@mui/icons-material'
-import { Box, Typography, useMediaQuery, useTheme } from '@mui/material'
-import Table from 'app/components/Table'
+import { Box, Container, Grid, useMediaQuery, useTheme } from '@mui/material'
+import { ITile, Tile } from 'app/components/Tile'
 import { TitleBlock } from 'app/components/TitleBlock'
 import React from 'react'
 import { useHistory } from 'react-router-dom'
-import { TTableRowData } from 'types/ITable'
-
-interface ILink {
-    id: string
-    icon: React.ReactNode
-    title: string
-    path: string
-}
 
 export const GameList: React.FC = () => {
     const history = useHistory()
@@ -19,57 +11,51 @@ export const GameList: React.FC = () => {
     const theme = useTheme()
     const isMobile = useMediaQuery(theme.breakpoints.between('xs', 'md'))
 
-    const links: ILink[] = [
+    const links: ITile[] = [
         {
-            id: '3',
-            icon: <RocketIcon />,
+            icon: <RocketIcon fontSize="large" />,
             title: 'Space',
             path: '/game/space',
         },
         {
-            id: '2',
-            icon: <WidgetsIcon />,
+            icon: <WidgetsIcon fontSize="large" />,
             title: 'Собери белый свет',
             path: '/game/do_white',
         },
         {
-            id: '1',
-            icon: <SportsEsportsIcon />,
+            icon: <SportsEsportsIcon fontSize="large" />,
             title: 'Лишний цвет',
             path: '/game/find_color',
         },
     ]
 
-    const tableRows: TTableRowData[] = [
-        {
-            title: 'Название',
-            name: 'name',
-            xs: 12,
-            element: (item: ILink) => (
-                <Box display={'flex'} alignItems={'center'} pl={1}>
-                    {item.icon}
-
-                    <Typography variant="body1" sx={{ ml: item.icon ? 2 : 5 }}>
-                        {item.title}
-                    </Typography>
-                </Box>
-            ),
-        },
-    ]
-
-    const handleClickRow = (item: ILink) => {
+    const handleClickRow = (item: ITile) => {
         history.push(item.path)
     }
 
     return (
         <>
-            <TitleBlock title={'Игры'} />
+            <TitleBlock title={'Игры'} searchDisabled />
 
             <Box
                 flex="1 0 100%"
-                sx={{ pt: isMobile ? 0 : 4, overflow: 'auto', maxHeight: { md: 'calc( 100vh - 90px )' } }}
+                sx={{
+                    pt: 2,
+                    pb: 1,
+                    bgcolor: isMobile ? 'grey.200' : 'grey.50',
+                    overflow: 'auto',
+                    maxHeight: { md: 'calc( 100vh - 90px )' },
+                }}
             >
-                <Table items={links} rows={tableRows} handleClickRow={handleClickRow} />
+                <Container>
+                    <Grid container spacing={2}>
+                        {links.map((link, index) => (
+                            <Grid item key={index} xs={isMobile ? 6 : 4}>
+                                <Tile data={link} onClick={handleClickRow} />
+                            </Grid>
+                        ))}
+                    </Grid>
+                </Container>
             </Box>
         </>
     )

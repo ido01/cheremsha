@@ -8,7 +8,6 @@ import { useDispatch, useSelector } from 'react-redux'
 import { EStatus } from 'types'
 import { TLimit, TTableOrder, TTableRowData } from 'types/ITable'
 import { IUser } from 'types/IUser'
-import { convertPositionName } from 'utils/convertUtils'
 
 import { MobileContactView } from '../components/MobileContactView'
 import { usersActions } from '../slice'
@@ -52,17 +51,13 @@ export const ContactsList: React.FC = () => {
             title: 'Телефон',
             name: 'phone',
             xs: 3,
-            element: (user: IUser) => (
-                <Typography variant="body2">
-                    <a href={`tel:${user.phone}`}>{user.phone}</a>
-                </Typography>
-            ),
+            element: (user: IUser) => <Typography variant="body2">{user.phone}</Typography>,
         },
         {
             title: 'Должность',
             name: 'position',
             xs: 2,
-            element: (user: IUser) => <Typography variant="body2">{convertPositionName(user.position)}</Typography>,
+            element: (user: IUser) => <Typography variant="body2">{user.job || ''}</Typography>,
         },
         {
             title: 'Точка',

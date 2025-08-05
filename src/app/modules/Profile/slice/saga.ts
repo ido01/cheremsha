@@ -21,6 +21,17 @@ export function* loadProfile() {
     }
 }
 
+export function* draftProfile(action: PayloadAction<IUser>) {
+    try {
+        yield call(request, `profile`, {
+            method: 'PATCH',
+            data: action.payload,
+        })
+    } catch (error: any) {
+        yield put(profileActions.statusError())
+    }
+}
+
 export function* updateProfile(action: PayloadAction<IUser>) {
     try {
         const response: IProfileResponse = yield call(request, `profile`, {
@@ -43,13 +54,30 @@ export function* updateAvatar(action: PayloadAction<string>) {
             },
         })
 
-        yield put(profileActions.profileLoaded(response))
+        yield put(profileActions.profileAvatarLoaded(response))
     } catch (error: any) {
         yield put(profileActions.statusError())
     }
 }
+export function* updateDoc(action: PayloadAction<string>) {
+    try {
+        const response: IProfileResponse = yield call(request, `profile/doc`, {
+            method: 'PATCH',
+            data: {
+                fid: action.payload,
+            },
+        })
+
+        yield put(profileActions.profileDocLoaded(response))
+    } catch (error: any) {
+        yield put(profileActions.statusError())
+    }
+}
+
 export function* profileWatcher() {
     yield takeLeading(profileActions.loadProfile.type, loadProfile)
     yield takeLeading(profileActions.updateProfile.type, updateProfile)
+    yield takeLeading(profileActions.draftProfile.type, draftProfile)
     yield takeLeading(profileActions.updateAvatar.type, updateAvatar)
+    yield takeLeading(profileActions.updateDoc.type, updateDoc)
 }

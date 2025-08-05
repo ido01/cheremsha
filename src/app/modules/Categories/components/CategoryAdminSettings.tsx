@@ -23,13 +23,14 @@ import { SettingsModal } from 'app/components/SettingsModal'
 import { categoriesActions } from 'app/modules/Categories/slice'
 import { CategoryForm } from 'app/modules/Categories/templates/CategoryForm'
 import { documentsActions } from 'app/modules/Documents/slice'
+import { selectForm } from 'app/modules/Documents/slice/selectors'
 import { DocumentForm } from 'app/modules/Documents/templates/DocumentForm'
 import { quizActions } from 'app/modules/Quiz/slice'
 import { QuizForm } from 'app/modules/Quiz/templates/QuizForm'
 import React, { useState } from 'react'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { useHistory } from 'react-router-dom'
-import { EState, EType } from 'types'
+import { EState, EStatus, EType } from 'types'
 import { ICategory } from 'types/ICategory'
 import { EQuizState } from 'types/IQuizState'
 
@@ -51,6 +52,7 @@ export const CategoryAdminSettings: React.FC<CategoryAdminSettingsProps> = ({
     const dispatch = useDispatch()
     const history = useHistory()
 
+    const { open: openDocumentForm } = useSelector(selectForm)
     const [openDelete, setOpenDelete] = useState<boolean>(false)
 
     const handleAddCategory = () => {
@@ -118,11 +120,18 @@ export const CategoryAdminSettings: React.FC<CategoryAdminSettingsProps> = ({
         dispatch(
             documentsActions.openEditModal({
                 id: '',
+                task_status: EStatus.INITIAL,
                 type: 'document',
                 path: type,
+                uid: '',
                 name: '',
+                end_date: '',
+                end_date_unix: 0,
+                deadTime: '',
                 parentId: id || '0',
                 info: [],
+                points: [],
+                users: [],
                 state: {
                     id: '',
                     state: EState.INITIAL,
@@ -161,15 +170,17 @@ export const CategoryAdminSettings: React.FC<CategoryAdminSettingsProps> = ({
         <>
             <SettingsModal open={open} handleClose={handleClose}>
                 <List>
-                    <ListItem disablePadding onClick={handleAddCategory}>
-                        <ListItemButton>
-                            <ListItemIcon>
-                                <AddBoxIcon />
-                            </ListItemIcon>
+                    {type !== 'task' && (
+                        <ListItem disablePadding onClick={handleAddCategory}>
+                            <ListItemButton>
+                                <ListItemIcon>
+                                    <AddBoxIcon />
+                                </ListItemIcon>
 
-                            <ListItemText primary={'Добавить подкатегорию'} />
-                        </ListItemButton>
-                    </ListItem>
+                                <ListItemText primary={'Добавить подкатегорию'} />
+                            </ListItemButton>
+                        </ListItem>
+                    )}
 
                     <ListItem disablePadding onClick={handleAddEvent}>
                         <ListItemButton>
@@ -187,6 +198,8 @@ export const CategoryAdminSettings: React.FC<CategoryAdminSettingsProps> = ({
                                         ? 'Добавить акцию'
                                         : type === 'motivation'
                                         ? 'Добавить мотивацию'
+                                        : type === 'task'
+                                        ? 'Добавить задачу'
                                         : 'Добавить тестирование'
                                 }
                             />
@@ -196,31 +209,41 @@ export const CategoryAdminSettings: React.FC<CategoryAdminSettingsProps> = ({
 
                 <Divider />
 
-                <List>
-                    <ListItem disabled={!id || id === '0'} disablePadding onClick={handleUpdateCategory}>
-                        <ListItemButton>
-                            <ListItemIcon>
-                                <EditIcon />
-                            </ListItemIcon>
+                {type !== 'task' && (
+                    <List>
+                        <ListItem
+                            // disabled={!id || id === '0'}
+                            disablePadding
+                            onClick={handleUpdateCategory}
+                        >
+                            <ListItemButton>
+                                <ListItemIcon>
+                                    <EditIcon />
+                                </ListItemIcon>
 
-                            <ListItemText primary={'Редактировать категорию'} />
-                        </ListItemButton>
-                    </ListItem>
+                                <ListItemText primary={'Редактировать категорию'} />
+                            </ListItemButton>
+                        </ListItem>
 
-                    <ListItem disabled={!id || id === '0'} disablePadding onClick={handleShowDeleteCategory}>
-                        <ListItemButton>
-                            <ListItemIcon>
-                                <DeleteForeverIcon />
-                            </ListItemIcon>
+                        <ListItem
+                            // disabled={!id || id === '0'}
+                            disablePadding
+                            onClick={handleShowDeleteCategory}
+                        >
+                            <ListItemButton>
+                                <ListItemIcon>
+                                    <DeleteForeverIcon />
+                                </ListItemIcon>
 
-                            <ListItemText primary={'Удалить категорию'} />
-                        </ListItemButton>
-                    </ListItem>
-                </List>
+                                <ListItemText primary={'Удалить категорию'} />
+                            </ListItemButton>
+                        </ListItem>
+                    </List>
+                )}
             </SettingsModal>
 
             <CategoryForm />
-            <DocumentForm />
+            {openDocumentForm && <DocumentForm />}
             <QuizForm />
 
             <Dialog open={openDelete} onClose={handleCloseDelete} aria-labelledby="alert-dialog-title">

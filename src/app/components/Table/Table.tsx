@@ -22,6 +22,8 @@ interface TableProps {
     isLoading?: boolean
     disablePadding?: boolean
     disableBorder?: boolean
+    disableHeader?: boolean
+    fullBorder?: boolean
     mobileView?: (data: any) => React.ReactNode
     handleOrderChange?: (order: TTableOrder) => void
     handleLimitChange?: (limit: TLimit) => void
@@ -38,6 +40,8 @@ export const Table: React.FC<TableProps> = ({
     isLoading,
     disablePadding,
     disableBorder,
+    disableHeader,
+    fullBorder,
     mobileView,
     handleOrderChange,
     handleLimitChange,
@@ -49,7 +53,7 @@ export const Table: React.FC<TableProps> = ({
 
     return (
         <Box px={{ xs: disablePadding ? 0 : 1, md: disablePadding ? 0 : 4 }} mb={6} position={'relative'}>
-            {!isMobile && (
+            {!isMobile && !disableHeader && (
                 <Box
                     sx={{
                         pb: 1.5,
@@ -97,6 +101,7 @@ export const Table: React.FC<TableProps> = ({
                         rows={rows}
                         key={`${item.type}${item.id}`}
                         isDraggable={isDraggable}
+                        fullBorder={fullBorder}
                         disableBorder={disableBorder}
                         mobileView={mobileView}
                         handleClickRow={handleClickRow}

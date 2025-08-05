@@ -1,3 +1,4 @@
+import { positionsActions } from 'app/modules/Positions/slice'
 import { profileActions } from 'app/modules/Profile/slice'
 import { selectProfile } from 'app/modules/Profile/slice/selectors'
 import React, { useEffect } from 'react'
@@ -29,6 +30,7 @@ export const Auth: React.FC<AuthProps> = ({ children }) => {
         } else if (authStatus === EAuthStatus.AUTHORIZED && url.indexOf('/auth') === 0) {
             history.push('/')
         } else if (authStatus === EAuthStatus.NEW && url !== '/auth/questionnaire') {
+            dispatch(profileActions.loadProfile())
             history.push('/auth/questionnaire')
         }
         if (authStatus === EAuthStatus.AUTHORIZED) {
@@ -45,6 +47,10 @@ export const Auth: React.FC<AuthProps> = ({ children }) => {
             }
         }
     }, [profile])
+
+    useEffect(() => {
+        dispatch(positionsActions.loadPositions())
+    }, [])
 
     return <React.Fragment>{children}</React.Fragment>
 }

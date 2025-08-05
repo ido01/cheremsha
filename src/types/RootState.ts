@@ -9,9 +9,12 @@ import { IFileState } from 'app/modules/File/slice/types'
 import { ILocationsState } from 'app/modules/Locations/types'
 import { ILogState } from 'app/modules/Log/slice/types'
 import { IPollsState } from 'app/modules/Polls/slice/types'
+import { IPositionsState } from 'app/modules/Positions/slice/types'
 import { IProfileState } from 'app/modules/Profile/slice/types'
 import { IQuizState } from 'app/modules/Quiz/slice/types'
 import { IResultsState } from 'app/modules/Results/slice/types'
+import { ISettingsState } from 'app/modules/Settings/slice/types'
+import { ITinyUsersState } from 'app/modules/Users/slice/tiny/types'
 import { IUsersState } from 'app/modules/Users/slice/types'
 
 export interface RootState {
@@ -25,9 +28,12 @@ export interface RootState {
     locations: ILocationsState
     log: ILogState
     polls: IPollsState
+    positions: IPositionsState
     profile: IProfileState
     quiz: IQuizState
     results: IResultsState
+    settings: ISettingsState
     users: IUsersState
+    tinyUsers: ITinyUsersState
     workdays: IWorkdayState
 }

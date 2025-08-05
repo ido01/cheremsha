@@ -10,10 +10,13 @@ import { fileReducer } from 'app/modules/File/slice'
 import { locationsReducer } from 'app/modules/Locations'
 import { logReducer } from 'app/modules/Log/slice'
 import { pollsReducer } from 'app/modules/Polls/slice'
+import { positionsReducer } from 'app/modules/Positions/slice'
 import { profileReducer } from 'app/modules/Profile/slice'
 import { quizReducer } from 'app/modules/Quiz/slice'
 import { resultsReducer } from 'app/modules/Results/slice'
+import { settingsReducer } from 'app/modules/Settings/slice'
 import { usersReducer } from 'app/modules/Users/slice'
+import { tinyUsersReducer } from 'app/modules/Users/slice/tiny'
 import { InjectedReducersType } from 'utils/types/injector-typings'
 
 export function createReducer(injectedReducers: InjectedReducersType = {}): Reducer {
@@ -29,10 +32,13 @@ export function createReducer(injectedReducers: InjectedReducersType = {}): Redu
         locations: locationsReducer,
         log: logReducer,
         polls: pollsReducer,
+        positions: positionsReducer,
         profile: profileReducer,
         quiz: quizReducer,
         results: resultsReducer,
+        settings: settingsReducer,
         users: usersReducer,
+        tinyUsers: tinyUsersReducer,
         workdays: workdaysReducer,
     })
 }

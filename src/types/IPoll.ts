@@ -1,6 +1,7 @@
 export type IPollsResponse = {
     title: string
     questions: IPollQuestion[]
+    count: number
 }
 
 export interface IPollVariant {

@@ -33,7 +33,6 @@ import { ERole, EStatus } from 'types'
 import { IEvent } from 'types/IEvent'
 import { TTableRowData } from 'types/ITable'
 import { IUser } from 'types/IUser'
-import { convertPositionName } from 'utils/convertUtils'
 import { getNoun } from 'utils/getNoun'
 
 import { AdminSettings } from '../components/AdminSettings'
@@ -158,9 +157,9 @@ export const EventsListMobile: React.FC = () => {
             xs: 2,
             element: (user: IUser) => (
                 <>
-                    {!!user.position && (
+                    {!!user.job && (
                         <Typography variant="body2" color="grey.600">
-                            {convertPositionName(user.position || 'seller')}
+                            {user.job || ''}
                         </Typography>
                     )}
 
@@ -214,12 +213,12 @@ export const EventsListMobile: React.FC = () => {
     }, [selectMonth])
 
     useEffect(() => {
-        setHighlightedDays(birthdays.map((user) => user.day))
-    }, [birthdays])
+        setHighlightedDays([...birthdays.map((user) => user.day), ...workdays.map((event) => event.workday)])
+    }, [birthdays, workdays])
 
     useEffect(() => {
-        setEventDays([...events.map((event) => event.day), ...workdays.map((event) => event.workday)])
-    }, [events, workdays])
+        setEventDays(events.map((event) => event.day))
+    }, [events])
 
     const handleSettingOpen = () => {
         setOpen(true)
@@ -285,22 +284,6 @@ export const EventsListMobile: React.FC = () => {
 
             <Box pt={4} flex="1 0 100%" sx={{ overflow: 'auto', maxHeight: { md: 'calc( 100vh - 90px )' } }}>
                 <Typography pt={1} px={{ xs: 1, md: 4 }} variant="h5">
-                    Работа в Чернике {selectDate.format('DD MMM')}
-                </Typography>
-                {workdaysDay.length === 0 && (
-                    <Typography px={{ xs: 1, md: 4 }} variant="body3" color="grey.600">
-                        Нет событий
-                    </Typography>
-                )}
-                <Table
-                    items={workdaysDay}
-                    rows={tableWorkdayRows}
-                    isLoading={statusWorkdays === EStatus.PENDING}
-                    mobileView={mobileWorkdayView}
-                    handleClickRow={handleClickRow}
-                />
-
-                <Typography pt={1} px={{ xs: 1, md: 4 }} variant="h5">
                     События {selectDate.format('DD MMM')}
                 </Typography>
                 {eventsDay.length === 0 && (
@@ -314,6 +297,22 @@ export const EventsListMobile: React.FC = () => {
                     isLoading={statusEvents === EStatus.PENDING}
                     mobileView={mobileEventView}
                     handleClickRow={handleClickRowEvent}
+                />
+
+                <Typography pt={1} px={{ xs: 1, md: 4 }} variant="h5">
+                    Работа в Чернике {selectDate.format('DD MMM')}
+                </Typography>
+                {workdaysDay.length === 0 && (
+                    <Typography px={{ xs: 1, md: 4 }} variant="body3" color="grey.600">
+                        Нет событий
+                    </Typography>
+                )}
+                <Table
+                    items={workdaysDay}
+                    rows={tableWorkdayRows}
+                    isLoading={statusWorkdays === EStatus.PENDING}
+                    mobileView={mobileWorkdayView}
+                    handleClickRow={handleClickRow}
                 />
 
                 <Typography pt={1} px={{ xs: 1, md: 4 }} variant="h5">

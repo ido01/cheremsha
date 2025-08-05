@@ -5,4 +5,5 @@ import { IPollQuestion } from 'types/IPoll'
 export interface IPollsState extends EntityState<IPollQuestion> {
     status: EStatus
     title: string
+    count: number
 }
