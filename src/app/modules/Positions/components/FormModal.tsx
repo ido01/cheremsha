@@ -26,7 +26,6 @@ export const FormModal: React.FC = () => {
         validateOnChange: true,
         enableReinitialize: true,
         onSubmit: (values) => {
-            console.log('PDDTF submit')
             if (values.id) {
                 dispatch(
                     positionsActions.updatePosition({

@@ -22,6 +22,19 @@ export function* activeLogin(action: PayloadAction<IActiveToken>) {
     }
 }
 
+export function* recoveryLogin(action: PayloadAction<IActiveToken>) {
+    try {
+        const response: IConfirmRecovery = yield call(request, `auth/getRecovery`, {
+            method: 'POST',
+            data: action.payload,
+        })
+
+        yield put(authActions.loginRecovery(response))
+    } catch (error: any) {
+        yield put(authActions.statusError())
+    }
+}
+
 export function* signIn(action: PayloadAction<ISignin>) {
     try {
         const response: signInResponse = yield call(request, `auth`, {
@@ -88,6 +101,7 @@ export function* confirmRecovery(action: PayloadAction<IConfirmRecovery>) {
 
 export function* authWatcher() {
     yield takeLeading(authActions.activeLogin.type, activeLogin)
+    yield takeLeading(authActions.recoveryLogin.type, recoveryLogin)
     yield takeLeading(authActions.signIn.type, signIn)
     yield takeLeading(authActions.signUp.type, signUp)
     yield takeLeading(authActions.recovery.type, recovery)

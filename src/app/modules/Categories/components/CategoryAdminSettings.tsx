@@ -1,6 +1,7 @@
 import {
     AddBox as AddBoxIcon,
     AddCircle as AddCircleIcon,
+    ContentPasteGo as ContentPasteGoIcon,
     DeleteForever as DeleteForeverIcon,
     Edit as EditIcon,
 } from '@mui/icons-material'
@@ -23,7 +24,7 @@ import { SettingsModal } from 'app/components/SettingsModal'
 import { categoriesActions } from 'app/modules/Categories/slice'
 import { CategoryForm } from 'app/modules/Categories/templates/CategoryForm'
 import { documentsActions } from 'app/modules/Documents/slice'
-import { selectForm } from 'app/modules/Documents/slice/selectors'
+import { selectForm, selectMoveId } from 'app/modules/Documents/slice/selectors'
 import { DocumentForm } from 'app/modules/Documents/templates/DocumentForm'
 import { quizActions } from 'app/modules/Quiz/slice'
 import { QuizForm } from 'app/modules/Quiz/templates/QuizForm'
@@ -53,7 +54,17 @@ export const CategoryAdminSettings: React.FC<CategoryAdminSettingsProps> = ({
     const history = useHistory()
 
     const { open: openDocumentForm } = useSelector(selectForm)
+    const moveId = useSelector(selectMoveId)
     const [openDelete, setOpenDelete] = useState<boolean>(false)
+
+    const handlePasteDocument = () => {
+        dispatch(
+            documentsActions.moveDocument({
+                id: moveId,
+                parentId: id || '0',
+            })
+        )
+    }
 
     const handleAddCategory = () => {
         dispatch(
@@ -239,6 +250,27 @@ export const CategoryAdminSettings: React.FC<CategoryAdminSettingsProps> = ({
                             </ListItemButton>
                         </ListItem>
                     </List>
+                )}
+
+                {!!moveId && (
+                    <>
+                        <Divider />
+                        <List>
+                            <ListItem
+                                // disabled={!id || id === '0'}
+                                disablePadding
+                                onClick={handlePasteDocument}
+                            >
+                                <ListItemButton>
+                                    <ListItemIcon>
+                                        <ContentPasteGoIcon />
+                                    </ListItemIcon>
+
+                                    <ListItemText primary={'Вставить документ'} />
+                                </ListItemButton>
+                            </ListItem>
+                        </List>
+                    </>
                 )}
             </SettingsModal>
 

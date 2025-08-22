@@ -2,9 +2,9 @@ import { LoadingButton } from '@mui/lab'
 import { Box, Button, Paper, TextField } from '@mui/material'
 import { Logo } from 'app/components/Logo/Logo'
 import { useFormik } from 'formik'
-import React from 'react'
+import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { useHistory } from 'react-router-dom'
+import { useHistory, useLocation } from 'react-router-dom'
 import { EStatus } from 'types'
 import * as yup from 'yup'
 
@@ -17,6 +17,16 @@ export const ConfirmRecovery: React.FC = () => {
     const history = useHistory()
 
     const { status, data: initialValues } = useSelector(selectConfirmRecoveryForm)
+
+    const search = useLocation().search
+    const id = new URLSearchParams(search).get('id') || ''
+    const token = new URLSearchParams(search).get('token') || ''
+
+    useEffect(() => {
+        if (id && token) {
+            dispatch(authActions.recoveryLogin({ id, token }))
+        }
+    }, [id, token])
 
     const validationSchema = yup.object({
         email: yup.string().required().email(),

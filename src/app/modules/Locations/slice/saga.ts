@@ -1,6 +1,6 @@
 import { PayloadAction } from '@reduxjs/toolkit'
 import { call, put, takeLatest } from 'redux-saga/effects'
-import { ILocationsResponse } from 'types/ILocation'
+import { ILocation, ILocationItemResponse, ILocationsResponse } from 'types/ILocation'
 import { request } from 'utils/request'
 
 import { locationsActions } from '.'
@@ -19,6 +19,20 @@ export function* loadLocations(action: PayloadAction<string>) {
     }
 }
 
+export function* changeLocation(action: PayloadAction<ILocation>) {
+    try {
+        const response: ILocationItemResponse = yield call(request, `locations/${action.payload.id}`, {
+            method: 'PATCH',
+            data: action.payload,
+        })
+
+        yield put(locationsActions.locationSave(response.data))
+    } catch (error: any) {
+        yield put(locationsActions.statusError())
+    }
+}
+
 export function* locationsWatcher() {
     yield takeLatest(locationsActions.loadLocations.type, loadLocations)
+    yield takeLatest(locationsActions.changeLocation.type, changeLocation)
 }

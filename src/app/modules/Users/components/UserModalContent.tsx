@@ -1,4 +1,4 @@
-import { Delete as DeleteIcon, Edit as EditIcon } from '@mui/icons-material'
+import { ContentCopy as ContentCopyIcon, Delete as DeleteIcon, Edit as EditIcon } from '@mui/icons-material'
 import DownloadIcon from '@mui/icons-material/Download'
 import { LoadingButton } from '@mui/lab'
 import {
@@ -10,8 +10,11 @@ import {
     DialogContent,
     DialogContentText,
     DialogTitle,
+    FormControl,
     Grid,
     IconButton,
+    Input,
+    InputAdornment,
     Typography,
     useMediaQuery,
     useTheme,
@@ -22,13 +25,14 @@ import dayjs from 'dayjs'
 import React, { useMemo, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { useHistory } from 'react-router-dom'
+import { toast } from 'react-toastify'
 import { ERole, EStatus } from 'types'
 import { IUser } from 'types/IUser'
 import { convertGenderName, convertRoleName } from 'utils/convertUtils'
 import { getNoun } from 'utils/getNoun'
 
 import { usersActions } from '../slice'
-import { selectForm } from '../slice/selectors'
+import { selectForm, selectUrl } from '../slice/selectors'
 
 interface UserModalContentProps {
     profileRole: ERole
@@ -46,6 +50,7 @@ export const UserModalContent: React.FC<UserModalContentProps> = ({ profileRole,
     const [openDelete, setOpenDelete] = useState<boolean>(false)
 
     const { status } = useSelector(selectForm)
+    const copyUrl = useSelector(selectUrl)
     const getLocation = useSelector(selectLocation)
 
     const workday = useMemo(() => {
@@ -64,9 +69,28 @@ export const UserModalContent: React.FC<UserModalContentProps> = ({ profileRole,
         } ${day ? `${day} ${getNoun(day, 'день', 'дня', 'дней')}` : ''}`
     }, [user])
 
+    const handleClickUrl = async () => {
+        try {
+            await navigator.clipboard.writeText(copyUrl)
+            toast.success('Ссылка успешно скопирована', {
+                type: 'success',
+            })
+        } catch (e) {
+            toast.success('Не получилось скопировать ссылку в буфер обмена', {
+                type: 'error',
+            })
+        }
+    }
+
     const handleActiveUser = () => {
         if (user) {
             dispatch(usersActions.activeUser(user.id))
+        }
+    }
+
+    const handleRecoveryUser = () => {
+        if (user) {
+            dispatch(usersActions.recoveryUser(user.id))
         }
     }
 
@@ -217,17 +241,50 @@ export const UserModalContent: React.FC<UserModalContentProps> = ({ profileRole,
                     <LabelText label="О себе" text={user?.about || ''} />
                 </Grid>
             </Grid>
-            {!user?.active && (
-                <LoadingButton
-                    loading={status === EStatus.PENDING}
-                    sx={{ mt: 4 }}
-                    fullWidth
-                    color="success"
-                    variant="contained"
-                    onClick={handleActiveUser}
-                >
-                    Разрешить использовать платформу
-                </LoadingButton>
+            {profileRole === ERole.ADMIN && (
+                <>
+                    {(!user?.active || user?.ban) && (
+                        <LoadingButton
+                            loading={status === EStatus.PENDING}
+                            sx={{ mt: 4 }}
+                            fullWidth
+                            color="success"
+                            variant="contained"
+                            onClick={handleActiveUser}
+                        >
+                            Разрешить использовать платформу
+                        </LoadingButton>
+                    )}
+                    {user?.active && !user?.ban && !copyUrl && (
+                        <LoadingButton
+                            loading={status === EStatus.PENDING}
+                            sx={{ mt: 4 }}
+                            fullWidth
+                            color="info"
+                            variant="contained"
+                            onClick={handleRecoveryUser}
+                        >
+                            Сгенерировать ссылку на восстановление пароля
+                        </LoadingButton>
+                    )}
+
+                    {user?.active && !user?.ban && copyUrl && (
+                        <FormControl sx={{ m: 1, width: '80ch' }} variant="filled">
+                            <Input
+                                value={copyUrl}
+                                disabled
+                                type="text"
+                                endAdornment={
+                                    <InputAdornment position="end">
+                                        <IconButton aria-label={'копировать'} onClick={handleClickUrl}>
+                                            <ContentCopyIcon />
+                                        </IconButton>
+                                    </InputAdornment>
+                                }
+                            />
+                        </FormControl>
+                    )}
+                </>
             )}
 
             {profileRole === ERole.ADMIN && (

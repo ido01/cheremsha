@@ -5,7 +5,7 @@ import { IDocumentStateRequest } from 'types/IDocumentState'
 import { IFile } from 'types/IFile'
 import { TTableOrder } from 'types/ITableDisplay'
 
-import { IDocumentsState } from './types'
+import { IDocumentsState, IPasteDocument } from './types'
 
 export const documentsAdapter = createEntityAdapter<IDocument>()
 
@@ -20,6 +20,7 @@ const slice = createSlice({
         ids: [],
         entities: {},
         status: EStatus.INITIAL,
+        moveId: '',
         order: {
             row: 'createdAt',
             order: 'desc',
@@ -116,6 +117,11 @@ const slice = createSlice({
         documentDeleted(state, action: PayloadAction<string>) {
             documentsAdapter.removeOne(state, action.payload)
         },
+        cutDocument(state, action: PayloadAction<string>) {
+            state.moveId = action.payload
+            state.form.open = false
+            state.modal.isOpen = false
+        },
         setOrder(state, action: PayloadAction<TTableOrder>) {
             state.order = action.payload
         },
@@ -167,6 +173,10 @@ const slice = createSlice({
         deleteTaskPoint(state, action: PayloadAction<string>) {
             state
             action.payload
+        },
+        moveDocument(state, action: PayloadAction<IPasteDocument>) {
+            state
+            action
         },
     },
 })

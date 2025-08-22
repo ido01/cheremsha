@@ -1,4 +1,4 @@
-import { Delete as DeleteIcon, Edit as EditIcon } from '@mui/icons-material'
+import { ContentCut as ContentCutIcon, Delete as DeleteIcon, Edit as EditIcon } from '@mui/icons-material'
 import { LoadingButton } from '@mui/lab'
 import {
     Box,
@@ -49,6 +49,12 @@ export const DocumentModal: React.FC = () => {
     const handleEditDocument = () => {
         if (document) {
             dispatch(documentsActions.openEditModal(document))
+        }
+    }
+
+    const handleCutDocument = () => {
+        if (document) {
+            dispatch(documentsActions.cutDocument(document.id))
         }
     }
 
@@ -440,6 +446,10 @@ export const DocumentModal: React.FC = () => {
 
                                     <IconButton color="info" onClick={handleEditDocument}>
                                         <EditIcon />
+                                    </IconButton>
+
+                                    <IconButton color="secondary" onClick={handleCutDocument}>
+                                        <ContentCutIcon />
                                     </IconButton>
                                 </>
                             )}

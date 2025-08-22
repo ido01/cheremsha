@@ -53,14 +53,14 @@ export const MobileUserView: React.FC<MobileUserViewProps> = ({ user }) => {
                         variant="body2"
                         lineHeight="1.4"
                         sx={(theme) => ({
-                            color: user.blocked
+                            color: user.ban
                                 ? theme.palette.error.main
                                 : !user.active
                                 ? theme.palette.success.main
                                 : theme.palette.warning.main,
                         })}
                     >
-                        {user.blocked ? 'Заблокирован' : !user.active ? 'Новый' : 'Действующий'}
+                        {user.ban ? 'Заблокирован' : !user.active ? 'Новый' : 'Действующий'}
                     </Typography>
                 </Box>
             </Box>

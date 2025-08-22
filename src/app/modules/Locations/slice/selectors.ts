@@ -11,4 +11,8 @@ export const selectStatus = createSelector([selectDomain], (state) => state.stat
 
 export const selectLocations = createSelector([selectDomain], (state) => selectAll(state))
 
+export const selectLocationsFilter = createSelector([selectDomain], (state) =>
+    selectAll(state).filter((location) => location.visible)
+)
+
 export const selectLocation = createSelector([selectDomain], (state) => (id: string) => selectById(state, id)?.name)

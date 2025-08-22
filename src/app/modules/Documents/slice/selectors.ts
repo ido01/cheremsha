@@ -15,6 +15,8 @@ export const selectOrder = createSelector([selectDomain], (state) => state.order
 
 export const selectModal = createSelector([selectDomain], (state) => state.modal)
 
+export const selectMoveId = createSelector([selectDomain], (state) => state.moveId)
+
 export const selectDocuments = createSelector(
     [selectDomain],
     (state) => (id: string, path: EType) =>

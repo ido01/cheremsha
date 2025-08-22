@@ -1,5 +1,5 @@
 import { Box, FormControl, InputLabel, MenuItem, Select, Stack } from '@mui/material'
-import { selectLocations } from 'app/modules/Locations/slice/selectors'
+import { selectLocationsFilter } from 'app/modules/Locations/slice/selectors'
 import { selectPositions } from 'app/modules/Positions/slice/selectors'
 import { usersActions } from 'app/modules/Users/slice'
 import { selectFilter } from 'app/modules/Users/slice/selectors'
@@ -11,7 +11,7 @@ export const DesktopFilterBlock: React.FC = () => {
     const dispatch = useDispatch()
 
     const filter = useSelector(selectFilter)
-    const locations = useSelector(selectLocations)
+    const locations = useSelector(selectLocationsFilter)
     const positions = useSelector(selectPositions)
 
     const places = useMemo(() => {

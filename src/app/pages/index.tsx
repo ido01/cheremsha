@@ -6,6 +6,7 @@ import { Game } from 'app/modules/Layout/templates/Game'
 import { Layout } from 'app/modules/Layout/templates/Layout'
 import { Quiz } from 'app/modules/Layout/templates/Quiz'
 import { List } from 'app/modules/List/templates/List'
+import { LocationsList } from 'app/modules/Locations/templates/LocationsList'
 import { PositionsList } from 'app/modules/Positions/templates/PositionsList'
 import { QuizView } from 'app/modules/Quiz/templates/QuizView'
 import { TablesList } from 'app/modules/Tables/templates/TablesList'
@@ -54,6 +55,7 @@ export const Pages: React.FC = () => (
                     <Route exact path={['/', '/profile', '/profile/*']} component={ProfilePages} />
                     <Route exact path={['/admin']} component={AdminList} />
                     <Route exact path={['/positions']} component={PositionsList} />
+                    <Route exact path={['/locations']} component={LocationsList} />
                     <Route exact path={['/tables']} component={TablesList} />
                     <Route exact path={['/faq', '/faq/*']} component={FaqPages} />
                     <Route exact path={['/tasks', '/tasks/*']} component={TasksPages} />

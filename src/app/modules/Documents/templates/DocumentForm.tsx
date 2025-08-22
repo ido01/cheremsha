@@ -10,7 +10,7 @@ import { Autocomplete, Box, Button, ButtonGroup, Chip, Container, IconButton, Te
 import { DatePicker } from '@mui/x-date-pickers/DatePicker'
 import { Modal } from 'app/components/Modal'
 import { ImageUploadForm } from 'app/modules/File/templates/ImageUploadForm'
-import { selectLocations } from 'app/modules/Locations/slice/selectors'
+import { selectLocationsFilter } from 'app/modules/Locations/slice/selectors'
 import { tinyUsersActions } from 'app/modules/Users/slice/tiny'
 import { selectStatus, selectUsers } from 'app/modules/Users/slice/tiny/selectors'
 import dayjs, { Dayjs } from 'dayjs'
@@ -32,7 +32,7 @@ export const DocumentForm: React.FC = () => {
     const dispatch = useDispatch()
 
     const { data, status, open } = useSelector(selectForm)
-    const locations = useSelector(selectLocations)
+    const locations = useSelector(selectLocationsFilter)
     const statusUsers = useSelector(selectStatus)
     const users = useSelector(selectUsers)
 
@@ -76,15 +76,15 @@ export const DocumentForm: React.FC = () => {
                 dispatch(
                     documentsActions.updateDocument({
                         ...values,
-                        end_date: endDate
+                        end_date: endDate?.isValid()
                             ? moment(typeof endDate === 'string' ? endDate : endDate.format()).format('yyyy-MM-DD')
                             : '',
-                        end_date_unix: endDate
+                        end_date_unix: endDate?.isValid()
                             ? moment(typeof endDate === 'string' ? endDate : endDate.format())
                                   .add(1, 'd')
                                   .unix()
                             : 0,
-                        deadTime: deadTime ? `${deadTime.add(1, 'd').unix()}` : '0',
+                        deadTime: deadTime?.isValid() ? `${deadTime.add(1, 'd').unix()}` : '0',
                         info: values.info.map((info, index) => ({
                             ...info,
                             sort: index,
@@ -95,15 +95,15 @@ export const DocumentForm: React.FC = () => {
                 dispatch(
                     documentsActions.createDocument({
                         ...values,
-                        end_date: endDate
+                        end_date: endDate?.isValid()
                             ? moment(typeof endDate === 'string' ? endDate : endDate.format()).format('yyyy-MM-DD')
                             : '',
-                        end_date_unix: endDate
+                        end_date_unix: endDate?.isValid()
                             ? moment(typeof endDate === 'string' ? endDate : endDate.format())
                                   .add(1, 'd')
                                   .unix()
                             : 0,
-                        deadTime: deadTime ? `${deadTime.add(1, 'd').unix()}` : '0',
+                        deadTime: deadTime?.isValid() ? `${deadTime.add(1, 'd').unix()}` : '0',
                         info: values.info.map((info, index) => ({
                             ...info,
                             sort: index,

@@ -4,7 +4,7 @@ import { LoadingButton } from '@mui/lab'
 import { Box, FormControl, Grid, InputLabel, MenuItem, Select, TextField, Typography } from '@mui/material'
 import { DatePicker } from '@mui/x-date-pickers/DatePicker'
 import { PhoneField } from 'app/components/PhoneField'
-import { selectLocations } from 'app/modules/Locations/slice/selectors'
+import { selectLocationsFilter } from 'app/modules/Locations/slice/selectors'
 import { selectPositions } from 'app/modules/Positions/slice/selectors'
 import dayjs from 'dayjs'
 import { useFormik } from 'formik'
@@ -25,7 +25,7 @@ export const AccountDataForm: React.FC<AccountDataFormProps> = ({ onEditFinish }
     const dispatch = useDispatch()
 
     const { data, status } = useSelector(selectForm)
-    const locations = useSelector(selectLocations)
+    const locations = useSelector(selectLocationsFilter)
     const positions = useSelector(selectPositions)
 
     const places = useMemo(() => {

@@ -2,7 +2,7 @@ import { PayloadAction } from '@reduxjs/toolkit'
 import { toast } from 'react-toastify'
 import { call, put, select, takeLeading } from 'redux-saga/effects'
 import { TTableOrder, TTablePagination } from 'types/ITableDisplay'
-import { IUser, IUserItemResponse, IUsersCollectionResponse } from 'types/IUser'
+import { IUser, IUserItemResponse, IUserRecoveryResponse, IUsersCollectionResponse } from 'types/IUser'
 import { request } from 'utils/request'
 
 import { usersActions } from '.'
@@ -100,6 +100,18 @@ export function* activeUser(action: PayloadAction<string>) {
     }
 }
 
+export function* recoveryUser(action: PayloadAction<string>) {
+    try {
+        const response: IUserRecoveryResponse = yield call(request, `users/${action.payload}/recovery`, {
+            method: 'POST',
+        })
+
+        yield put(usersActions.userRecovery(response.url))
+    } catch (error: any) {
+        yield put(usersActions.statusError())
+    }
+}
+
 export function* banUser(action: PayloadAction<string>) {
     try {
         const response: IUserItemResponse = yield call(request, `users/${action.payload}/ban`, {
@@ -142,6 +154,7 @@ export function* usersWatcher() {
     yield takeLeading(usersActions.loadUser.type, loadUser)
     yield takeLeading(usersActions.updateUser.type, updateUser)
     yield takeLeading(usersActions.activeUser.type, activeUser)
+    yield takeLeading(usersActions.recoveryUser.type, recoveryUser)
     yield takeLeading(usersActions.banUser.type, banUser)
     yield takeLeading(usersActions.addFavorite.type, addFavorite)
     yield takeLeading(usersActions.deleteFavorite.type, deleteFavorite)

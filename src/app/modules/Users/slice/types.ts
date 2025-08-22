@@ -19,6 +19,7 @@ export interface IUsersState extends EntityState<IUser> {
     old_total_count: number
     pagination: TTablePagination
     filter: IUserFilter
+    url: string
     modal: {
         isOpen: boolean
         activeId: string

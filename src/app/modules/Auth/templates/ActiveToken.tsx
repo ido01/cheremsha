@@ -16,5 +16,9 @@ export const ActiveToken: React.FC = () => {
         dispatch(authActions.activeLogin({ id, token }))
     }, [id, token])
 
-    return <Auth>{}</Auth>
+    return (
+        <Auth>
+            <></>
+        </Auth>
+    )
 }

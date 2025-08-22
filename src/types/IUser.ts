@@ -19,6 +19,10 @@ export interface IUserItemResponse {
     data: IUser
 }
 
+export interface IUserRecoveryResponse {
+    url: string
+}
+
 export interface IProfileResponse {
     profile: IUser
 }

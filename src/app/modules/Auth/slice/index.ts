@@ -51,6 +51,13 @@ const slice = createSlice({
             state
             action.payload
         },
+        recoveryLogin(state, action: PayloadAction<IActiveToken>) {
+            state
+            action.payload
+        },
+        loginRecovery(state, action: PayloadAction<IConfirmRecovery>) {
+            state.forms.confirm_recovery.data = action.payload
+        },
         signIn(state, action: PayloadAction<ISignin>) {
             state.status = EStatus.PENDING
             action.payload

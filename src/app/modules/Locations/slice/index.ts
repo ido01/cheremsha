@@ -22,6 +22,13 @@ const slice = createSlice({
             locationsAdapter.setMany(state, action.payload.data)
             state.status = EStatus.FINISHED
         },
+        changeLocation(state, action: PayloadAction<ILocation>) {
+            state
+            action
+        },
+        locationSave(state, action: PayloadAction<ILocation>) {
+            locationsAdapter.setOne(state, action.payload)
+        },
         statusError(state) {
             state.status = EStatus.ERROR
         },

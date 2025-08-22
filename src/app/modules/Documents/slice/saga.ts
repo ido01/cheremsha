@@ -7,6 +7,7 @@ import { IDocumentStateRequest } from 'types/IDocumentState'
 import { request } from 'utils/request'
 
 import { documentsActions } from '.'
+import { IPasteDocument } from './types'
 
 export function* loadDocuments(action: PayloadAction<EType>) {
     try {
@@ -212,6 +213,19 @@ export function* updateDocument(action: PayloadAction<IDocument>) {
     }
 }
 
+export function* moveDocument(action: PayloadAction<IPasteDocument>) {
+    try {
+        const response: IDocumentResponse = yield call(request, `documents/${action.payload.id}/move`, {
+            method: 'PATCH',
+            data: action.payload,
+        })
+
+        yield put(documentsActions.documentSave(response.data))
+    } catch (error: any) {
+        yield put(documentsActions.statusError())
+    }
+}
+
 export function* deleteDocument(action: PayloadAction<string>) {
     try {
         yield call(request, `documents/${action.payload}`, {
@@ -239,4 +253,5 @@ export function* documentsWatcher() {
     yield takeLeading(documentsActions.createDocument.type, createDocument)
     yield takeLeading(documentsActions.updateDocument.type, updateDocument)
     yield takeLeading(documentsActions.deleteDocument.type, deleteDocument)
+    yield takeLeading(documentsActions.moveDocument.type, moveDocument)
 }

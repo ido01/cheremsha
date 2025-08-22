@@ -15,6 +15,7 @@ const slice = createSlice({
         status: EStatus.INITIAL,
         total_count: 0,
         old_total_count: 0,
+        url: '',
         order: {
             row: 'createdAt',
             order: 'desc',
@@ -113,6 +114,14 @@ const slice = createSlice({
             state.form.status = EStatus.PENDING
             action.payload
         },
+        recoveryUser(state, action: PayloadAction<string>) {
+            state.form.status = EStatus.PENDING
+            action.payload
+        },
+        userRecovery(state, action: PayloadAction<string>) {
+            state.form.status = EStatus.FINISHED
+            state.url = action.payload
+        },
         banUser(state, action: PayloadAction<string>) {
             state.form.status = EStatus.PENDING
             action.payload
@@ -134,6 +143,7 @@ const slice = createSlice({
             state.modal.activeId = action.payload
         },
         showModal(state) {
+            state.url = ''
             state.modal.isOpen = true
         },
         hideModal(state) {

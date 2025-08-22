@@ -11,6 +11,8 @@ export const selectStatus = createSelector([selectDomain], (state) => state.stat
 
 export const selectForm = createSelector([selectDomain], (state) => state.form)
 
+export const selectUrl = createSelector([selectDomain], (state) => state.url)
+
 export const selectFilter = createSelector([selectDomain], (state) => state.filter)
 
 export const selectTotalCount = createSelector([selectDomain], (state) => state.total_count)

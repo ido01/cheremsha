@@ -1,12 +1,12 @@
 import { Autocomplete, Box, Stack, TextField } from '@mui/material'
-import { selectLocations } from 'app/modules/Locations/slice/selectors'
+import { selectLocationsFilter } from 'app/modules/Locations/slice/selectors'
 import { selectUsers } from 'app/modules/Users/slice/tiny/selectors'
 import React, { useMemo } from 'react'
 import { useSelector } from 'react-redux'
 import { EStatus } from 'types'
 
 export const FilterBlock: React.FC = () => {
-    const locations = useSelector(selectLocations)
+    const locations = useSelector(selectLocationsFilter)
     const users = useSelector(selectUsers)
 
     const places = useMemo(() => {
