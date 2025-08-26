@@ -60,34 +60,27 @@ export const CategoriesQuizList: React.FC<CategoriesQuizListProps> = ({ type, se
         EQuizState.COMPLETED,
         EQuizState.PENDING,
     ]
-    const items = [...categories, ...quiz].sort((a, b) => {
+    const quizSort = [...quiz].sort((a, b) => {
         if (order.row === 'status') {
             if (order.order === 'desc') {
-                if (a.type === 'category' && b.type === 'quiz') return -1
-                if (b.type === 'category' && a.type === 'quiz') return 1
                 if (stateSort.indexOf(a.state.state) < stateSort.indexOf(b.state.state)) return -1
                 return 1
             } else {
-                if (a.type === 'category' && b.type === 'quiz') return 1
-                if (b.type === 'category' && a.type === 'quiz') return -1
                 if (stateSort.indexOf(a.state.state) > stateSort.indexOf(b.state.state)) return -1
                 return 1
             }
         } else if (order.row === 'createdAt') {
             if (order.order === 'desc') {
-                if (a.type === 'category' && b.type === 'quiz') return -1
-                if (b.type === 'category' && a.type === 'quiz') return 1
                 if (moment(a.createdAt).unix() > moment(b.createdAt).unix()) return -1
                 return 1
             } else {
-                if (a.type === 'category' && b.type === 'quiz') return 1
-                if (b.type === 'category' && a.type === 'quiz') return -1
                 if (moment(a.createdAt).unix() < moment(b.createdAt).unix()) return -1
                 return 1
             }
         }
         return 1
     })
+    const items = [...categories, ...quizSort]
 
     const tableRows: TTableRowData[] = [
         {

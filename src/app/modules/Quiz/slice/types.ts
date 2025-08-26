@@ -7,6 +7,7 @@ export interface IQuizState extends EntityState<IQuiz> {
     status: EStatus
     questionLoading: boolean
     quizLoading: boolean
+    moveId: string
     order: TTableOrder
     modal: {
         isOpen: boolean

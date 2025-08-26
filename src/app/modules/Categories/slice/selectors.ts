@@ -13,6 +13,8 @@ export const selectForm = createSelector([selectDomain], (state) => state.form)
 
 export const selectOrder = createSelector([selectDomain], (state) => state.order)
 
+export const selectmoveCategoryId = createSelector([selectDomain], (state) => state.moveId)
+
 export const selectCategories = createSelector(
     [selectDomain],
     (state) => (id: string, path: EType) =>

@@ -6,6 +6,7 @@ import { TTableOrder } from 'types/ITableDisplay'
 export interface ICategoriesState extends EntityState<ICategory> {
     status: EStatus
     order: TTableOrder
+    moveId: string
     form: {
         status: EStatus
         open: boolean

@@ -20,6 +20,6 @@ export interface ICategory {
     path: EType
     parentId: string
     name: string
-    state: IState
+    // state: IState
     createdAt: string
 }

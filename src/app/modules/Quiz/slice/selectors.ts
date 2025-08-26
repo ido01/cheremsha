@@ -13,6 +13,8 @@ export const selectQuestionLoading = createSelector([selectDomain], (state) => s
 
 export const selectQuizLoading = createSelector([selectDomain], (state) => state.quizLoading)
 
+export const selectMoveQuizId = createSelector([selectDomain], (state) => state.moveId)
+
 export const selectForm = createSelector([selectDomain], (state) => state.form)
 
 export const selectOrder = createSelector([selectDomain], (state) => state.order)

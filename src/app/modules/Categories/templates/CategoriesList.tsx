@@ -48,34 +48,28 @@ export const CategoriesList: React.FC<CategoriesListProps> = ({ type, search }) 
     const documents = !search ? getDocuments(id || '0', type) : searchDocuments(search, type)
 
     const stateSort: EState[] = [EState.REJECTED, EState.PENDING, EState.INITIAL, EState.COMPLETED]
-    const items = [...categories, ...documents].sort((a, b) => {
+    const documentsSort = [...documents].sort((a, b) => {
         if (order.row === 'status') {
             if (order.order === 'desc') {
-                if (a.type === 'category' && b.type === 'document') return -1
-                if (b.type === 'category' && a.type === 'document') return 1
                 if (stateSort.indexOf(a.state.state) < stateSort.indexOf(b.state.state)) return -1
                 return 1
             } else {
-                if (a.type === 'category' && b.type === 'document') return 1
-                if (b.type === 'category' && a.type === 'document') return -1
                 if (stateSort.indexOf(a.state.state) > stateSort.indexOf(b.state.state)) return -1
                 return 1
             }
         } else if (order.row === 'createdAt') {
             if (order.order === 'desc') {
-                if (a.type === 'category' && b.type === 'document') return -1
-                if (b.type === 'category' && a.type === 'document') return 1
                 if (moment(a.createdAt).unix() > moment(b.createdAt).unix()) return -1
                 return 1
             } else {
-                if (a.type === 'category' && b.type === 'document') return 1
-                if (b.type === 'category' && a.type === 'document') return -1
                 if (moment(a.createdAt).unix() < moment(b.createdAt).unix()) return -1
                 return 1
             }
         }
         return 1
     })
+
+    const items = [...categories, ...documentsSort]
 
     const tableRows: TTableRowData[] = [
         {

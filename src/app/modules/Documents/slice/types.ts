@@ -1,11 +1,12 @@
 import { EntityState } from '@reduxjs/toolkit'
-import { EStatus } from 'types'
+import { EStatus, EType } from 'types'
 import { IDocument } from 'types/IDocument'
 import { TTableOrder } from 'types/ITableDisplay'
 
 export interface IPasteDocument {
     id: string
     parentId: string
+    path: EType
 }
 
 export interface IDocumentsState extends EntityState<IDocument> {

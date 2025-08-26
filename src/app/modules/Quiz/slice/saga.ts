@@ -1,5 +1,6 @@
 import { PayloadAction } from '@reduxjs/toolkit'
 import { categoriesActions } from 'app/modules/Categories/slice'
+import { IPasteDocument } from 'app/modules/Documents/slice/types'
 import { profileActions } from 'app/modules/Profile/slice'
 import { call, put, takeLeading } from 'redux-saga/effects'
 import { IQuestionRequest, IQuiz, IQuizItemResponse, IQuizResponse } from 'types/IQuiz'
@@ -144,6 +145,19 @@ export function* updateQuiz(action: PayloadAction<IQuiz>) {
     }
 }
 
+export function* moveQuiz(action: PayloadAction<IPasteDocument>) {
+    try {
+        const response: IQuizItemResponse = yield call(request, `quiz/${action.payload.id}/move`, {
+            method: 'PATCH',
+            data: action.payload,
+        })
+
+        yield put(quizActions.quizSave(response.data))
+    } catch (error: any) {
+        yield put(quizActions.statusError())
+    }
+}
+
 export function* deleteQuiz(action: PayloadAction<string>) {
     try {
         yield call(request, `quiz/${action.payload}`, {
@@ -168,4 +182,5 @@ export function* quizWatcher() {
     yield takeLeading(quizActions.createQuiz.type, createQuiz)
     yield takeLeading(quizActions.updateQuiz.type, updateQuiz)
     yield takeLeading(quizActions.deleteQuiz.type, deleteQuiz)
+    yield takeLeading(quizActions.moveQuiz.type, moveQuiz)
 }

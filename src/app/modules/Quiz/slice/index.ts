@@ -1,4 +1,5 @@
 import { createEntityAdapter, createSlice, PayloadAction } from '@reduxjs/toolkit'
+import { IPasteDocument } from 'app/modules/Documents/slice/types'
 import { EStatus } from 'types'
 import { IDocumentStateRequest } from 'types/IDocumentState'
 import { IQuestionRequest, IQuiz, IQuizItemResponse, IQuizResponse } from 'types/IQuiz'
@@ -17,6 +18,7 @@ const slice = createSlice({
         status: EStatus.INITIAL,
         quizLoading: false,
         questionLoading: false,
+        moveId: '',
         order: {
             row: 'createdAt',
             order: 'desc',
@@ -160,6 +162,15 @@ const slice = createSlice({
         statusError(state) {
             state.status = EStatus.ERROR
             state.form.status = EStatus.ERROR
+        },
+        cutQuiz(state, action: PayloadAction<string>) {
+            state.moveId = action.payload
+            state.form.open = false
+            state.modal.isOpen = false
+        },
+        moveQuiz(state, action: PayloadAction<IPasteDocument>) {
+            state
+            action
         },
     },
 })

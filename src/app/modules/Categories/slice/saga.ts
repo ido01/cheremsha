@@ -1,4 +1,5 @@
 import { PayloadAction } from '@reduxjs/toolkit'
+import { IPasteDocument } from 'app/modules/Documents/slice/types'
 import { call, put, takeLatest, takeLeading } from 'redux-saga/effects'
 import { EType } from 'types'
 import { ICategoriesResponse, ICategory, ICategoryResponse } from 'types/ICategory'
@@ -68,10 +69,24 @@ export function* deleteCategory(action: PayloadAction<string>) {
     }
 }
 
+export function* moveCategory(action: PayloadAction<IPasteDocument>) {
+    try {
+        const response: ICategoryResponse = yield call(request, `categories/${action.payload.id}/move`, {
+            method: 'PATCH',
+            data: action.payload,
+        })
+
+        yield put(categoriesActions.categorySave(response.data))
+    } catch (error: any) {
+        yield put(categoriesActions.statusError())
+    }
+}
+
 export function* categoriesWatcher() {
     yield takeLeading(categoriesActions.loadCategories.type, loadCategories)
     yield takeLatest(categoriesActions.reloadCategory.type, loadCategory)
     yield takeLeading(categoriesActions.createCategory.type, createCategory)
     yield takeLeading(categoriesActions.updateCategory.type, updateCategory)
     yield takeLeading(categoriesActions.deleteCategory.type, deleteCategory)
+    yield takeLeading(categoriesActions.moveCategory.type, moveCategory)
 }

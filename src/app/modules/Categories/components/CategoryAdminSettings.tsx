@@ -1,6 +1,7 @@
 import {
     AddBox as AddBoxIcon,
     AddCircle as AddCircleIcon,
+    ContentCut as ContentCutIcon,
     ContentPasteGo as ContentPasteGoIcon,
     DeleteForever as DeleteForeverIcon,
     Edit as EditIcon,
@@ -27,6 +28,7 @@ import { documentsActions } from 'app/modules/Documents/slice'
 import { selectForm, selectMoveId } from 'app/modules/Documents/slice/selectors'
 import { DocumentForm } from 'app/modules/Documents/templates/DocumentForm'
 import { quizActions } from 'app/modules/Quiz/slice'
+import { selectMoveQuizId } from 'app/modules/Quiz/slice/selectors'
 import { QuizForm } from 'app/modules/Quiz/templates/QuizForm'
 import React, { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
@@ -34,6 +36,8 @@ import { useHistory } from 'react-router-dom'
 import { EState, EStatus, EType } from 'types'
 import { ICategory } from 'types/ICategory'
 import { EQuizState } from 'types/IQuizState'
+
+import { selectmoveCategoryId } from '../slice/selectors'
 
 interface CategoryAdminSettingsProps {
     type: EType
@@ -54,14 +58,37 @@ export const CategoryAdminSettings: React.FC<CategoryAdminSettingsProps> = ({
     const history = useHistory()
 
     const { open: openDocumentForm } = useSelector(selectForm)
+    const moveCategoryId = useSelector(selectmoveCategoryId)
     const moveId = useSelector(selectMoveId)
+    const quizMoveId = useSelector(selectMoveQuizId)
     const [openDelete, setOpenDelete] = useState<boolean>(false)
+
+    const handlePasteCategory = () => {
+        dispatch(
+            categoriesActions.moveCategory({
+                id: moveCategoryId,
+                parentId: id || '0',
+                path: type,
+            })
+        )
+    }
 
     const handlePasteDocument = () => {
         dispatch(
             documentsActions.moveDocument({
                 id: moveId,
                 parentId: id || '0',
+                path: type,
+            })
+        )
+    }
+
+    const handlePasteQuiz = () => {
+        dispatch(
+            quizActions.moveQuiz({
+                id: quizMoveId,
+                parentId: id || '0',
+                path: type,
             })
         )
     }
@@ -74,13 +101,13 @@ export const CategoryAdminSettings: React.FC<CategoryAdminSettingsProps> = ({
                 path: type,
                 name: '',
                 parentId: id || '0',
-                state: {
-                    id: '',
-                    state: EState.INITIAL,
-                    uid: '',
-                    createdAt: '',
-                    updatedAt: '',
-                },
+                // state: {
+                //     id: '',
+                //     state: EState.INITIAL,
+                //     uid: '',
+                //     createdAt: '',
+                //     updatedAt: '',
+                // },
                 createdAt: '',
             })
         )
@@ -169,6 +196,12 @@ export const CategoryAdminSettings: React.FC<CategoryAdminSettingsProps> = ({
         setOpenDelete(false)
     }
 
+    const handleCutCategory = () => {
+        if (category) {
+            dispatch(categoriesActions.cutCategory(category.id))
+        }
+    }
+
     const handleDeleteCategory = () => {
         if (id) {
             dispatch(categoriesActions.deleteCategory(id))
@@ -222,6 +255,38 @@ export const CategoryAdminSettings: React.FC<CategoryAdminSettingsProps> = ({
 
                 {type !== 'task' && (
                     <List>
+                        {id && id !== '0' && id !== moveCategoryId && (
+                            <ListItem
+                                // disabled={!id || id === '0'}
+                                disablePadding
+                                onClick={handleCutCategory}
+                            >
+                                <ListItemButton>
+                                    <ListItemIcon>
+                                        <ContentCutIcon />
+                                    </ListItemIcon>
+
+                                    <ListItemText primary={'Перенести категорию'} />
+                                </ListItemButton>
+                            </ListItem>
+                        )}
+
+                        {moveCategoryId && id !== moveCategoryId && (
+                            <ListItem
+                                // disabled={!id || id === '0'}
+                                disablePadding
+                                onClick={handlePasteCategory}
+                            >
+                                <ListItemButton>
+                                    <ListItemIcon>
+                                        <ContentPasteGoIcon />
+                                    </ListItemIcon>
+
+                                    <ListItemText primary={'Вставить категорию'} />
+                                </ListItemButton>
+                            </ListItem>
+                        )}
+
                         <ListItem
                             // disabled={!id || id === '0'}
                             disablePadding
@@ -252,7 +317,7 @@ export const CategoryAdminSettings: React.FC<CategoryAdminSettingsProps> = ({
                     </List>
                 )}
 
-                {!!moveId && (
+                {!!moveId && type !== 'quiz' && (
                     <>
                         <Divider />
                         <List>
@@ -267,6 +332,27 @@ export const CategoryAdminSettings: React.FC<CategoryAdminSettingsProps> = ({
                                     </ListItemIcon>
 
                                     <ListItemText primary={'Вставить документ'} />
+                                </ListItemButton>
+                            </ListItem>
+                        </List>
+                    </>
+                )}
+
+                {!!quizMoveId && type === 'quiz' && (
+                    <>
+                        <Divider />
+                        <List>
+                            <ListItem
+                                // disabled={!id || id === '0'}
+                                disablePadding
+                                onClick={handlePasteQuiz}
+                            >
+                                <ListItemButton>
+                                    <ListItemIcon>
+                                        <ContentPasteGoIcon />
+                                    </ListItemIcon>
+
+                                    <ListItemText primary={'Вставить тест'} />
                                 </ListItemButton>
                             </ListItem>
                         </List>

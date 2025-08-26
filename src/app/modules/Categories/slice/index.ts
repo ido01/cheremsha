@@ -1,5 +1,6 @@
 import { createEntityAdapter, createSlice, PayloadAction } from '@reduxjs/toolkit'
-import { EState, EStatus, EType } from 'types'
+import { IPasteDocument } from 'app/modules/Documents/slice/types'
+import { EStatus, EType } from 'types'
 import { ICategoriesResponse, ICategory } from 'types/ICategory'
 import { TTableOrder } from 'types/ITableDisplay'
 
@@ -17,6 +18,7 @@ const slice = createSlice({
             row: 'status',
             order: 'desc',
         },
+        moveId: '',
         form: {
             status: EStatus.INITIAL,
             open: false,
@@ -26,13 +28,6 @@ const slice = createSlice({
                 path: 'faq',
                 parentId: '0',
                 name: '',
-                state: {
-                    id: '',
-                    state: EState.INITIAL,
-                    uid: '',
-                    createdAt: '',
-                    updatedAt: '',
-                },
                 createdAt: '',
             },
         },
@@ -92,6 +87,14 @@ const slice = createSlice({
         statusError(state) {
             state.status = EStatus.ERROR
             state.form.status = EStatus.ERROR
+        },
+        cutCategory(state, action: PayloadAction<string>) {
+            state.moveId = action.payload
+            state.form.open = false
+        },
+        moveCategory(state, action: PayloadAction<IPasteDocument>) {
+            state
+            action
         },
     },
 })
