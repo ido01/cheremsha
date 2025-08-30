@@ -192,8 +192,6 @@ export const DocumentForm: React.FC = () => {
             handleClose={handleClose}
         >
             <Box
-                mt={1}
-                pt={1}
                 noValidate
                 component="form"
                 onSubmit={(e: React.FormEvent) => {
@@ -201,15 +199,14 @@ export const DocumentForm: React.FC = () => {
 
                     formik.handleSubmit()
                 }}
-                sx={(theme) => ({
+                py={10}
+                sx={{
                     flexGrow: 1,
                     display: 'flex',
                     flexDirection: 'column',
                     overflow: 'auto',
-                    borderBottom: 1,
-                    maxHeight: 'calc( 100% - 117px )',
-                    borderColor: theme.palette.grey[300],
-                })}
+                    maxHeight: 'calc( 100% )',
+                }}
             >
                 <Container>
                     <TextField
@@ -388,23 +385,27 @@ export const DocumentForm: React.FC = () => {
             <Box
                 sx={{
                     position: 'absolute',
-                    width: '100%',
-                    bottom: 0,
-                    py: 2,
-                    bgcolor: 'white',
-                    zIndex: 1,
+                    bottom: '4px',
+                    right: 0,
+                    m: 1,
+                    p: 1,
+                    width: 'calc( 100% - 16px )',
+                    borderRadius: 8,
+                    backdropFilter: 'blur(4px)',
+                    bgcolor: '#FDFDFD30',
+                    border: '1px solid #F5F5F5',
+                    zIndex: 2,
                 }}
             >
-                <Container>
-                    <LoadingButton
-                        loading={status === EStatus.PENDING}
-                        fullWidth
-                        variant="contained"
-                        onClick={() => formik.handleSubmit()}
-                    >
-                        Сохранить
-                    </LoadingButton>
-                </Container>
+                <LoadingButton
+                    variant="outlined"
+                    fullWidth
+                    sx={{ borderRadius: 8 }}
+                    loading={status === EStatus.PENDING}
+                    onClick={() => formik.handleSubmit()}
+                >
+                    Сохранить
+                </LoadingButton>
             </Box>
         </Modal>
     )

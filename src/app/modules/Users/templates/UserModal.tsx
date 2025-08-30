@@ -101,28 +101,24 @@ export const UserModal: React.FC = () => {
                 handleClose={handleClose}
             >
                 <Box
-                    mt={1}
-                    pb={3}
-                    sx={(theme) => ({
+                    py={10}
+                    sx={{
                         flexGrow: 1,
                         display: 'flex',
                         flexDirection: 'column',
                         overflow: 'auto',
-                        borderBottom: 1,
-                        pb: 9,
-                        borderColor: theme.palette.grey[300],
-                    })}
+                        maxHeight: 'calc( 100% )',
+                    }}
                 >
-                    <TabContext value={value}>
-                        {profileRole === ERole.ADMIN && (
-                            <TabList onChange={handleChange}>
-                                <Tab label="Профиль" value="user" sx={{ px: 3 }} />
-                                <Tab label="Тестирование" value="test" sx={{ px: 3 }} />
-                                <Tab label="Изменения" value="history" sx={{ px: 3 }} />
-                            </TabList>
-                        )}
-
-                        <Container>
+                    <Container>
+                        <TabContext value={value}>
+                            {profileRole === ERole.ADMIN && (
+                                <TabList onChange={handleChange}>
+                                    <Tab label="Профиль" value="user" sx={{ px: 3 }} />
+                                    <Tab label="Тестирование" value="test" sx={{ px: 3 }} />
+                                    <Tab label="Изменения" value="history" sx={{ px: 3 }} />
+                                </TabList>
+                            )}
                             <TabPanel value="user" sx={{ p: 0 }}>
                                 {user && (
                                     <UserModalContent handleClose={handleClose} profileRole={profileRole} user={user} />
@@ -134,8 +130,8 @@ export const UserModal: React.FC = () => {
                             <TabPanel value="history" sx={{ p: 0 }}>
                                 <LogList />
                             </TabPanel>
-                        </Container>
-                    </TabContext>
+                        </TabContext>
+                    </Container>
                 </Box>
             </Modal>
 

@@ -5,11 +5,10 @@ import {
     Group as GroupIcon,
     ListAlt as ListAltIcon,
     Menu as MenuIcon,
-    Poll as PollIcon,
     School as SchoolIcon,
     SportsEsports as SportsEsportsIcon,
 } from '@mui/icons-material'
-import { Box, colors, Container, Divider, IconButton, Paper } from '@mui/material'
+import { Box, IconButton, Paper } from '@mui/material'
 import { Logo } from 'app/components/Logo/Logo'
 import { AvatarImage } from 'app/modules/Profile/components/AvatarImage'
 import { selectProfile, selectProfileRole } from 'app/modules/Profile/slice/selectors'
@@ -70,12 +69,6 @@ export const LeftMenu: React.FC = () => {
 
     if (profileRole === ERole.ADMIN) {
         menuItems.push({
-            icon: <PollIcon />,
-            title: 'Опрос',
-            path: '/polls',
-        })
-
-        menuItems.push({
             icon: <AssistWalkerIcon />,
             title: 'Админка',
             path: '/admin',
@@ -85,35 +78,47 @@ export const LeftMenu: React.FC = () => {
     return (
         <Paper
             sx={{
-                width: isLage ? '280px' : '88px',
+                width: isLage ? '280px' : '68px',
                 minHeight: '100%',
                 display: 'flex',
                 flexDirection: 'column',
-                bgcolor: colors.blueGrey[50],
+                bgcolor: '#FAFAFA',
                 justifyContent: 'space-between',
-                transition: '1s',
+                transition: '.3s',
                 overflow: 'hidden',
                 flexShrink: 0,
+                borderRadius: 8,
+                m: 1,
+                mr: 0,
+                boxSizing: 'border-box',
+                border: '1px solid #EEEEEE',
             }}
             elevation={0}
             square={true}
         >
             <Box>
-                <Container>
-                    <Box display={'flex'} justifyContent={'space-between'} alignItems={'center'} height={'90px'}>
-                        <IconButton onClick={() => setLage(!isLage)}>
-                            <MenuIcon />
-                        </IconButton>
+                <Box
+                    sx={{
+                        display: 'flex',
+                        justifyContent: 'space-between',
+                        alignItems: 'center',
+                        borderRadius: 8,
+                        boxShadow: '0px 4px 4px #3332',
+                        p: 1,
+                        m: '4px',
+                    }}
+                >
+                    <IconButton onClick={() => setLage(!isLage)}>
+                        <MenuIcon />
+                    </IconButton>
 
-                        {isLage && <Logo />}
-                    </Box>
-                </Container>
-
-                <Divider sx={{ m: 0, borderColor: colors.grey[400] }} />
+                    {isLage && <Logo />}
+                </Box>
 
                 <Box
                     sx={{
-                        mt: 2.5,
+                        mt: 1,
+                        p: '8px',
                         overflow: 'auto',
                     }}
                 >
@@ -138,7 +143,13 @@ export const LeftMenu: React.FC = () => {
                 </Box>
             </Box>
 
-            <Box mb={3.5}>
+            <Box
+                sx={{
+                    p: '8px',
+                    pb: '12px',
+                    overflow: 'auto',
+                }}
+            >
                 <MenuItem
                     item={{
                         icon: <CalendarMonthIcon />,
@@ -149,7 +160,7 @@ export const LeftMenu: React.FC = () => {
                 />
                 <MenuItem
                     item={{
-                        icon: <AvatarImage name={profile.name} image={profile.avatar?.thumb} size={'24px'} />,
+                        icon: <AvatarImage name={profile.name} image={profile.avatar?.thumb} size={'28px'} />,
                         title: `${profile.last_name} ${profile.name}`,
                         path: '/profile',
                     }}

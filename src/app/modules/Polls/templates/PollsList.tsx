@@ -1,6 +1,6 @@
 import { MoreVert as MoreVertIcon } from '@mui/icons-material'
 import { Box, CircularProgress, IconButton, Typography } from '@mui/material'
-import { TitleBlock } from 'app/components/TitleBlock'
+import { Main } from 'app/modules/Layout/templates/Main'
 import { selectProfileRole } from 'app/modules/Profile/slice/selectors'
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
@@ -34,47 +34,37 @@ export const PollsList: React.FC = () => {
     }, [])
 
     return (
-        <>
-            <TitleBlock
-                title={'Опрос'}
-                count={count}
-                searchDisabled
-                endNode={
-                    profileRole === ERole.ADMIN ? (
-                        <IconButton
-                            sx={{ ml: 2 }}
-                            aria-label="more"
-                            id="long-button"
-                            aria-haspopup="true"
-                            onClick={handleSettingOpen}
-                        >
-                            <MoreVertIcon />
-                        </IconButton>
-                    ) : undefined
-                }
-            />
-
-            <Box
-                pt={4}
-                px={{ xs: 1, md: 4 }}
-                pb={4}
-                flex="1 0 100%"
-                sx={{ bgcolor: 'grey.50', overflow: 'auto', maxHeight: { md: 'calc( 100vh - 90px )' } }}
-            >
-                {status !== EStatus.FINISHED && (
-                    <Box mt={4.25} display={'flex'} justifyContent={'center'}>
-                        <CircularProgress />
-                    </Box>
-                )}
-                {status === EStatus.FINISHED && (
-                    <>
-                        <Typography variant="h4">{title}</Typography>
-                        <PollsListView />
-                    </>
-                )}
-            </Box>
+        <Main
+            title={'Опрос'}
+            count={count}
+            searchDisabled
+            endNode={
+                profileRole === ERole.ADMIN ? (
+                    <IconButton
+                        sx={{ ml: 2 }}
+                        aria-label="more"
+                        id="long-button"
+                        aria-haspopup="true"
+                        onClick={handleSettingOpen}
+                    >
+                        <MoreVertIcon />
+                    </IconButton>
+                ) : undefined
+            }
+        >
+            {status !== EStatus.FINISHED && (
+                <Box mt={4.25} display={'flex'} justifyContent={'center'}>
+                    <CircularProgress />
+                </Box>
+            )}
+            {status === EStatus.FINISHED && (
+                <>
+                    <Typography variant="h4">{title}</Typography>
+                    <PollsListView />
+                </>
+            )}
 
             <PollsSettings open={open} handleClose={handleSettingClose} />
-        </>
+        </Main>
     )
 }

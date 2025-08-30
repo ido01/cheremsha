@@ -1,7 +1,7 @@
 import { FilterAlt as FilterAltIcon } from '@mui/icons-material'
 import { Box, Button, Typography, useMediaQuery, useTheme } from '@mui/material'
 import Table, { TableEmptyRow } from 'app/components/Table'
-import { TitleBlock } from 'app/components/TitleBlock'
+import { Main } from 'app/modules/Layout/templates/Main'
 import { selectLocation } from 'app/modules/Locations/slice/selectors'
 import { AvatarImage } from 'app/modules/Profile/components/AvatarImage'
 import { quizActions } from 'app/modules/Quiz/slice/'
@@ -151,48 +151,44 @@ export const ResultList: React.FC = () => {
     }
 
     return (
-        <>
-            <TitleBlock
-                title={quiz?.name || ''}
-                count={count}
-                value={filter.query}
-                endNode={
-                    isMobile ? (
-                        <Button variant="text" onClick={() => setFilterOpen(true)} sx={{ textTransform: 'uppercase' }}>
-                            <FilterAltIcon />
-                        </Button>
-                    ) : (
-                        <></>
-                    )
-                }
-                onSearch={(query) => {
-                    dispatch(
-                        resultsActions.setFilter({
-                            ...filter,
-                            query,
-                        })
-                    )
-                }}
+        <Main
+            title={quiz?.name || ''}
+            count={count}
+            value={filter.query}
+            endNode={
+                isMobile ? (
+                    <Button variant="text" onClick={() => setFilterOpen(true)} sx={{ textTransform: 'uppercase' }}>
+                        <FilterAltIcon />
+                    </Button>
+                ) : (
+                    <></>
+                )
+            }
+            onSearch={(query) => {
+                dispatch(
+                    resultsActions.setFilter({
+                        ...filter,
+                        query,
+                    })
+                )
+            }}
+        >
+            <FilterBlock open={isFilterOpen} onClose={() => setFilterOpen(false)} />
+
+            <Table
+                items={results}
+                rows={tableRows}
+                order={order}
+                pagination={pagination}
+                isLoading={status === EStatus.PENDING}
+                mobileView={mobileView}
+                handleOrderChange={handleOrderChange}
+                handleLimitChange={handleLimitChange}
+                handlePageChange={handlePageChange}
+                handleClickRow={handleClickRow}
             />
 
-            <Box pt={4} flex="1 0 100%" sx={{ overflow: 'auto', maxHeight: { md: 'calc( 100vh - 90px )' } }}>
-                <FilterBlock open={isFilterOpen} onClose={() => setFilterOpen(false)} />
-
-                <Table
-                    items={results}
-                    rows={tableRows}
-                    order={order}
-                    pagination={pagination}
-                    isLoading={status === EStatus.PENDING}
-                    mobileView={mobileView}
-                    handleOrderChange={handleOrderChange}
-                    handleLimitChange={handleLimitChange}
-                    handlePageChange={handlePageChange}
-                    handleClickRow={handleClickRow}
-                />
-            </Box>
-
             <ResultModal />
-        </>
+        </Main>
     )
 }

@@ -52,13 +52,12 @@ export const Table: React.FC<TableProps> = ({
     const isMobile = useMediaQuery(theme.breakpoints.between('xs', 'md'))
 
     return (
-        <Box px={{ xs: disablePadding ? 0 : 1, md: disablePadding ? 0 : 4 }} mb={6} position={'relative'}>
+        <Box px={{ xs: disablePadding ? 0 : 1, md: disablePadding ? 0 : 1 }} mb={6} position={'relative'}>
             {!isMobile && !disableHeader && (
                 <Box
                     sx={{
                         pb: 1.5,
                         px: { md: 2 },
-                        borderBottom: disableBorder ? undefined : '1px solid #f2f2f7',
                     }}
                 >
                     <Grid container columnSpacing={2}>
@@ -93,7 +92,13 @@ export const Table: React.FC<TableProps> = ({
                 </Box>
             )}
 
-            <Box>
+            <Box
+                sx={{
+                    display: 'flex',
+                    flexDirection: 'column',
+                    gap: 0.5,
+                }}
+            >
                 {items.map((item, index) => (
                     <DragTableItem
                         index={index}

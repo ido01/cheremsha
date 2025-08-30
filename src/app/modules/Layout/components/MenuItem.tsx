@@ -1,5 +1,5 @@
 import { ExpandLess as ExpandLessIcon, ExpandMore as ExpandMoreIcon } from '@mui/icons-material'
-import { Box, Collapse, colors, Typography } from '@mui/material'
+import { Box, Collapse, Typography } from '@mui/material'
 import { selectProfileRole } from 'app/modules/Profile/slice/selectors'
 import React, { useState } from 'react'
 import { useSelector } from 'react-redux'
@@ -42,30 +42,37 @@ export const MenuItem: React.FC<MenuItemProps> = ({ item, isLage, onClick }) => 
                     <Box
                         display={'flex'}
                         mt={1}
-                        mx={1.75}
-                        px={1.25}
-                        height={'44px'}
                         alignItems={'center'}
                         justifyContent={'space-between'}
                         sx={{
                             cursor: 'pointer',
-                            color: isActive ? 'grey.900' : 'grey.700',
+                            color: isActive ? '#FFFFFF' : 'grey.700',
                             textDecoration: 'none',
-                            bgcolor: isActive ? colors.blueGrey[100] : 'transparent',
-                            borderRadius: 1,
+                            bgcolor: isActive ? '#757575' : 'transparent',
+                            border: '1px solidrgb(56, 50, 50)',
+                            borderRadius: 8,
                             '&:hover': {
-                                color: 'grey.900',
+                                color: isActive ? '#FFFFFF' : 'grey.900',
                             },
                         }}
                         component={item.path ? Link : Box}
                         to={item.path || ''}
                         onClick={() => handleMenuClick()}
                     >
-                        <Box display={'flex'} alignItems={'center'} pl={1}>
-                            {item.icon}
+                        <Box display={'flex'} alignItems={'center'}>
+                            <Box
+                                sx={{
+                                    p: '12px',
+                                    borderRadius: 8,
+                                    display: 'flex',
+                                    bgcolor: isActive ? '#616161' : '#F5F5F5',
+                                }}
+                            >
+                                {item.icon}
+                            </Box>
 
                             {isLage && (
-                                <Typography variant="body1" sx={{ ml: item.icon ? 2 : 5 }}>
+                                <Typography variant="body1" sx={{ ml: item.icon ? 2 : 5, whiteSpace: 'nowrap' }}>
                                     {item.title}
                                 </Typography>
                             )}

@@ -1,5 +1,5 @@
 import { Close as CloseIcon } from '@mui/icons-material'
-import { Box, Container, Divider, Drawer, IconButton, Typography, useMediaQuery, useTheme } from '@mui/material'
+import { Box, Drawer, IconButton, Typography, useMediaQuery, useTheme } from '@mui/material'
 import React from 'react'
 
 interface ModalProps {
@@ -19,11 +19,11 @@ export const Modal: React.FC<ModalProps> = ({ children, open, title, handleClose
             anchor={'bottom'}
             PaperProps={{
                 sx: {
-                    width: { xs: '100%', md: '900px' },
+                    width: { xs: '100%', md: '90%' },
                     height: 'calc(100% - 40px)', //{ xs: 'calc(100% - 40px)', md: '100%' },
                     margin: '0 auto',
-                    borderTopLeftRadius: '10px', //{ xs: '10px', md: '0px' },
-                    borderTopRightRadius: '10px', //{ xs: '10px', md: '0px' },
+                    borderTopLeftRadius: '32px', //{ xs: '10px', md: '0px' },
+                    borderTopRightRadius: '32px', //{ xs: '10px', md: '0px' },
                     maxWidth: '100%',
                 },
             }}
@@ -31,20 +31,28 @@ export const Modal: React.FC<ModalProps> = ({ children, open, title, handleClose
         >
             <Box
                 sx={{
-                    pt: isMobile ? 1 : 3,
-                    pb: isMobile ? 0 : 3,
                     display: 'flex',
                     flexDirection: 'column',
                     height: '100%',
                     userSelect: 'none',
+                    position: 'relative',
                 }}
             >
-                <Container>
+                <Box position={'absolute'} top={0} width={'100%'} zIndex={2}>
                     <Box
+                        display={'flex'}
+                        flexShrink={0}
+                        justifyContent={'space-between'}
+                        alignItems={'center'}
                         sx={{
-                            display: 'flex',
-                            alignItems: 'center',
-                            justifyContent: 'space-between',
+                            borderRadius: 8,
+                            bgcolor: '#FDFDFD30',
+                            boxShadow: '0px 4px 4px #3332',
+                            p: 1,
+                            pl: 3,
+                            m: { sm: 1, md: 0.5 },
+                            backdropFilter: 'blur(4px)',
+                            border: '1px solid #F5F5F5',
                         }}
                     >
                         <Typography
@@ -54,13 +62,11 @@ export const Modal: React.FC<ModalProps> = ({ children, open, title, handleClose
                             {title}
                         </Typography>
 
-                        <IconButton sx={{ mr: -1 }} onClick={handleClose}>
+                        <IconButton sx={{ bgcolor: '#FDFDFD90' }} onClick={handleClose}>
                             <CloseIcon />
                         </IconButton>
                     </Box>
-                </Container>
-
-                <Divider sx={{ mt: isMobile ? 1 : 2.75, mb: 1 }} />
+                </Box>
 
                 {children}
             </Box>

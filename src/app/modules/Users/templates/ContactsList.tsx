@@ -1,6 +1,6 @@
 import { Box, Typography } from '@mui/material'
 import Table, { TableEmptyRow } from 'app/components/Table'
-import { TitleBlock } from 'app/components/TitleBlock'
+import { Main } from 'app/modules/Layout/templates/Main'
 import { selectLocation } from 'app/modules/Locations/slice/selectors'
 import { AvatarImage } from 'app/modules/Profile/components/AvatarImage'
 import React, { useEffect } from 'react'
@@ -106,37 +106,33 @@ export const ContactsList: React.FC = () => {
     }
 
     return (
-        <>
-            <TitleBlock
-                title={'Контакты'}
-                count={count}
-                value={filter.query}
-                onSearch={(query) => {
-                    dispatch(
-                        usersActions.setFilter({
-                            ...filter,
-                            query,
-                        })
-                    )
-                }}
+        <Main
+            title={'Контакты'}
+            count={count}
+            value={filter.query}
+            onSearch={(query) => {
+                dispatch(
+                    usersActions.setFilter({
+                        ...filter,
+                        query,
+                    })
+                )
+            }}
+        >
+            <Table
+                items={users}
+                rows={tableRows}
+                order={order}
+                pagination={pagination}
+                isLoading={status === EStatus.PENDING}
+                mobileView={mobileView}
+                handleOrderChange={handleOrderChange}
+                handleLimitChange={handleLimitChange}
+                handlePageChange={handlePageChange}
+                handleClickRow={handleClickRow}
             />
 
-            <Box pt={4} flex="1 0 100%" sx={{ overflow: 'auto', maxHeight: { md: 'calc( 100vh - 90px )' } }}>
-                <Table
-                    items={users}
-                    rows={tableRows}
-                    order={order}
-                    pagination={pagination}
-                    isLoading={status === EStatus.PENDING}
-                    mobileView={mobileView}
-                    handleOrderChange={handleOrderChange}
-                    handleLimitChange={handleLimitChange}
-                    handlePageChange={handlePageChange}
-                    handleClickRow={handleClickRow}
-                />
-            </Box>
-
             <UserModal />
-        </>
+        </Main>
     )
 }

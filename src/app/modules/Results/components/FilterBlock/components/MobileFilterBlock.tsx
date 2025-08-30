@@ -38,17 +38,14 @@ export const MobileFilterBlock: React.FC<MobileFilterBlockProps> = ({ open, onCl
     return (
         <Modal open={open} title={'Фильтр'} handleClose={onClose}>
             <Box
-                mt={1}
-                pb={3}
-                sx={(theme) => ({
+                py={10}
+                sx={{
                     flexGrow: 1,
                     display: 'flex',
                     flexDirection: 'column',
                     overflow: 'auto',
-                    borderBottom: 1,
-                    maxHeight: 'calc( 100% - 117px )',
-                    borderColor: theme.palette.grey[300],
-                })}
+                    maxHeight: 'calc( 100% )',
+                }}
             >
                 <Container>
                     <Stack spacing={5}>

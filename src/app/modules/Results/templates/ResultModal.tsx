@@ -74,33 +74,30 @@ export const ResultModal: React.FC = () => {
                 handleClose={handleClose}
             >
                 <Box
-                    mt={1}
-                    pb={3}
-                    sx={(theme) => ({
+                    py={10}
+                    sx={{
                         flexGrow: 1,
                         display: 'flex',
                         flexDirection: 'column',
                         overflow: 'auto',
-                        borderBottom: 1,
-                        borderColor: theme.palette.grey[300],
-                        pb: 9,
-                    })}
+                        maxHeight: 'calc( 100% )',
+                    }}
                 >
-                    <TabContext value={value}>
-                        <TabList onChange={handleChange}>
-                            <Tab label="Результаты теста" value="test" sx={{ px: 3 }} />
-                            <Tab label="Профиль" value="user" sx={{ px: 3 }} />
-                        </TabList>
+                    <Container>
+                        <TabContext value={value}>
+                            <TabList onChange={handleChange}>
+                                <Tab label="Результаты теста" value="test" sx={{ px: 3 }} />
+                                <Tab label="Профиль" value="user" sx={{ px: 3 }} />
+                            </TabList>
 
-                        <Container>
                             <TabPanel value="user" sx={{ p: 0 }}>
                                 {user && <UserModalContent profileRole={profileRole} user={user} />}
                             </TabPanel>
                             <TabPanel value="test" sx={{ p: 0 }}>
                                 {user && <ResultModalContent id={id} user={user} />}
                             </TabPanel>
-                        </Container>
-                    </TabContext>
+                        </TabContext>
+                    </Container>
                 </Box>
             </Modal>
 

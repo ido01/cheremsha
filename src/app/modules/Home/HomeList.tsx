@@ -7,15 +7,16 @@ import {
     School as SchoolIcon,
     SportsEsports as SportsEsportsIcon,
 } from '@mui/icons-material'
-import { Box, Container, Grid, useMediaQuery, useTheme } from '@mui/material'
+import { Grid, useMediaQuery, useTheme } from '@mui/material'
 import { ITile, Tile } from 'app/components/Tile'
-import { TitleBlock } from 'app/components/TitleBlock'
 import { selectProfileRole } from 'app/modules/Profile/slice/selectors'
 import { selectSettings } from 'app/modules/Settings/slice/selectors'
 import React from 'react'
 import { useSelector } from 'react-redux'
 import { useHistory } from 'react-router-dom'
 import { ERole } from 'types'
+
+import { Main } from '../Layout/templates/Main'
 
 export const HomeList: React.FC = () => {
     const history = useHistory()
@@ -84,29 +85,14 @@ export const HomeList: React.FC = () => {
     }
 
     return (
-        <>
-            <TitleBlock title={'Главная'} searchDisabled />
-
-            <Box
-                flex="1 0 100%"
-                sx={{
-                    pt: 2,
-                    pb: 1,
-                    bgcolor: isMobile ? 'grey.200' : 'grey.50',
-                    overflow: 'auto',
-                    maxHeight: { md: 'calc( 100vh - 90px )' },
-                }}
-            >
-                <Container>
-                    <Grid container spacing={2}>
-                        {links.map((link, index) => (
-                            <Grid item key={index} xs={isMobile ? 6 : 3}>
-                                <Tile data={link} onClick={handleClickRow} />
-                            </Grid>
-                        ))}
+        <Main title={'Главная'} searchDisabled>
+            <Grid container spacing={2}>
+                {links.map((link, index) => (
+                    <Grid item key={index} xs={isMobile ? 6 : 3}>
+                        <Tile data={link} onClick={handleClickRow} />
                     </Grid>
-                </Container>
-            </Box>
-        </>
+                ))}
+            </Grid>
+        </Main>
     )
 }

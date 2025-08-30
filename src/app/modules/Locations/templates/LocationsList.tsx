@@ -1,6 +1,6 @@
 import { Box, Switch, Typography } from '@mui/material'
 import Table from 'app/components/Table'
-import { TitleBlock } from 'app/components/TitleBlock'
+import { Main } from 'app/modules/Layout/templates/Main'
 import React, { ChangeEvent } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { EStatus } from 'types'
@@ -58,18 +58,14 @@ export const LocationsList: React.FC = () => {
     const mobileView = (location: ILocation) => <MobileView location={location} />
 
     return (
-        <>
-            <TitleBlock title={'Точки'} count={locations.length} searchDisabled />
-
-            <Box pt={4} flex="1 0 100%" sx={{ overflow: 'auto', maxHeight: { md: 'calc( 100vh - 90px )' } }}>
-                <Table
-                    items={locations}
-                    rows={tableRows}
-                    isLoading={status === EStatus.PENDING}
-                    mobileView={mobileView}
-                    // handleClickRow={handleClickRow}
-                />
-            </Box>
-        </>
+        <Main title={'Точки'} count={locations.length} searchDisabled>
+            <Table
+                items={locations}
+                rows={tableRows}
+                isLoading={status === EStatus.PENDING}
+                mobileView={mobileView}
+                // handleClickRow={handleClickRow}
+            />
+        </Main>
     )
 }

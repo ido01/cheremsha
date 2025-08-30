@@ -61,17 +61,14 @@ export const EventModal: React.FC = () => {
         <>
             <Modal open={isOpen} title={event?.name || ''} handleClose={handleClose}>
                 <Box
-                    mt={1}
-                    pb={3}
-                    sx={(theme) => ({
+                    py={10}
+                    sx={{
                         flexGrow: 1,
                         display: 'flex',
                         flexDirection: 'column',
                         overflow: 'auto',
-                        borderBottom: 1,
-                        maxHeight: 'calc( 100% - 117px )',
-                        borderColor: theme.palette.grey[300],
-                    })}
+                        maxHeight: 'calc( 100% )',
+                    }}
                 >
                     <Container>
                         {event?.info.map((info, index) => (
@@ -100,32 +97,31 @@ export const EventModal: React.FC = () => {
                     </Container>
                 </Box>
 
-                <Box
-                    sx={{
-                        position: 'absolute',
-                        width: '100%',
-                        bottom: 0,
-                        py: 2,
-                        bgcolor: 'white',
-                        zIndex: 1,
-                    }}
-                >
-                    <Container sx={{ display: 'flex', justifyContent: 'space-between' }}>
-                        <Box display={'flex'}>
-                            {profileRole === ERole.ADMIN && (
-                                <>
-                                    <IconButton color="error" onClick={handleOpenDelete}>
-                                        <DeleteIcon />
-                                    </IconButton>
+                {profileRole === ERole.ADMIN && (
+                    <Box
+                        sx={{
+                            position: 'absolute',
+                            bottom: '4px',
+                            left: 0,
+                            m: 1,
+                            p: 1,
+                            borderRadius: 8,
+                            backdropFilter: 'blur(4px)',
+                            bgcolor: '#FDFDFD30',
+                            boxShadow: '0px 4px 4px #3332',
+                        }}
+                    >
+                        <Box display={'flex'} gap={1}>
+                            <IconButton color="error" onClick={handleOpenDelete} sx={{ bgcolor: '#FDFDFD90' }}>
+                                <DeleteIcon />
+                            </IconButton>
 
-                                    <IconButton color="info" onClick={handleEditDocument}>
-                                        <EditIcon />
-                                    </IconButton>
-                                </>
-                            )}
+                            <IconButton color="info" onClick={handleEditDocument} sx={{ bgcolor: '#FDFDFD90' }}>
+                                <EditIcon />
+                            </IconButton>
                         </Box>
-                    </Container>
-                </Box>
+                    </Box>
+                )}
             </Modal>
 
             <Dialog open={openDelete} onClose={handleCloseDelete} aria-labelledby="alert-dialog-title">

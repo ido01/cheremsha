@@ -11,7 +11,6 @@ export const Logo: React.FC<LogoProps> = ({ size }) => {
     const settings = useSelector(selectSettings)
     return (
         <Box
-            pb={2}
             pr={size === 'big' ? 0 : 1}
             sx={{ width: size === 'big' ? '240px' : '140px' }}
             component={'img'}

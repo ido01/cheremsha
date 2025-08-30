@@ -1,6 +1,6 @@
 import { Box } from '@mui/material'
 import { BreadcrumbItem } from 'app/components/Breadcrumbs'
-import { TitleBlock } from 'app/components/TitleBlock'
+import { Main } from 'app/modules/Layout/templates/Main'
 import { AvatarImage } from 'app/modules/Profile/components/AvatarImage'
 import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
@@ -27,19 +27,14 @@ export const UserChange: React.FC = () => {
         },
     ]
 
-    const breadcrumbsItemsMobile: BreadcrumbItem[] = [
-        {
-            text: 'Сотрудники',
-            link: '/users',
-        },
-    ]
+    const breadcrumbsItemsMobile: BreadcrumbItem = {
+        text: 'Сотрудники',
+        link: '/users',
+    }
 
     if (user) {
         breadcrumbsItems.push({
             text: '',
-        })
-        breadcrumbsItemsMobile.push({
-            text: user.name || '',
         })
     }
 
@@ -48,22 +43,18 @@ export const UserChange: React.FC = () => {
     }, [])
 
     return (
-        <>
-            <TitleBlock
-                title={user?.name || 'Сотрудники'}
-                breadcrumbs={breadcrumbsItems}
-                breadcrumbsItemsMobile={breadcrumbsItemsMobile}
-            />
-
-            <Box p={4} flex="1 0 100%" sx={{ overflow: 'auto', maxHeight: { md: 'calc( 100vh - 90px )' } }}>
-                <Box display={'flex'}>
-                    <AvatarImage name={userName} image={imageSrc} size={'70px'} />
-                </Box>
-
-                <Box sx={{ mt: 5 }}>
-                    <UserDataForm />
-                </Box>
+        <Main
+            title={user?.name || 'Сотрудники'}
+            breadcrumbs={breadcrumbsItems}
+            breadcrumbsItemsMobile={breadcrumbsItemsMobile}
+        >
+            <Box display={'flex'} sx={{ px: { sm: 0, md: 2 } }}>
+                <AvatarImage name={userName} image={imageSrc} size={'70px'} />
             </Box>
-        </>
+
+            <Box sx={{ mt: 5, px: { sm: 0, md: 2 } }}>
+                <UserDataForm />
+            </Box>
+        </Main>
     )
 }

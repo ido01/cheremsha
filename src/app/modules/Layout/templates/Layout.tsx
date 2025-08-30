@@ -33,32 +33,26 @@ export const Layout: React.FC<LayoutProps> = ({ children }) => {
                     <Box display="flex" height={'100%'}>
                         {!isMobile && <LeftMenu />}
 
-                        {!isMobile && (
-                            <Box
-                                display={'flex'}
-                                flexDirection={'column'}
-                                flex={'1 1 auto'}
-                                maxHeight={!isMobile ? '100vh' : 'auto'}
-                                overflow={'auto'}
-                                bgcolor={isMobile ? 'grey.200' : 'white'}
-                            >
-                                <Box display="flex" flexDirection="column" minHeight="100vh">
-                                    {children}
-                                </Box>
-                            </Box>
-                        )}
-
-                        {isMobile && (
-                            <Box
-                                width={'100%'}
-                                minHeight={'calc( 100vh - 56px )'}
-                                overflow={'auto'}
-                                py={10}
-                                bgcolor={isMobile ? 'grey.200' : 'white'}
-                            >
+                        <Box
+                            display={'flex'}
+                            flexDirection={'column'}
+                            flex={'1 1 auto'}
+                            maxHeight={'100vh'}
+                            overflow={'auto'}
+                            sx={{
+                                position: 'relative',
+                                bgcolor: '#FFF',
+                                borderRadius: 8,
+                                m: { sm: 0.5, md: 1 },
+                                boxSizing: 'border-box',
+                                border: '1px solid #EEEEEE',
+                                height: { sm: 'calc( 100vh - 8px )' },
+                            }}
+                        >
+                            <Box display="flex" flexDirection="column" minHeight="calc( 100vh - 18px )">
                                 {children}
                             </Box>
-                        )}
+                        </Box>
 
                         <FavoriteModal />
 

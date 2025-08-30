@@ -1,7 +1,7 @@
 import { Delete as DeleteIcon, Edit as EditIcon, MoreVert as MoreVertIcon } from '@mui/icons-material'
 import { Box, IconButton, Typography } from '@mui/material'
 import Table from 'app/components/Table'
-import { TitleBlock } from 'app/components/TitleBlock'
+import { Main } from 'app/modules/Layout/templates/Main'
 import { selectProfileRole } from 'app/modules/Profile/slice/selectors'
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
@@ -122,35 +122,31 @@ export const TablesList: React.FC = () => {
     }, [])
 
     return (
-        <>
-            <TitleBlock
-                title={'Столы'}
-                count={tables.length}
-                searchDisabled
-                endNode={
-                    profileRole === ERole.ADMIN ? (
-                        <IconButton
-                            sx={{ ml: 2 }}
-                            aria-label="more"
-                            id="long-button"
-                            aria-haspopup="true"
-                            onClick={handleSettingOpen}
-                        >
-                            <MoreVertIcon />
-                        </IconButton>
-                    ) : undefined
-                }
+        <Main
+            title={'Столы'}
+            count={tables.length}
+            searchDisabled
+            endNode={
+                profileRole === ERole.ADMIN ? (
+                    <IconButton
+                        sx={{ ml: 2 }}
+                        aria-label="more"
+                        id="long-button"
+                        aria-haspopup="true"
+                        onClick={handleSettingOpen}
+                    >
+                        <MoreVertIcon />
+                    </IconButton>
+                ) : undefined
+            }
+        >
+            <Table
+                items={tables}
+                rows={tableRows}
+                isLoading={status === EStatus.PENDING}
+                mobileView={mobileView}
+                // handleClickRow={handleClickRow}
             />
-
-            <Box pt={4} flex="1 0 100%" sx={{ overflow: 'auto', maxHeight: { md: 'calc( 100vh - 90px )' } }}>
-                <Table
-                    items={tables}
-                    rows={tableRows}
-                    isLoading={status === EStatus.PENDING}
-                    mobileView={mobileView}
-                    // handleClickRow={handleClickRow}
-                />
-            </Box>
 
             {profileRole === ERole.ADMIN && (
                 <>
@@ -159,6 +155,6 @@ export const TablesList: React.FC = () => {
                     <FormModal />
                 </>
             )}
-        </>
+        </Main>
     )
 }

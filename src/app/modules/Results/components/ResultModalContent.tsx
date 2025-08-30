@@ -3,7 +3,6 @@ import {
     Box,
     Button,
     CircularProgress,
-    Container,
     Dialog,
     DialogActions,
     DialogContent,
@@ -221,61 +220,83 @@ export const ResultModalContent: React.FC<ResultModalContentProps> = ({ id, user
                     </Box>
                 )}
 
-            {quiz &&
-                (quiz.state?.state === EQuizState.COMPLETED ||
-                    quiz.state?.state === EQuizState.CLOSED ||
-                    quiz.state?.state === EQuizState.DONE) && (
-                    <Box
-                        sx={{
-                            position: 'absolute',
-                            width: '100%',
-                            bottom: 0,
-                            left: 0,
-                            py: 2,
-                            bgcolor: 'white',
-                            zIndex: 1,
-                        }}
+            {(quiz?.state?.state === EQuizState.CLOSED || quiz?.state?.state === EQuizState.COMPLETED) && (
+                <Box
+                    sx={{
+                        position: 'absolute',
+                        bottom: '4px',
+                        left: 0,
+                        m: 1,
+                        p: 1,
+                        borderRadius: 8,
+                        backdropFilter: 'blur(4px)',
+                        bgcolor: '#FDFDFD30',
+                        boxShadow: '0px 4px 4px #3332',
+                    }}
+                >
+                    <LoadingButton
+                        disabled={completedLoading}
+                        color="error"
+                        variant="outlined"
+                        onClick={() => setOpenDialog(true)}
+                        sx={{ borderRadius: 8 }}
                     >
-                        <Container sx={{ display: 'flex', justifyContent: 'space-between' }}>
-                            <Box>
-                                {(quiz.state?.state === EQuizState.CLOSED ||
-                                    quiz.state?.state === EQuizState.COMPLETED) && (
-                                    <LoadingButton
-                                        disabled={completedLoading}
-                                        color="error"
-                                        variant="contained"
-                                        onClick={() => setOpenDialog(true)}
-                                    >
-                                        Отменить результат тестирования
-                                    </LoadingButton>
-                                )}
-                                {quiz.state?.state === EQuizState.DONE && (
-                                    <LoadingButton
-                                        loading={closedLoading}
-                                        disabled={completedLoading}
-                                        color="error"
-                                        variant="contained"
-                                        onClick={handleSetClosed}
-                                    >
-                                        Отклонить
-                                    </LoadingButton>
-                                )}
-                            </Box>
-
-                            {(quiz.state?.state === EQuizState.CLOSED || quiz.state?.state === EQuizState.DONE) && (
-                                <LoadingButton
-                                    disabled={closedLoading || rejectedLoading}
-                                    loading={completedLoading}
-                                    color="success"
-                                    variant="contained"
-                                    onClick={handleSetComplete}
-                                >
-                                    Принять
-                                </LoadingButton>
-                            )}
-                        </Container>
-                    </Box>
-                )}
+                        Отменить результат тестирования
+                    </LoadingButton>
+                </Box>
+            )}
+            {quiz?.state?.state === EQuizState.DONE && (
+                <Box
+                    sx={{
+                        position: 'absolute',
+                        bottom: '4px',
+                        left: 0,
+                        m: 1,
+                        p: 1,
+                        borderRadius: 8,
+                        backdropFilter: 'blur(4px)',
+                        bgcolor: '#FDFDFD30',
+                        boxShadow: '0px 4px 4px #3332',
+                    }}
+                >
+                    <LoadingButton
+                        loading={closedLoading}
+                        disabled={completedLoading}
+                        color="error"
+                        variant="outlined"
+                        onClick={handleSetClosed}
+                        sx={{ borderRadius: 8 }}
+                    >
+                        Отклонить
+                    </LoadingButton>
+                </Box>
+            )}
+            {(quiz?.state?.state === EQuizState.CLOSED || quiz?.state?.state === EQuizState.DONE) && (
+                <Box
+                    sx={{
+                        position: 'absolute',
+                        bottom: '4px',
+                        right: 0,
+                        m: 1,
+                        p: 1,
+                        borderRadius: 8,
+                        backdropFilter: 'blur(4px)',
+                        bgcolor: '#FDFDFD30',
+                        boxShadow: '0px 4px 4px #3332',
+                    }}
+                >
+                    <LoadingButton
+                        disabled={closedLoading || rejectedLoading}
+                        loading={completedLoading}
+                        color="success"
+                        variant="outlined"
+                        onClick={handleSetComplete}
+                        sx={{ borderRadius: 8 }}
+                    >
+                        Принять
+                    </LoadingButton>
+                </Box>
+            )}
 
             <Dialog open={openDialog} onClose={() => setOpenDialog(false)} aria-labelledby="alert-dialog-title">
                 <DialogTitle id="alert-dialog-title">Внимание!</DialogTitle>

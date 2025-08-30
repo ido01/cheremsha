@@ -4,10 +4,10 @@ import {
     School as SchoolIcon,
     SportsEsports as SportsEsportsIcon,
 } from '@mui/icons-material'
-import { BottomNavigation, BottomNavigationAction, Box } from '@mui/material'
+import { Box, IconButton } from '@mui/material'
 import { AvatarImage } from 'app/modules/Profile/components/AvatarImage'
 import { selectProfile } from 'app/modules/Profile/slice/selectors'
-import React, { useEffect } from 'react'
+import React from 'react'
 import { useSelector } from 'react-redux'
 import { useHistory, useRouteMatch } from 'react-router-dom'
 import { TMenuItem } from 'types/TMenuItem'
@@ -16,7 +16,6 @@ export const MobileNavigation: React.FC = () => {
     const history = useHistory()
 
     const { url } = useRouteMatch()
-    const [value, setValue] = React.useState(0)
 
     const profile = useSelector(selectProfile)
 
@@ -75,36 +74,55 @@ export const MobileNavigation: React.FC = () => {
         // },
     ]
 
-    useEffect(() => {
-        const activeItem = menuItems.find((item) => {
-            if (url === '/' && item.id === 4) {
-                return true
-            }
-            return item.path ? url.indexOf(item.path) !== -1 : false
-        })
-        setValue(activeItem?.id || 0)
-    }, [])
-
     const handleClick = (item: TMenuItem) => {
-        setValue(item.id || 0)
         if (item.path) {
             history.push(item.path)
         }
     }
 
     return (
-        <Box sx={{ position: 'fixed', bottom: 0, left: 0, width: '100%', pb: 2, backgroundColor: '#fff', zIndex: 2 }}>
-            <BottomNavigation showLabels value={value}>
-                {menuItems.map((item, index) => (
-                    <BottomNavigationAction
-                        key={index}
-                        // label={item.title}
-                        label={''}
-                        icon={item.icon}
-                        onClick={() => handleClick(item)}
-                    />
-                ))}
-            </BottomNavigation>
+        <Box
+            sx={{
+                position: 'fixed',
+                bottom: '4px',
+                left: 0,
+                m: 1,
+                width: 'calc( 100% - 16px )',
+                p: 1,
+                zIndex: 2,
+                borderRadius: 8,
+                backdropFilter: 'blur(4px)',
+                bgcolor: '#FDFDFD30',
+                boxShadow: '0px 4px 4px #3332',
+                border: '1px solid #F5F5F5',
+            }}
+        >
+            <Box sx={{ display: 'flex', justifyContent: 'space-around' }}>
+                {menuItems.map((item, index) => {
+                    const isActive =
+                        item.path === '/'
+                            ? url === '/'
+                                ? true
+                                : false
+                            : item.path
+                            ? url.indexOf(item.path) !== -1
+                            : false
+                    return (
+                        <IconButton
+                            key={index}
+                            onClick={() => handleClick(item)}
+                            sx={{
+                                width: '44px',
+                                height: '44px',
+                                bgcolor: '#FDFDFD90',
+                                color: isActive ? '#6261a3' : 'grey.700',
+                            }}
+                        >
+                            {item.icon}
+                        </IconButton>
+                    )
+                })}
+            </Box>
         </Box>
     )
 }

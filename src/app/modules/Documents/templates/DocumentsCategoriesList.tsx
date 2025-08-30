@@ -1,12 +1,12 @@
 import { MoreVert as MoreVertIcon } from '@mui/icons-material'
-import { Box, IconButton } from '@mui/material'
+import { IconButton } from '@mui/material'
 import { BreadcrumbItem } from 'app/components/Breadcrumbs'
-import { TitleBlock } from 'app/components/TitleBlock'
 import { CategoryAdminSettings } from 'app/modules/Categories/components/CategoryAdminSettings'
 import { categoriesActions } from 'app/modules/Categories/slice'
 import { selectCategoryById } from 'app/modules/Categories/slice/selectors'
 import { CategoriesList } from 'app/modules/Categories/templates/CategoriesList'
 import { DocumentModal } from 'app/modules/Documents/templates/DocumentModal'
+import { Main } from 'app/modules/Layout/templates/Main'
 import { selectProfileRole } from 'app/modules/Profile/slice/selectors'
 import { QuizModal } from 'app/modules/Quiz/templates/QuizModal'
 import React, { useEffect, useState } from 'react'
@@ -34,30 +34,25 @@ export const DocumentsCategoriesList: React.FC = () => {
         },
     ]
 
-    const breadcrumbsItemsMobile: BreadcrumbItem[] = [
-        {
-            text: 'Документы',
-            link: '/doc',
-        },
-    ]
+    let breadcrumbsItemsMobile: BreadcrumbItem = {
+        text: 'Документы',
+        link: '/doc',
+    }
 
     if (parentCategory) {
         breadcrumbsItems.push({
             text: parentCategory.name || '',
             link: `/doc/${parentCategory.id}`,
         })
-        breadcrumbsItemsMobile.push({
+        breadcrumbsItemsMobile = {
             text: parentCategory.name || '',
             link: `/doc/${parentCategory.id}`,
-        })
+        }
     }
 
     if (category) {
         breadcrumbsItems.push({
             text: '',
-        })
-        breadcrumbsItemsMobile.push({
-            text: category?.name || '',
         })
     }
 
@@ -79,31 +74,27 @@ export const DocumentsCategoriesList: React.FC = () => {
     }
 
     return (
-        <>
-            <TitleBlock
-                title={category?.name || 'Документы'}
-                breadcrumbs={breadcrumbsItems}
-                breadcrumbsItemsMobile={breadcrumbsItemsMobile}
-                endNode={
-                    profileRole === ERole.ADMIN ? (
-                        <IconButton
-                            sx={{ ml: 2 }}
-                            aria-label="more"
-                            id="long-button"
-                            aria-haspopup="true"
-                            onClick={handleSettingOpen}
-                        >
-                            <MoreVertIcon />
-                        </IconButton>
-                    ) : undefined
-                }
-                value={search}
-                onSearch={handleSearchChange}
-            />
-
-            <Box pt={4} flex="1 0 100%" sx={{ overflow: 'auto', maxHeight: { md: 'calc( 100vh - 90px )' } }}>
-                <CategoriesList id={id || '0'} search={search} />
-            </Box>
+        <Main
+            title={category?.name || 'Документы'}
+            breadcrumbs={breadcrumbsItems}
+            breadcrumbsItemsMobile={breadcrumbsItemsMobile}
+            endNode={
+                profileRole === ERole.ADMIN ? (
+                    <IconButton
+                        sx={{ ml: 2, bgcolor: '#FDFDFD90' }}
+                        aria-label="more"
+                        id="long-button"
+                        aria-haspopup="true"
+                        onClick={handleSettingOpen}
+                    >
+                        <MoreVertIcon />
+                    </IconButton>
+                ) : undefined
+            }
+            value={search}
+            onSearch={handleSearchChange}
+        >
+            <CategoriesList id={id || '0'} search={search} />
 
             <DocumentModal />
 
@@ -112,6 +103,6 @@ export const DocumentsCategoriesList: React.FC = () => {
             {profileRole === ERole.ADMIN && (
                 <CategoryAdminSettings open={open} id={id} category={category} handleClose={handleClose} />
             )}
-        </>
+        </Main>
     )
 }

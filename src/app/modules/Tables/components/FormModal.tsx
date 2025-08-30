@@ -49,8 +49,6 @@ export const FormModal: React.FC = () => {
     return (
         <Modal open={open} title={data.id ? 'Редактирование Стола' : 'Создание Стола'} handleClose={handleClose}>
             <Box
-                mt={1}
-                pt={1}
                 noValidate
                 component="form"
                 onSubmit={(e: React.FormEvent) => {
@@ -58,15 +56,14 @@ export const FormModal: React.FC = () => {
 
                     formik.handleSubmit()
                 }}
-                sx={(theme) => ({
+                py={10}
+                sx={{
                     flexGrow: 1,
                     display: 'flex',
                     flexDirection: 'column',
                     overflow: 'auto',
-                    borderBottom: 1,
-                    maxHeight: 'calc( 100% - 117px )',
-                    borderColor: theme.palette.grey[300],
-                })}
+                    maxHeight: 'calc( 100% )',
+                }}
             >
                 <Container>
                     <Box

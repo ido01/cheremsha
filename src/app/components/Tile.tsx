@@ -20,7 +20,7 @@ export const Tile: React.FC<ITileProps> = ({ data, onClick }) => (
             p: 4,
             display: 'flex',
             flexDirection: 'column',
-            bgcolor: 'white',
+            bgcolor: '#FDFDFD',
             justifyContent: 'center',
             alignItems: 'center',
             borderRadius: 4,

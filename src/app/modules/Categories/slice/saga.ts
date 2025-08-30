@@ -86,7 +86,7 @@ export function* moveCategory(action: PayloadAction<IPasteDocument>) {
 }
 
 export function* categoriesWatcher() {
-    yield takeLeading(categoriesActions.loadCategories.type, loadCategories)
+    yield takeLatest(categoriesActions.loadCategories.type, loadCategories)
     yield takeLatest(categoriesActions.reloadCategory.type, loadCategory)
     yield takeLeading(categoriesActions.createCategory.type, createCategory)
     yield takeLeading(categoriesActions.updateCategory.type, updateCategory)

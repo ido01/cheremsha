@@ -159,20 +159,17 @@ export const DocumentModal: React.FC = () => {
         <>
             <Modal open={isOpen} title={document?.name || ''} handleClose={handleClose}>
                 <Box
-                    mt={1}
-                    pb={3}
-                    sx={(theme) => ({
+                    py={10}
+                    sx={{
                         flexGrow: 1,
                         display: 'flex',
                         flexDirection: 'column',
                         overflow: 'auto',
-                        borderBottom: 1,
-                        maxHeight: 'calc( 100% - 117px )',
-                        borderColor: theme.palette.grey[300],
-                    })}
+                        maxHeight: 'calc( 100% )',
+                    }}
                 >
                     <Container>
-                        {document?.end_date && (
+                        {document?.end_date && document?.end_date !== 'Invalid date' && (
                             <Box mb={4}>
                                 <LabelText label="Дата окончания акции" text={document.end_date} variant="body2" />
                             </Box>
@@ -426,42 +423,59 @@ export const DocumentModal: React.FC = () => {
                     </Container>
                 </Box>
 
-                <Box
-                    sx={{
-                        position: 'absolute',
-                        width: '100%',
-                        bottom: 0,
-                        py: 2,
-                        bgcolor: 'white',
-                        zIndex: 1,
-                    }}
-                >
-                    <Container sx={{ display: 'flex', justifyContent: 'space-between' }}>
-                        <Box display={'flex'}>
-                            {profileRole === ERole.ADMIN && (
-                                <>
-                                    <IconButton color="error" onClick={handleOpenDelete}>
-                                        <DeleteIcon />
-                                    </IconButton>
+                {profileRole === ERole.ADMIN && (
+                    <Box
+                        sx={{
+                            position: 'absolute',
+                            bottom: '4px',
+                            left: 0,
+                            m: 1,
+                            p: 1,
+                            borderRadius: 8,
+                            backdropFilter: 'blur(4px)',
+                            bgcolor: '#FDFDFD30',
+                            border: '1px solid #F5F5F5',
+                        }}
+                    >
+                        <Box display={'flex'} gap={1}>
+                            <IconButton color="error" onClick={handleOpenDelete} sx={{ bgcolor: '#FDFDFD90' }}>
+                                <DeleteIcon />
+                            </IconButton>
 
-                                    <IconButton color="info" onClick={handleEditDocument}>
-                                        <EditIcon />
-                                    </IconButton>
+                            <IconButton color="info" onClick={handleEditDocument} sx={{ bgcolor: '#FDFDFD90' }}>
+                                <EditIcon />
+                            </IconButton>
 
-                                    <IconButton color="secondary" onClick={handleCutDocument}>
-                                        <ContentCutIcon />
-                                    </IconButton>
-                                </>
-                            )}
+                            <IconButton color="secondary" onClick={handleCutDocument} sx={{ bgcolor: '#FDFDFD90' }}>
+                                <ContentCutIcon />
+                            </IconButton>
                         </Box>
-
-                        {document?.state.state !== EState.COMPLETED && (
-                            <LoadingButton color="success" variant="contained" onClick={handleSetComplete}>
-                                Прочитал
-                            </LoadingButton>
-                        )}
-                    </Container>
-                </Box>
+                    </Box>
+                )}
+                {document?.state.state !== EState.COMPLETED && (
+                    <Box
+                        sx={{
+                            position: 'absolute',
+                            bottom: '4px',
+                            right: 0,
+                            m: 1,
+                            p: 1,
+                            borderRadius: 8,
+                            backdropFilter: 'blur(4px)',
+                            bgcolor: '#FDFDFD30',
+                            border: '1px solid #F5F5F5',
+                        }}
+                    >
+                        <LoadingButton
+                            color="success"
+                            variant="outlined"
+                            onClick={handleSetComplete}
+                            sx={{ borderRadius: 8 }}
+                        >
+                            Прочитал
+                        </LoadingButton>
+                    </Box>
+                )}
             </Modal>
 
             <Dialog open={openDelete} onClose={handleCloseDelete} aria-labelledby="alert-dialog-title">

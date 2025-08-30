@@ -1,15 +1,16 @@
-import { Search as SearchIcon } from '@mui/icons-material'
-import { Box, TextField, Typography, useMediaQuery, useTheme } from '@mui/material'
+import { ArrowBack as ArrowBackIcon, Search as SearchIcon } from '@mui/icons-material'
+import { Box, IconButton, TextField, Typography, useMediaQuery, useTheme } from '@mui/material'
 import React, { useState } from 'react'
+import { useHistory } from 'react-router-dom'
 
 import Breadcrumbs, { BreadcrumbItem } from './Breadcrumbs'
 
-interface TitleBlockProps {
+export interface TitleBlockProps {
     title: string
     searchDisabled?: boolean
     count?: number
     breadcrumbs?: BreadcrumbItem[]
-    breadcrumbsItemsMobile?: BreadcrumbItem[]
+    breadcrumbsItemsMobile?: BreadcrumbItem
     value?: string
     endNode?: React.ReactNode
     onSearch?: (query: string) => void
@@ -25,6 +26,7 @@ export const TitleBlock: React.FC<TitleBlockProps> = ({
     endNode,
     onSearch,
 }) => {
+    const history = useHistory()
     const theme = useTheme()
     const isMobile = useMediaQuery(theme.breakpoints.between('xs', 'md'))
 
@@ -47,33 +49,50 @@ export const TitleBlock: React.FC<TitleBlockProps> = ({
     }
 
     return (
-        <Box position={isMobile ? 'fixed' : 'relative'} top={0} width={'100%'} zIndex={2}>
+        <Box position={'absolute'} top={0} width={'100%'} zIndex={2}>
             <Box
                 display={'flex'}
                 flexShrink={0}
                 justifyContent={'space-between'}
                 alignItems={'center'}
-                px={{
-                    xs: 2,
-                    md: 4,
+                sx={{
+                    borderRadius: 8,
+                    bgcolor: '#FDFDFD30',
+                    boxShadow: '0px 4px 4px #3332',
+                    p: 1,
+                    pl: !!breadcrumbsItemsMobile?.link && isMobile ? 1 : 3,
+                    m: { sm: 1, md: 0.5 },
+                    backdropFilter: 'blur(4px)',
                 }}
-                height={isMobile ? '58px' : '90px'}
-                sx={{ bgcolor: 'white', boxShadow: '0px 0px 8px rgba(0, 0, 0, 0.08)', zIndex: 1 }}
             >
                 <Box display={'flex'} alignItems={'flex-start'}>
-                    <Box display={'flex'} alignItems={'center'}>
+                    <Box display={'flex'} alignItems={'center'} sx={{ minHeight: '44px' }}>
                         {!!breadcrumbs && !isMobile && breadcrumbs.length > 1 && <Breadcrumbs items={breadcrumbs} />}
+                        {!!breadcrumbsItemsMobile?.link && isMobile && (
+                            <IconButton
+                                sx={{ mr: 1, bgcolor: '#FDFDFD90' }}
+                                aria-label={breadcrumbsItemsMobile.text}
+                                aria-haspopup="true"
+                                onClick={() => {
+                                    if (breadcrumbsItemsMobile.link) {
+                                        history.push(breadcrumbsItemsMobile.link)
+                                    }
+                                }}
+                            >
+                                <ArrowBackIcon />
+                            </IconButton>
+                        )}
 
                         <Typography variant={isMobile ? 'h5' : 'h4'} fontWeight={700}>
                             {title}
                         </Typography>
-                    </Box>
 
-                    {!!count && (
-                        <Typography variant="h6" fontWeight={400} color="grey.400" ml={1}>
-                            {count?.toLocaleString()}
-                        </Typography>
-                    )}
+                        {!!count && (
+                            <Typography variant={isMobile ? 'h6' : 'h5'} ml={1} fontWeight={400} color="grey.400">
+                                {count?.toLocaleString()}
+                            </Typography>
+                        )}
+                    </Box>
                 </Box>
 
                 <Box display={'flex'}>
@@ -84,9 +103,16 @@ export const TitleBlock: React.FC<TitleBlockProps> = ({
                             variant="filled"
                             value={search || ''}
                             onChange={handleSearchChange}
+                            sx={{
+                                borderRadius: 8,
+                                overflow: 'hidden',
+                            }}
                             InputProps={{
                                 disableUnderline: true,
                                 startAdornment: <SearchIcon style={{ color: '#c7c7cc' }} />,
+                                sx: {
+                                    borderRadius: '32px',
+                                },
                             }}
                         />
                     )}
@@ -95,11 +121,11 @@ export const TitleBlock: React.FC<TitleBlockProps> = ({
                 </Box>
             </Box>
 
-            {!!breadcrumbsItemsMobile && isMobile && breadcrumbsItemsMobile.length > 0 && (
+            {/* {!!breadcrumbsItemsMobile && isMobile && breadcrumbsItemsMobile.length > 0 && (
                 <Box px={2} py={1.5} sx={{ bgcolor: 'white', boxShadow: '0px 0px 8px rgba(0, 0, 0, 0.08)', zIndex: 1 }}>
                     <Breadcrumbs items={breadcrumbsItemsMobile} />
                 </Box>
-            )}
+            )} */}
         </Box>
     )
 }

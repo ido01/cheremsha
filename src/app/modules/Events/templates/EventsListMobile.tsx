@@ -4,7 +4,6 @@ import { orange } from '@mui/material/colors'
 import { MobileDatePicker } from '@mui/x-date-pickers/MobileDatePicker'
 import { PickersDay, PickersDayProps } from '@mui/x-date-pickers/PickersDay'
 import Table, { TableEmptyRow } from 'app/components/Table'
-import { TitleBlock } from 'app/components/TitleBlock'
 import { eventsActions } from 'app/modules/Events/slice/events'
 import {
     selectEvents,
@@ -19,6 +18,7 @@ import {
     selectWorkdays,
     selectWorkdaysDay,
 } from 'app/modules/Events/slice/workday/selectors'
+import { Main } from 'app/modules/Layout/templates/Main'
 import { selectLocation } from 'app/modules/Locations/slice/selectors'
 import { AvatarImage } from 'app/modules/Profile/components/AvatarImage'
 import { selectProfileRole } from 'app/modules/Profile/slice/selectors'
@@ -240,25 +240,23 @@ export const EventsListMobile: React.FC = () => {
     }
 
     return (
-        <>
-            <TitleBlock
-                title={'Календарь'}
-                endNode={
-                    profileRole === ERole.ADMIN ? (
-                        <IconButton
-                            sx={{ ml: 2 }}
-                            aria-label="more"
-                            id="long-button"
-                            aria-haspopup="true"
-                            onClick={handleSettingOpen}
-                        >
-                            <MoreVertIcon />
-                        </IconButton>
-                    ) : undefined
-                }
-                searchDisabled
-            />
-
+        <Main
+            title={'Календарь'}
+            endNode={
+                profileRole === ERole.ADMIN ? (
+                    <IconButton
+                        sx={{ ml: 2 }}
+                        aria-label="more"
+                        id="long-button"
+                        aria-haspopup="true"
+                        onClick={handleSettingOpen}
+                    >
+                        <MoreVertIcon />
+                    </IconButton>
+                ) : undefined
+            }
+            searchDisabled
+        >
             <Box px={1} flex="1 0 100%">
                 <MobileDatePicker
                     sx={{ width: '100%', backgroundColor: 'white' }}
@@ -282,60 +280,58 @@ export const EventsListMobile: React.FC = () => {
                 />
             </Box>
 
-            <Box pt={4} flex="1 0 100%" sx={{ overflow: 'auto', maxHeight: { md: 'calc( 100vh - 90px )' } }}>
-                <Typography pt={1} px={{ xs: 1, md: 4 }} variant="h5">
-                    События {selectDate.format('DD MMM')}
+            <Typography pt={2} px={{ xs: 1, md: 4 }} variant="h5">
+                События {selectDate.format('DD MMM')}
+            </Typography>
+            {eventsDay.length === 0 && (
+                <Typography px={{ xs: 1, md: 4 }} variant="body3" color="grey.600">
+                    Нет событий
                 </Typography>
-                {eventsDay.length === 0 && (
-                    <Typography px={{ xs: 1, md: 4 }} variant="body3" color="grey.600">
-                        Нет событий
-                    </Typography>
-                )}
-                <Table
-                    items={eventsDay}
-                    rows={tableEventsRows}
-                    isLoading={statusEvents === EStatus.PENDING}
-                    mobileView={mobileEventView}
-                    handleClickRow={handleClickRowEvent}
-                />
+            )}
+            <Table
+                items={eventsDay}
+                rows={tableEventsRows}
+                isLoading={statusEvents === EStatus.PENDING}
+                mobileView={mobileEventView}
+                handleClickRow={handleClickRowEvent}
+            />
 
-                <Typography pt={1} px={{ xs: 1, md: 4 }} variant="h5">
-                    Работа в Чернике {selectDate.format('DD MMM')}
+            <Typography pt={1} px={{ xs: 1, md: 4 }} variant="h5">
+                Работа в Чернике {selectDate.format('DD MMM')}
+            </Typography>
+            {workdaysDay.length === 0 && (
+                <Typography px={{ xs: 1, md: 4 }} variant="body3" color="grey.600">
+                    Нет событий
                 </Typography>
-                {workdaysDay.length === 0 && (
-                    <Typography px={{ xs: 1, md: 4 }} variant="body3" color="grey.600">
-                        Нет событий
-                    </Typography>
-                )}
-                <Table
-                    items={workdaysDay}
-                    rows={tableWorkdayRows}
-                    isLoading={statusWorkdays === EStatus.PENDING}
-                    mobileView={mobileWorkdayView}
-                    handleClickRow={handleClickRow}
-                />
+            )}
+            <Table
+                items={workdaysDay}
+                rows={tableWorkdayRows}
+                isLoading={statusWorkdays === EStatus.PENDING}
+                mobileView={mobileWorkdayView}
+                handleClickRow={handleClickRow}
+            />
 
-                <Typography pt={1} px={{ xs: 1, md: 4 }} variant="h5">
-                    Дни рождения {selectDate.format('DD MMM')}
+            <Typography pt={1} px={{ xs: 1, md: 4 }} variant="h5">
+                Дни рождения {selectDate.format('DD MMM')}
+            </Typography>
+            {birthdaysDay.length === 0 && (
+                <Typography px={{ xs: 1, md: 4 }} variant="body3" color="grey.600">
+                    Нет праздников
                 </Typography>
-                {birthdaysDay.length === 0 && (
-                    <Typography px={{ xs: 1, md: 4 }} variant="body3" color="grey.600">
-                        Нет праздников
-                    </Typography>
-                )}
-                <Table
-                    items={birthdaysDay}
-                    rows={tableRows}
-                    isLoading={status === EStatus.PENDING}
-                    mobileView={mobileView}
-                    handleClickRow={handleClickRow}
-                />
+            )}
+            <Table
+                items={birthdaysDay}
+                rows={tableRows}
+                isLoading={status === EStatus.PENDING}
+                mobileView={mobileView}
+                handleClickRow={handleClickRow}
+            />
 
-                <UserModal />
-                <EventModal />
-            </Box>
+            <UserModal />
+            <EventModal />
 
             {profileRole === ERole.ADMIN && <AdminSettings open={open} handleClose={handleClose} />}
-        </>
+        </Main>
     )
 }

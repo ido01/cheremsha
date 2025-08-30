@@ -4,7 +4,6 @@ import { LoadingButton } from '@mui/lab'
 import {
     Box,
     Button,
-    Container,
     Dialog,
     DialogActions,
     DialogContent,
@@ -48,6 +47,7 @@ export const UserModalContent: React.FC<UserModalContentProps> = ({ profileRole,
     const isMobile = useMediaQuery(theme.breakpoints.between('xs', 'md'))
 
     const [openDelete, setOpenDelete] = useState<boolean>(false)
+    const [openLink, setOpenLink] = useState<boolean>(false)
 
     const { status } = useSelector(selectForm)
     const copyUrl = useSelector(selectUrl)
@@ -91,6 +91,7 @@ export const UserModalContent: React.FC<UserModalContentProps> = ({ profileRole,
     const handleRecoveryUser = () => {
         if (user) {
             dispatch(usersActions.recoveryUser(user.id))
+            setOpenLink(true)
         }
     }
 
@@ -108,6 +109,10 @@ export const UserModalContent: React.FC<UserModalContentProps> = ({ profileRole,
 
     const handleCloseDelete = () => {
         setOpenDelete(false)
+    }
+
+    const handleCloseLink = () => {
+        setOpenLink(false)
     }
 
     const handleBanUser = () => {
@@ -241,75 +246,84 @@ export const UserModalContent: React.FC<UserModalContentProps> = ({ profileRole,
                     <LabelText label="О себе" text={user?.about || ''} />
                 </Grid>
             </Grid>
-            {profileRole === ERole.ADMIN && (
-                <>
-                    {(!user?.active || user?.ban) && (
-                        <LoadingButton
-                            loading={status === EStatus.PENDING}
-                            sx={{ mt: 4 }}
-                            fullWidth
-                            color="success"
-                            variant="contained"
-                            onClick={handleActiveUser}
-                        >
-                            Разрешить использовать платформу
-                        </LoadingButton>
-                    )}
-                    {user?.active && !user?.ban && !copyUrl && (
-                        <LoadingButton
-                            loading={status === EStatus.PENDING}
-                            sx={{ mt: 4 }}
-                            fullWidth
-                            color="info"
-                            variant="contained"
-                            onClick={handleRecoveryUser}
-                        >
-                            Сгенерировать ссылку на восстановление пароля
-                        </LoadingButton>
-                    )}
-
-                    {user?.active && !user?.ban && copyUrl && (
-                        <FormControl sx={{ m: 1, width: '80ch' }} variant="filled">
-                            <Input
-                                value={copyUrl}
-                                disabled
-                                type="text"
-                                endAdornment={
-                                    <InputAdornment position="end">
-                                        <IconButton aria-label={'копировать'} onClick={handleClickUrl}>
-                                            <ContentCopyIcon />
-                                        </IconButton>
-                                    </InputAdornment>
-                                }
-                            />
-                        </FormControl>
-                    )}
-                </>
-            )}
 
             {profileRole === ERole.ADMIN && (
                 <Box
                     sx={{
                         position: 'absolute',
-                        width: '100%',
-                        bottom: 0,
+                        bottom: '4px',
                         left: 0,
-                        py: 2,
-                        bgcolor: 'white',
-                        zIndex: 1,
+                        m: 1,
+                        p: 1,
+                        borderRadius: 8,
+                        backdropFilter: 'blur(4px)',
+                        bgcolor: '#FDFDFD30',
+                        boxShadow: '0px 4px 4px #3332',
                     }}
                 >
-                    <Container sx={{ display: 'flex', justifyContent: 'space-between' }}>
-                        <Box display={'flex'}>
-                            <IconButton color="error" onClick={handleOpenDelete}>
+                    <Box display={'flex'} gap={1}>
+                        {!user?.ban && (
+                            <IconButton color="error" onClick={handleOpenDelete} sx={{ bgcolor: '#FDFDFD90' }}>
                                 <DeleteIcon />
                             </IconButton>
+                        )}
 
-                            <IconButton color="info" onClick={handleEditDocument}>
-                                <EditIcon />
-                            </IconButton>
-                        </Box>
-                    </Container>
+                        <IconButton color="info" onClick={handleEditDocument} sx={{ bgcolor: '#FDFDFD90' }}>
+                            <EditIcon />
+                        </IconButton>
+                    </Box>
+                </Box>
+            )}
+
+            {profileRole === ERole.ADMIN && (!user?.active || user?.ban) && (
+                <Box
+                    sx={{
+                        position: 'absolute',
+                        bottom: '4px',
+                        right: 0,
+                        m: 1,
+                        p: 1,
+                        borderRadius: 8,
+                        backdropFilter: 'blur(4px)',
+                        bgcolor: '#FDFDFD30',
+                        border: '1px solid #F5F5F5',
+                    }}
+                >
+                    <LoadingButton
+                        loading={status === EStatus.PENDING}
+                        color="success"
+                        variant="outlined"
+                        onClick={handleActiveUser}
+                        sx={{ borderRadius: 8 }}
+                    >
+                        Разрешить использовать платформу
+                    </LoadingButton>
+                </Box>
+            )}
+
+            {profileRole === ERole.ADMIN && user?.active && !user?.ban && (
+                <Box
+                    sx={{
+                        position: 'absolute',
+                        bottom: '4px',
+                        right: 0,
+                        m: 1,
+                        p: 1,
+                        borderRadius: 8,
+                        backdropFilter: 'blur(4px)',
+                        bgcolor: '#FDFDFD30',
+                        border: '1px solid #F5F5F5',
+                    }}
+                >
+                    <LoadingButton
+                        loading={status === EStatus.PENDING}
+                        color="info"
+                        variant="outlined"
+                        onClick={handleRecoveryUser}
+                        sx={{ borderRadius: 8 }}
+                    >
+                        Сгенерировать ссылку на восстановление пароля
+                    </LoadingButton>
                 </Box>
             )}
 
@@ -328,6 +342,36 @@ export const UserModalContent: React.FC<UserModalContentProps> = ({ profileRole,
                     <LoadingButton onClick={handleBanUser} autoFocus color="error">
                         Заблокировать
                     </LoadingButton>
+                </DialogActions>
+            </Dialog>
+
+            <Dialog open={openLink} onClose={handleCloseLink} aria-labelledby="alert-dialog-title">
+                <DialogTitle id="alert-dialog-title">Ссылка для восстановление пароля</DialogTitle>
+
+                <DialogContent>
+                    <DialogContentText>
+                        Скопируйте и поделитесь ссылкой для восстановления пароля с беспамятным сотрудником
+                        <FormControl sx={{ width: '90%' }} variant="filled">
+                            <Input
+                                value={copyUrl}
+                                disabled
+                                type="text"
+                                endAdornment={
+                                    <InputAdornment position="end">
+                                        <IconButton aria-label={'копировать'} onClick={handleClickUrl}>
+                                            <ContentCopyIcon />
+                                        </IconButton>
+                                    </InputAdornment>
+                                }
+                            />
+                        </FormControl>
+                    </DialogContentText>
+                </DialogContent>
+
+                <DialogActions>
+                    <Button onClick={handleCloseLink} color="primary">
+                        Закрыть
+                    </Button>
                 </DialogActions>
             </Dialog>
         </>

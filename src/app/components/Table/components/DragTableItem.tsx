@@ -21,7 +21,6 @@ export const DragTableItem: React.FC<DragTableItemProps> = ({
     item,
     rows,
     isDraggable,
-    disableBorder,
     fullBorder,
     mobileView,
     handleClickRow,
@@ -34,11 +33,12 @@ export const DragTableItem: React.FC<DragTableItemProps> = ({
             key={item.id}
             sx={{
                 mt: { xs: 1, md: fullBorder ? 1 : 0 },
-                bgcolor: 'white',
-                borderRadius: { xs: 2, md: fullBorder ? 2 : 1 },
+                bgcolor: '#FDFDFD',
+                borderRadius: 8,
                 cursor: handleClickRow ? 'pointer' : 'default',
-                border: fullBorder ? '1px solid #F4F6FB' : undefined,
-                boxShadow: fullBorder ? '0px 0px 8px rgba(0, 0, 0, 0.08)' : undefined,
+                border: '1px solid #F5F5F5',
+                boxShadow: '0px 1px 1px #3332',
+                p: isMobile ? 1 : 0,
                 '&:hover': handleClickRow
                     ? {
                           bgcolor: '#F4F6FB',
@@ -55,16 +55,7 @@ export const DragTableItem: React.FC<DragTableItemProps> = ({
                 }
             }}
         >
-            <Box
-                display={'flex'}
-                alignItems={'center'}
-                minHeight={'56px'}
-                py={1.25}
-                px={{ md: 2 }}
-                sx={{
-                    borderBottom: disableBorder || fullBorder ? undefined : '1px solid #F4F6FB',
-                }}
-            >
+            <Box display={'flex'} alignItems={'center'} minHeight={'56px'} py={1.25} px={{ md: 2 }}>
                 {(!isMobile || !mobileView) && (
                     <Grid container columnSpacing={2}>
                         {rows.map((row, i) => (
