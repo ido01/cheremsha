@@ -2,6 +2,7 @@ import { StarBorder as StarBorderIcon, StarRate as StarRateIcon } from '@mui/ico
 import { TabContext, TabList, TabPanel } from '@mui/lab'
 import { Box, Container, IconButton, Modal as ModalComponent, Tab, Typography } from '@mui/material'
 import { Modal } from 'app/components/Modal'
+import { UserAchieveList } from 'app/modules/AchieveUser/templates/UserAchieveList'
 import { logActions } from 'app/modules/Log/slice'
 import { LogList } from 'app/modules/Log/templates/LogList'
 import { AvatarImage } from 'app/modules/Profile/components/AvatarImage'
@@ -59,14 +60,16 @@ export const UserModal: React.FC = () => {
     return (
         <>
             <Modal
+                pl={1}
                 open={isOpen}
                 title={
                     <Box display={'flex'} alignItems={'center'}>
                         <AvatarImage
                             name={`${user?.last_name} ${user?.name}`}
                             image={user?.avatar?.thumb}
-                            size={'42px'}
+                            size={42}
                             onClick={handleOpenAvatar}
+                            achieve={user?.achieve}
                         />
 
                         <Typography variant="h5" sx={{ mx: 1 }}>

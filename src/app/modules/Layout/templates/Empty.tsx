@@ -62,12 +62,7 @@ export const Empty: React.FC<EmptyProps> = ({ children }) => {
                     <Box sx={{ p: 1, display: 'flex', justifyContent: 'space-between' }}>
                         <Logo />
 
-                        <Button
-                            variant="text"
-                            startIcon={<LogoutIcon />}
-                            onClick={() => setOpen(true)}
-                            sx={{ textTransform: 'uppercase' }}
-                        >
+                        <Button variant="text" startIcon={<LogoutIcon />} onClick={() => setOpen(true)}>
                             {'Выйти'}
                         </Button>
                     </Box>

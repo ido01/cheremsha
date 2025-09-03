@@ -1,4 +1,5 @@
 import { EGender, ERole } from '.'
+import { IAchieve } from './IAchieve'
 import { IFile } from './IFile'
 import { IQuizState } from './IQuizState'
 
@@ -67,6 +68,7 @@ export interface IUser {
     createdAt: string
     state?: IQuizState
     quiz?: IQuizState
+    achieve?: IAchieve
 }
 
 export interface ITinyUser {

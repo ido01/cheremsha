@@ -24,6 +24,9 @@ interface TableProps {
     disableBorder?: boolean
     disableHeader?: boolean
     fullBorder?: boolean
+    nocolumn?: boolean
+    isMobile?: boolean
+    noPadding?: boolean
     mobileView?: (data: any) => React.ReactNode
     handleOrderChange?: (order: TTableOrder) => void
     handleLimitChange?: (limit: TLimit) => void
@@ -38,10 +41,12 @@ export const Table: React.FC<TableProps> = ({
     pagination,
     isDraggable,
     isLoading,
-    disablePadding,
     disableBorder,
     disableHeader,
     fullBorder,
+    nocolumn,
+    isMobile,
+    noPadding,
     mobileView,
     handleOrderChange,
     handleLimitChange,
@@ -49,10 +54,10 @@ export const Table: React.FC<TableProps> = ({
     handleClickRow,
 }) => {
     const theme = useTheme()
-    const isMobile = useMediaQuery(theme.breakpoints.between('xs', 'md'))
+    isMobile = typeof isMobile === 'undefined' ? useMediaQuery(theme.breakpoints.between('xs', 'md')) : isMobile
 
     return (
-        <Box px={{ xs: disablePadding ? 0 : 1, md: disablePadding ? 0 : 1 }} mb={6} position={'relative'}>
+        <Box mb={noPadding ? 0 : 6} position={'relative'}>
             {!isMobile && !disableHeader && (
                 <Box
                     sx={{
@@ -95,7 +100,8 @@ export const Table: React.FC<TableProps> = ({
             <Box
                 sx={{
                     display: 'flex',
-                    flexDirection: 'column',
+                    flexDirection: nocolumn ? 'row' : 'column',
+                    flexWrap: nocolumn ? 'wrap' : undefined,
                     gap: 0.5,
                 }}
             >
@@ -104,6 +110,7 @@ export const Table: React.FC<TableProps> = ({
                         index={index}
                         item={item}
                         rows={rows}
+                        isMobile={isMobile}
                         key={`${item.type}${item.id}`}
                         isDraggable={isDraggable}
                         fullBorder={fullBorder}

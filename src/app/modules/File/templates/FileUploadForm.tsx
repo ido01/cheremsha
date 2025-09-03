@@ -103,7 +103,7 @@ export const FileUploadForm: React.FC<FileUploadFormProps> = ({ image, fileName 
                             justifyContent: 'space-between',
                         }}
                     >
-                        <Typography variant="h5" fontWeight={500} sx={{ textTransform: 'uppercase' }}>
+                        <Typography variant="h5" fontWeight={500}>
                             Загрузка фотографии
                         </Typography>
 
@@ -153,23 +153,13 @@ export const FileUploadForm: React.FC<FileUploadFormProps> = ({ image, fileName 
                                 size="large"
                                 color="primary"
                                 variant="contained"
-                                sx={{
-                                    textTransform: 'uppercase',
-                                }}
                                 onClick={handleCropImage}
                             >
-                                сохранить
+                                Сохранить
                             </LoadingButton>
                         </Grid>
                         <Grid display={'flex'} justifyContent={'flex-end'} alignItems={'center'} item xs={3}>
-                            <LoadingButton
-                                onClick={handleClose}
-                                sx={{
-                                    textTransform: 'uppercase',
-                                }}
-                            >
-                                ОТМЕНА
-                            </LoadingButton>
+                            <LoadingButton onClick={handleClose}>Отмена</LoadingButton>
                         </Grid>
                     </Grid>
                 </Box>

@@ -1,4 +1,11 @@
-import { ContentCut as ContentCutIcon, Delete as DeleteIcon, Edit as EditIcon } from '@mui/icons-material'
+import {
+    BarChart as BarChartIcon,
+    ContentCut as ContentCutIcon,
+    Delete as DeleteIcon,
+    Edit as EditIcon,
+    Public as PublicIcon,
+    PublicOff as PublicOffIcon,
+} from '@mui/icons-material'
 import { LoadingButton } from '@mui/lab'
 import {
     Box,
@@ -115,7 +122,11 @@ export const QuizModal: React.FC = () => {
 
     return (
         <>
-            <Modal open={isOpen} title={quiz?.name || ''} handleClose={handleClose}>
+            <Modal
+                open={isOpen}
+                title={`${quiz?.name || ''}${quiz?.draft ? ' (Черновик)' : ''}`}
+                handleClose={handleClose}
+            >
                 <Box
                     py={10}
                     sx={{
@@ -242,71 +253,87 @@ export const QuizModal: React.FC = () => {
                     </Container>
                 </Box>
 
-                <Box
-                    sx={{
-                        position: 'absolute',
-                        width: '100%',
-                        bottom: 0,
-                        py: 2,
-                        bgcolor: 'white',
-                        zIndex: 1,
-                    }}
-                >
-                    {profileRole === ERole.ADMIN && (
-                        <Container sx={{ mb: 4 }}>
+                {quiz &&
+                    quiz.state.state !== EQuizState.COMPLETED &&
+                    quiz.state.state !== EQuizState.CLOSED &&
+                    quiz.state.state !== EQuizState.DONE && (
+                        <Box
+                            sx={{
+                                position: 'absolute',
+                                bottom: '4px',
+                                right: 0,
+                                m: 1,
+                                p: 1,
+                                borderRadius: 8,
+                                backdropFilter: 'blur(4px)',
+                                bgcolor: '#FDFDFD30',
+                                border: '1px solid #F5F5F5',
+                            }}
+                        >
+                            <LoadingButton
+                                color="success"
+                                variant="outlined"
+                                onClick={() => setOpenStart(true)}
+                                sx={{ borderRadius: 8 }}
+                            >
+                                Приступить к тестированию
+                            </LoadingButton>
+                        </Box>
+                    )}
+                {profileRole === ERole.ADMIN && (
+                    <Box
+                        sx={{
+                            position: 'absolute',
+                            bottom: '4px',
+                            left: 0,
+                            m: 1,
+                            p: 1,
+                            borderRadius: 8,
+                            backdropFilter: 'blur(4px)',
+                            bgcolor: '#FDFDFD30',
+                            border: '1px solid #F5F5F5',
+                        }}
+                    >
+                        <Box display={'flex'} gap={1}>
+                            <IconButton color="error" onClick={handleOpenDelete} sx={{ bgcolor: '#FDFDFD90' }}>
+                                <DeleteIcon />
+                            </IconButton>
+
+                            <IconButton color="info" onClick={handleEditDocument} sx={{ bgcolor: '#FDFDFD90' }}>
+                                <EditIcon />
+                            </IconButton>
+
+                            <IconButton color="secondary" onClick={handleCutDocument} sx={{ bgcolor: '#FDFDFD90' }}>
+                                <ContentCutIcon />
+                            </IconButton>
+
+                            {quiz && !quiz.draft && (
+                                <IconButton color="success" onClick={handleDraft} sx={{ bgcolor: '#FDFDFD90' }}>
+                                    <PublicOffIcon />
+                                </IconButton>
+                            )}
+
+                            {quiz && quiz.draft && (
+                                <IconButton color="success" onClick={handlePublic} sx={{ bgcolor: '#FDFDFD90' }}>
+                                    <PublicIcon />
+                                </IconButton>
+                            )}
+
                             <LoadingButton
                                 component={Link}
                                 to={`/quiz/result/${quiz?.id}`}
-                                fullWidth
                                 color="warning"
-                                variant="contained"
+                                sx={{
+                                    minWidth: 0,
+                                    borderRadius: 8,
+                                    bgcolor: '#FDFDFD90',
+                                }}
                             >
-                                Результаты
+                                <BarChartIcon />
                             </LoadingButton>
-                        </Container>
-                    )}
-                    <Container sx={{ display: 'flex', justifyContent: 'space-between' }}>
-                        <Box display={'flex'}>
-                            {profileRole === ERole.ADMIN && (
-                                <>
-                                    <IconButton color="error" onClick={handleOpenDelete}>
-                                        <DeleteIcon />
-                                    </IconButton>
-
-                                    <IconButton color="info" onClick={handleEditDocument}>
-                                        <EditIcon />
-                                    </IconButton>
-
-                                    <IconButton color="secondary" onClick={handleCutDocument}>
-                                        <ContentCutIcon />
-                                    </IconButton>
-
-                                    {quiz && !quiz.draft && (
-                                        <LoadingButton onClick={handleDraft}>В Черновик</LoadingButton>
-                                    )}
-                                </>
-                            )}
                         </Box>
-
-                        {quiz &&
-                            quiz.state.state !== EQuizState.COMPLETED &&
-                            quiz.state.state !== EQuizState.CLOSED &&
-                            quiz.state.state !== EQuizState.DONE && (
-                                <LoadingButton color="success" variant="contained" onClick={() => setOpenStart(true)}>
-                                    Приступить к тестированию
-                                </LoadingButton>
-                            )}
-                        {quiz && quiz.draft && profileRole === ERole.ADMIN && (
-                            <Box sx={{ display: 'flex', gap: 2, alignItems: 'center' }}>
-                                <Typography color="grey.600">Черновик</Typography>
-
-                                <LoadingButton color="success" variant="contained" onClick={handlePublic}>
-                                    Опубликовать
-                                </LoadingButton>
-                            </Box>
-                        )}
-                    </Container>
-                </Box>
+                    </Box>
+                )}
             </Modal>
 
             <Dialog open={openDelete} onClose={handleCloseDelete} aria-labelledby="alert-dialog-title">

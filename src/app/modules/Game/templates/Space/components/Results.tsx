@@ -52,7 +52,7 @@ export const Results: React.FC<ResultsProps> = ({ isOpen, handleClose }) => {
                         <AvatarImage
                             name={`${item.user?.last_name} ${item.user?.name}`}
                             image={item.user?.image}
-                            size={'36px'}
+                            size={36}
                         />
 
                         <Box>

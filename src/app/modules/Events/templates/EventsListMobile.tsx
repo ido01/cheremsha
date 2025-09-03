@@ -127,7 +127,12 @@ export const EventsListMobile: React.FC = () => {
             xs: 8,
             element: (user: IUser) => (
                 <>
-                    <AvatarImage name={`${user.last_name} ${user.name}`} image={user.avatar?.url} size={'36px'} />
+                    <AvatarImage
+                        name={`${user.last_name} ${user.name}`}
+                        image={user.avatar?.url}
+                        size={36}
+                        achieve={user.achieve}
+                    />
 
                     <Box ml={2}>
                         <Typography variant="body2">{`${user.last_name} ${user.name}`}</Typography>
@@ -176,7 +181,12 @@ export const EventsListMobile: React.FC = () => {
             xs: 8,
             element: (user: IUser) => (
                 <>
-                    <AvatarImage name={`${user.last_name} ${user.name}`} image={user.avatar?.url} size={'36px'} />
+                    <AvatarImage
+                        name={`${user.last_name} ${user.name}`}
+                        image={user.avatar?.url}
+                        size={36}
+                        achieve={user.achieve}
+                    />
 
                     <Box ml={2}>
                         <Typography variant="body2">{`${user.last_name} ${user.name}`}</Typography>

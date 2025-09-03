@@ -27,6 +27,10 @@ const slice = createSlice({
             state.status = EStatus.PENDING
             action.payload
         },
+        uploadAchiveImage(state, action: PayloadAction<File>) {
+            state.status = EStatus.PENDING
+            action.payload
+        },
         uploadImage(state, action: PayloadAction<File>) {
             state.status = EStatus.PENDING
             action.payload

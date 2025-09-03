@@ -81,7 +81,7 @@ export const DocumentsCategoriesList: React.FC = () => {
             endNode={
                 profileRole === ERole.ADMIN ? (
                     <IconButton
-                        sx={{ ml: 2, bgcolor: '#FDFDFD90' }}
+                        sx={{ bgcolor: '#FDFDFD90' }}
                         aria-label="more"
                         id="long-button"
                         aria-haspopup="true"

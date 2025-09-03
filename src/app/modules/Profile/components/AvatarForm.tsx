@@ -67,7 +67,7 @@ export const AvatarForm: React.FC = () => {
                     onMouseLeave={() => setHover(false)}
                     onClick={handleChangeImage}
                 >
-                    <AvatarImage name={userName} image={imageSrc} size={'70px'} />
+                    <AvatarImage name={userName} image={imageSrc} size={70} />
 
                     {isHover && (
                         <Box

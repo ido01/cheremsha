@@ -154,9 +154,9 @@ export function* setActiveId(action: PayloadAction<string>) {
 
         yield put(documentsActions.documentSave(response.data))
 
-        if (response.data.parentId && response.data.parentId !== '0') {
-            yield put(categoriesActions.reloadCategory(response.data.parentId))
-        }
+        // if (response.data.parentId && response.data.parentId !== '0') {
+        //     yield put(categoriesActions.reloadCategory(response.data.parentId))
+        // }
     } catch (error: any) {
         yield put(documentsActions.statusError())
     }
@@ -174,9 +174,9 @@ export function* setComplete(action: PayloadAction<IDocumentStateRequest>) {
 
         yield put(documentsActions.documentSave(response.data))
 
-        if (response.data.parentId && response.data.parentId !== '0') {
-            yield put(categoriesActions.reloadCategory(response.data.parentId))
-        }
+        // if (response.data.parentId && response.data.parentId !== '0') {
+        //     yield put(categoriesActions.reloadCategory(response.data.parentId))
+        // }
     } catch (error: any) {
         yield put(documentsActions.statusError())
     }
@@ -191,9 +191,9 @@ export function* createDocument(action: PayloadAction<IDocument>) {
 
         yield put(documentsActions.documentSave(response.data))
 
-        if (response.data.parentId && response.data.parentId !== '0') {
-            yield put(categoriesActions.reloadCategory(response.data.parentId))
-        }
+        // if (response.data.parentId && response.data.parentId !== '0') {
+        //     yield put(categoriesActions.reloadCategory(response.data.parentId))
+        // }
     } catch (error: any) {
         yield put(documentsActions.statusError())
     }

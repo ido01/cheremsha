@@ -1,6 +1,8 @@
 import { Box } from '@mui/material'
 import { Editor } from '@tinymce/tinymce-react'
+import { selectSettings } from 'app/modules/Settings/slice/selectors'
 import React, { useEffect } from 'react'
+import { useSelector } from 'react-redux'
 
 interface TextAreaEditProps {
     value: string
@@ -8,6 +10,8 @@ interface TextAreaEditProps {
 }
 
 export const TextAreaEdit: React.FC<TextAreaEditProps> = ({ value, onChange }) => {
+    const settings = useSelector(selectSettings)
+
     const handleEditorChange = (content: string) => {
         onChange(content)
     }
@@ -25,7 +29,7 @@ export const TextAreaEdit: React.FC<TextAreaEditProps> = ({ value, onChange }) =
     return (
         <Box width="100%">
             <Editor
-                apiKey="xnk50yfbqv537gxly6kuu0okwlx0zxqqalzvhtkwkjqk96hp"
+                apiKey={settings.tinymce || 'xnk50yfbqv537gxly6kuu0okwlx0zxqqalzvhtkwkjqk96hp'}
                 initialValue={value}
                 init={{
                     height: 300,

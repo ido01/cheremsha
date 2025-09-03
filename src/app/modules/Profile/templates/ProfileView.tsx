@@ -37,12 +37,7 @@ export const ProfileView: React.FC = () => {
             title={'Профиль'}
             searchDisabled
             endNode={
-                <Button
-                    variant="text"
-                    startIcon={<LogoutIcon />}
-                    onClick={() => setOpen(true)}
-                    sx={{ textTransform: 'uppercase' }}
-                >
+                <Button variant="text" startIcon={<LogoutIcon />} onClick={() => setOpen(true)}>
                     {'Выйти'}
                 </Button>
             }

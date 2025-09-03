@@ -1,4 +1,5 @@
 import { PayloadAction } from '@reduxjs/toolkit'
+import { achieveActions } from 'app/modules/Achieve/slice'
 import { documentsActions } from 'app/modules/Documents/slice'
 import { profileActions } from 'app/modules/Profile/slice'
 import { call, put, takeLeading } from 'redux-saga/effects'
@@ -26,6 +27,23 @@ export function* uploadImage(action: PayloadAction<File>) {
         })
 
         yield put(profileActions.updateAvatar(response.fid))
+        yield put(fileActions.statusFinished())
+    } catch (error: any) {
+        yield put(fileActions.statusError())
+    }
+}
+
+export function* uploadAchiveImage(action: PayloadAction<File>) {
+    try {
+        const data = new FormData()
+        data.append('file', action.payload)
+
+        const response: IFileResponse = yield call(request, `file/admin`, {
+            method: 'POST',
+            data,
+        })
+
+        yield put(achieveActions.updateImage(response.data))
         yield put(fileActions.statusFinished())
     } catch (error: any) {
         yield put(fileActions.statusError())
@@ -73,6 +91,7 @@ export function* createImage(action: PayloadAction<IFileRequest>) {
 
 export function* fileWatcher() {
     yield takeLeading(fileActions.uploadImage.type, uploadImage)
+    yield takeLeading(fileActions.uploadAchiveImage.type, uploadAchiveImage)
     yield takeLeading(fileActions.uploadDoc.type, uploadDoc)
     yield takeLeading(fileActions.createImage.type, createImage)
 }

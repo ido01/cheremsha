@@ -105,7 +105,7 @@ export const LeftMenu: React.FC = () => {
                         borderRadius: 8,
                         boxShadow: '0px 4px 4px #3332',
                         p: 1,
-                        m: '4px',
+                        m: 1,
                     }}
                 >
                     <IconButton onClick={() => setLage(!isLage)}>
@@ -160,7 +160,7 @@ export const LeftMenu: React.FC = () => {
                 />
                 <MenuItem
                     item={{
-                        icon: <AvatarImage name={profile.name} image={profile.avatar?.thumb} size={'28px'} />,
+                        icon: <AvatarImage name={profile.name} image={profile.avatar?.thumb} size={28} />,
                         title: `${profile.last_name} ${profile.name}`,
                         path: '/profile',
                     }}

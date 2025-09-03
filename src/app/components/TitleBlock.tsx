@@ -61,16 +61,20 @@ export const TitleBlock: React.FC<TitleBlockProps> = ({
                     boxShadow: '0px 4px 4px #3332',
                     p: 1,
                     pl: !!breadcrumbsItemsMobile?.link && isMobile ? 1 : 3,
-                    m: { sm: 1, md: 0.5 },
+                    m: 1,
                     backdropFilter: 'blur(4px)',
                 }}
             >
-                <Box display={'flex'} alignItems={'flex-start'}>
-                    <Box display={'flex'} alignItems={'center'} sx={{ minHeight: '44px' }}>
+                <Box
+                    display={'flex'}
+                    alignItems={'flex-start'}
+                    sx={{ minHeight: '44px', maxWidth: !endNode ? 'calc(100%)' : 'calc(100% - 44px)' }}
+                >
+                    <Box display={'flex'} alignItems={'center'} sx={{ minHeight: '44px', maxWidth: 'calc(100%)' }}>
                         {!!breadcrumbs && !isMobile && breadcrumbs.length > 1 && <Breadcrumbs items={breadcrumbs} />}
                         {!!breadcrumbsItemsMobile?.link && isMobile && (
                             <IconButton
-                                sx={{ mr: 1, bgcolor: '#FDFDFD90' }}
+                                sx={{ mr: 0.5, bgcolor: '#FDFDFD90' }}
                                 aria-label={breadcrumbsItemsMobile.text}
                                 aria-haspopup="true"
                                 onClick={() => {
@@ -83,7 +87,11 @@ export const TitleBlock: React.FC<TitleBlockProps> = ({
                             </IconButton>
                         )}
 
-                        <Typography variant={isMobile ? 'h5' : 'h4'} fontWeight={700}>
+                        <Typography
+                            variant={isMobile ? 'h5' : 'h4'}
+                            fontWeight={700}
+                            sx={{ whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}
+                        >
                             {title}
                         </Typography>
 

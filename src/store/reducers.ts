@@ -1,4 +1,6 @@
 import { combineReducers, Reducer } from '@reduxjs/toolkit'
+import { achieveReducer } from 'app/modules/Achieve/slice'
+import { achieveUserReducer } from 'app/modules/AchieveUser/slice'
 import { authReducer } from 'app/modules/Auth/slice'
 import { categoriesReducer } from 'app/modules/Categories/slice'
 import { documentsReducer } from 'app/modules/Documents/slice'
@@ -24,6 +26,8 @@ import { InjectedReducersType } from 'utils/types/injector-typings'
 export function createReducer(injectedReducers: InjectedReducersType = {}): Reducer {
     return combineReducers({
         ...injectedReducers,
+        achieve: achieveReducer,
+        achieve_user: achieveUserReducer,
         auth: authReducer,
         birthdays: birthdaysReducer,
         categories: categoriesReducer,

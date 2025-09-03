@@ -45,7 +45,7 @@ export const DoWhiteResults: React.FC = () => {
                         <AvatarImage
                             name={`${item.user?.last_name} ${item.user?.name}`}
                             image={item.user?.image}
-                            size={'36px'}
+                            size={36}
                         />
 
                         <Box>

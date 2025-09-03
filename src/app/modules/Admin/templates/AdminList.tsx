@@ -1,6 +1,7 @@
 import {
     Agriculture as AgricultureIcon,
     Apartment as ApartmentIcon,
+    Grade as GradeIcon,
     Poll as PollIcon,
     TableRestaurant as TableRestaurantIcon,
 } from '@mui/icons-material'
@@ -40,6 +41,12 @@ export const AdminList: React.FC = () => {
             icon: <ApartmentIcon fontSize="large" />,
             title: 'Точки',
             path: '/locations',
+        })
+
+        links.push({
+            icon: <GradeIcon fontSize="large" />,
+            title: 'Ачивки',
+            path: '/achieve',
         })
     }
 

@@ -54,7 +54,8 @@ export const ResultModal: React.FC = () => {
                         <AvatarImage
                             name={`${user?.last_name} ${user?.name}`}
                             image={user?.avatar?.thumb}
-                            size={'42px'}
+                            size={42}
+                            achieve={user?.achieve}
                             onClick={handleOpenAvatar}
                         />
 

@@ -224,7 +224,20 @@ export const DocumentModal: React.FC = () => {
                                 )}
 
                                 {info.type === 'image' && (
-                                    <Box mt={1.5} mb={0.5} component={'img'} src={info.image?.url} maxWidth="100%" />
+                                    <Box
+                                        sx={{
+                                            display: 'flex',
+                                            justifyContent: 'center',
+                                        }}
+                                    >
+                                        <Box
+                                            mt={1.5}
+                                            mb={0.5}
+                                            component={'img'}
+                                            src={info.image?.url}
+                                            maxWidth="100%"
+                                        />
+                                    </Box>
                                 )}
                             </Box>
                         ))}
@@ -258,7 +271,7 @@ export const DocumentModal: React.FC = () => {
                                                                 <AvatarImage
                                                                     name={`${taskUser.user.last_name} ${taskUser.user.name}`}
                                                                     image={taskUser.user.avatar?.thumb}
-                                                                    size={'24px'}
+                                                                    size={24}
                                                                 />
 
                                                                 <Typography

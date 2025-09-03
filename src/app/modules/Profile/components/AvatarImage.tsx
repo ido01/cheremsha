@@ -1,5 +1,7 @@
-import { Avatar, Skeleton } from '@mui/material'
-import React from 'react'
+import * as Icons from '@mui/icons-material'
+import { Avatar, Box, Skeleton } from '@mui/material'
+import React, { ReactNode } from 'react'
+import { IAchieve } from 'types/IAchieve'
 
 function stringToColor(string: string) {
     let hash = 0
@@ -18,7 +20,7 @@ function stringToColor(string: string) {
     return color
 }
 
-function stringAvatar(name: string, size?: string) {
+function stringAvatar(name: string, size: number) {
     return {
         sx: {
             width: size || 64,
@@ -32,28 +34,85 @@ function stringAvatar(name: string, size?: string) {
 interface AvatarImageProps {
     name?: string
     image?: string
-    size?: string
+    size?: number
+    achieve?: IAchieve
     onClick?: () => void
 }
 
-export const AvatarImage: React.FC<AvatarImageProps> = ({ image, name, size, onClick }) => {
+interface AchieveBoxProps {
+    achieve?: IAchieve
+    size: number
+    children: ReactNode
+}
+
+const AchieveBox: React.FC<AchieveBoxProps> = ({ achieve, size, children }) => {
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-ignore
+    const Icon = Icons[achieve?.icon]
+    if (!achieve) {
+        return <>{children}</>
+    }
+    return (
+        <Box
+            sx={{
+                boxSizing: 'border-box',
+                backgroundColor: achieve.color,
+                p: '2px',
+                borderRadius: '100%',
+                position: 'relative',
+            }}
+        >
+            {children}
+            <Box
+                sx={{
+                    position: 'absolute',
+                    display: 'flex',
+                    borderRadius: 8,
+                    backgroundColor: achieve.color,
+                    color: '#fff',
+                    p: 0.25,
+                    left: `${size * 0.65}px`,
+                    bottom: 0,
+                }}
+            >
+                {Icon && <Icon sx={{ width: `${size / 2}px`, height: `${size / 2}px` }} />}
+            </Box>
+        </Box>
+    )
+}
+
+export const AvatarImage: React.FC<AvatarImageProps> = ({ achieve, image, name, size, onClick }) => {
+    let newSize = size || 64
+    if (achieve) {
+        newSize -= 4
+    }
     if (image) {
         return (
-            <Avatar
-                alt={name}
-                src={image}
-                onClick={onClick}
-                sx={{
-                    width: size || 64,
-                    height: size || 64,
-                }}
-            />
+            <AchieveBox achieve={achieve} size={newSize}>
+                <Avatar
+                    alt={name}
+                    src={image}
+                    onClick={onClick}
+                    sx={{
+                        width: newSize,
+                        height: newSize,
+                    }}
+                />
+            </AchieveBox>
         )
     }
 
     if (name) {
-        return <Avatar {...stringAvatar(name || '', size)} onClick={onClick} />
+        return (
+            <AchieveBox achieve={achieve} size={newSize}>
+                <Avatar {...stringAvatar(name || '', newSize)} onClick={onClick} />
+            </AchieveBox>
+        )
     }
 
-    return <Skeleton variant="circular" width={size || 64} height={size || 64} />
+    return (
+        <AchieveBox achieve={achieve} size={newSize}>
+            <Skeleton variant="circular" width={newSize} height={newSize} />
+        </AchieveBox>
+    )
 }

@@ -55,7 +55,12 @@ export const ResultList: React.FC = () => {
             xs: 5,
             element: (user: IUser) => (
                 <>
-                    <AvatarImage name={`${user.last_name} ${user.name}`} image={user.avatar?.thumb} size={'36px'} />
+                    <AvatarImage
+                        name={`${user.last_name} ${user.name}`}
+                        image={user.avatar?.thumb}
+                        size={36}
+                        achieve={user.achieve}
+                    />
 
                     <Box ml={2}>
                         <Typography variant="body2">{`${user.last_name} ${user.name}`}</Typography>
@@ -157,7 +162,7 @@ export const ResultList: React.FC = () => {
             value={filter.query}
             endNode={
                 isMobile ? (
-                    <Button variant="text" onClick={() => setFilterOpen(true)} sx={{ textTransform: 'uppercase' }}>
+                    <Button variant="text" onClick={() => setFilterOpen(true)}>
                         <FilterAltIcon />
                     </Button>
                 ) : (

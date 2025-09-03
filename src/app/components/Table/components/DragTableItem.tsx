@@ -1,4 +1,4 @@
-import { Box, Grid, IconButton, useMediaQuery, useTheme } from '@mui/material'
+import { Box, Grid, IconButton } from '@mui/material'
 import { ReactComponent as DndSVG } from 'assets/icons/DND.svg'
 import React from 'react'
 import { TTableRowData } from 'types/ITableDisplay'
@@ -12,6 +12,7 @@ interface DragTableItemProps {
     isDraggable?: boolean
     disableBorder?: boolean
     fullBorder?: boolean
+    isMobile?: boolean
     mobileView?: (data: any) => React.ReactNode
     handleClickRow?: (data: any) => void
 }
@@ -22,12 +23,10 @@ export const DragTableItem: React.FC<DragTableItemProps> = ({
     rows,
     isDraggable,
     fullBorder,
+    isMobile,
     mobileView,
     handleClickRow,
 }) => {
-    const theme = useTheme()
-    const isMobile = useMediaQuery(theme.breakpoints.between('xs', 'md'))
-
     return (
         <Box
             key={item.id}

@@ -143,7 +143,12 @@ export const EventsList: React.FC = () => {
             xs: 8,
             element: (user: IUser) => (
                 <>
-                    <AvatarImage name={`${user.last_name} ${user.name}`} image={user.avatar?.thumb} size={'36px'} />
+                    <AvatarImage
+                        name={`${user.last_name} ${user.name}`}
+                        image={user.avatar?.thumb}
+                        size={36}
+                        achieve={user.achieve}
+                    />
 
                     <Box ml={2}>
                         <Typography variant="body2">{`${user.last_name} ${user.name}`}</Typography>
@@ -192,7 +197,12 @@ export const EventsList: React.FC = () => {
             xs: 8,
             element: (user: IUser) => (
                 <>
-                    <AvatarImage name={`${user.last_name} ${user.name}`} image={user.avatar?.thumb} size={'36px'} />
+                    <AvatarImage
+                        name={`${user.last_name} ${user.name}`}
+                        image={user.avatar?.thumb}
+                        size={36}
+                        achieve={user.achieve}
+                    />
 
                     <Box ml={2}>
                         <Typography variant="body2">{`${user.last_name} ${user.name}`}</Typography>

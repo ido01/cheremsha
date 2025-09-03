@@ -1,5 +1,10 @@
-import { ContentCopy as ContentCopyIcon, Delete as DeleteIcon, Edit as EditIcon } from '@mui/icons-material'
-import DownloadIcon from '@mui/icons-material/Download'
+import {
+    AddCircle as AddCircleIcon,
+    ContentCopy as ContentCopyIcon,
+    Delete as DeleteIcon,
+    Download as DownloadIcon,
+    Edit as EditIcon,
+} from '@mui/icons-material'
 import { LoadingButton } from '@mui/lab'
 import {
     Box,
@@ -19,6 +24,8 @@ import {
     useTheme,
 } from '@mui/material'
 import { LabelText } from 'app/components/LabelText'
+import { achieveUserActions } from 'app/modules/AchieveUser/slice'
+import { UserAchieveList } from 'app/modules/AchieveUser/templates/UserAchieveList'
 import { selectLocation } from 'app/modules/Locations/slice/selectors'
 import dayjs from 'dayjs'
 import React, { useMemo, useState } from 'react'
@@ -115,6 +122,17 @@ export const UserModalContent: React.FC<UserModalContentProps> = ({ profileRole,
         setOpenLink(false)
     }
 
+    const handleAddAchive = () => {
+        dispatch(
+            achieveUserActions.openEditModal({
+                id: '',
+                uid: user.id,
+                aid: '',
+                description: '',
+            })
+        )
+    }
+
     const handleBanUser = () => {
         if (user) {
             dispatch(usersActions.banUser(user.id))
@@ -125,6 +143,7 @@ export const UserModalContent: React.FC<UserModalContentProps> = ({ profileRole,
     return (
         <>
             <Grid container sx={{ mt: 2.5 }} spacing={2.5}>
+                {user && <UserAchieveList id={user?.id} />}
                 {profileRole === ERole.ADMIN && (
                     <Grid item xs={12}>
                         <Box mb={1}>
@@ -271,6 +290,10 @@ export const UserModalContent: React.FC<UserModalContentProps> = ({ profileRole,
                         <IconButton color="info" onClick={handleEditDocument} sx={{ bgcolor: '#FDFDFD90' }}>
                             <EditIcon />
                         </IconButton>
+
+                        <IconButton color="success" onClick={handleAddAchive} sx={{ bgcolor: '#FDFDFD90' }}>
+                            <AddCircleIcon />
+                        </IconButton>
                     </Box>
                 </Box>
             )}
@@ -296,7 +319,7 @@ export const UserModalContent: React.FC<UserModalContentProps> = ({ profileRole,
                         onClick={handleActiveUser}
                         sx={{ borderRadius: 8 }}
                     >
-                        Разрешить использовать платформу
+                        Активировать
                     </LoadingButton>
                 </Box>
             )}
@@ -322,7 +345,7 @@ export const UserModalContent: React.FC<UserModalContentProps> = ({ profileRole,
                         onClick={handleRecoveryUser}
                         sx={{ borderRadius: 8 }}
                     >
-                        Сгенерировать ссылку на восстановление пароля
+                        Сброс пароля
                     </LoadingButton>
                 </Box>
             )}

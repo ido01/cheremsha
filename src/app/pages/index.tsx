@@ -1,3 +1,4 @@
+import { AchieveList } from 'app/modules/Achieve/templates/AchieveList'
 import { AdminList } from 'app/modules/Admin/templates/AdminList'
 import { DocumentsCategoriesList } from 'app/modules/Documents/templates/DocumentsCategoriesList'
 import { DocumentsList } from 'app/modules/Documents/templates/DocumentsList'
@@ -53,6 +54,7 @@ export const Pages: React.FC = () => (
                     <Route exact path={['/admin']} component={AdminList} />
                     <Route exact path={['/positions']} component={PositionsList} />
                     <Route exact path={['/locations']} component={LocationsList} />
+                    <Route exact path={['/achieve']} component={AchieveList} />
                     <Route exact path={['/tables']} component={TablesList} />
                     <Route exact path={['/tasks', '/tasks/*']} component={TasksPages} />
                     <Route exact path={['/quiz', '/quiz/*']} component={QuizPages} />

@@ -6,10 +6,11 @@ interface ModalProps {
     children: React.ReactNode
     open: boolean
     title: string | React.ReactNode
+    pl?: number
     handleClose: () => void
 }
 
-export const Modal: React.FC<ModalProps> = ({ children, open, title, handleClose }) => {
+export const Modal: React.FC<ModalProps> = ({ pl = 3, children, open, title, handleClose }) => {
     const theme = useTheme()
     const isMobile = useMediaQuery(theme.breakpoints.between('xs', 'md'))
 
@@ -38,7 +39,7 @@ export const Modal: React.FC<ModalProps> = ({ children, open, title, handleClose
                     position: 'relative',
                 }}
             >
-                <Box position={'absolute'} top={0} width={'100%'} zIndex={2}>
+                <Box position={'absolute'} top={4} width={'calc( 100% - 8px )'} left={4} zIndex={2}>
                     <Box
                         display={'flex'}
                         flexShrink={0}
@@ -49,14 +50,14 @@ export const Modal: React.FC<ModalProps> = ({ children, open, title, handleClose
                             bgcolor: '#FDFDFD30',
                             boxShadow: '0px 4px 4px #3332',
                             p: 1,
-                            pl: 3,
+                            pl,
                             m: { sm: 1, md: 0.5 },
                             backdropFilter: 'blur(4px)',
                             border: '1px solid #F5F5F5',
                         }}
                     >
                         <Typography
-                            sx={{ fontWeight: 500, textTransform: 'uppercase' }}
+                            sx={{ fontWeight: 500, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}
                             variant={isMobile ? 'h6' : 'h5'}
                         >
                             {title}

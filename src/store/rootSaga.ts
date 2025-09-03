@@ -1,3 +1,5 @@
+import { achieveWatcher } from 'app/modules/Achieve/slice/saga'
+import { achieveUserWatcher } from 'app/modules/AchieveUser/slice/saga'
 import { authWatcher } from 'app/modules/Auth/slice/saga'
 import { categoriesWatcher } from 'app/modules/Categories/slice/saga'
 import { documentsWatcher } from 'app/modules/Documents/slice/saga'
@@ -22,6 +24,8 @@ import { all } from 'redux-saga/effects'
 
 export default function* rootSaga() {
     yield all([
+        achieveWatcher(),
+        achieveUserWatcher(),
         authWatcher(),
         birthdaysWatcher(),
         categoriesWatcher(),

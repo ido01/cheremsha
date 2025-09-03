@@ -22,13 +22,9 @@ export function* loadCategories(action: PayloadAction<string>) {
 
 export function* loadCategory(action: PayloadAction<string>) {
     try {
-        const response: ICategoryResponse = yield call(request, `category/${action.payload}`)
+        const response: ICategoriesResponse = yield call(request, `category/${action.payload}`)
 
-        yield put(categoriesActions.categoryReloaded(response.data))
-
-        if (response.data.parentId && response.data.parentId !== '0') {
-            yield put(categoriesActions.reloadCategory(response.data.parentId))
-        }
+        yield put(categoriesActions.categoriesLoaded(response))
     } catch (error: any) {
         yield put(categoriesActions.statusError())
     }

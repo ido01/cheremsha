@@ -16,7 +16,11 @@ export const MobileContactView: React.FC<MobileContactViewProps> = ({ user }) =>
         <Box px={2} pt={2} width={'100%'}>
             <Box>
                 <Box display={'flex'}>
-                    <AvatarImage name={`${user.last_name} ${user.name}`} image={user.avatar?.thumb} />
+                    <AvatarImage
+                        name={`${user.last_name} ${user.name}`}
+                        image={user.avatar?.thumb}
+                        achieve={user.achieve}
+                    />
 
                     <Box ml={2}>
                         <Typography variant="body2">{`${user.last_name} ${user.name}`}</Typography>

@@ -53,7 +53,8 @@ export const FavoriteModal: React.FC = () => {
                         <AvatarImage
                             name={`${user?.last_name} ${user?.name}`}
                             image={user?.avatar?.url}
-                            size={'42px'}
+                            size={42}
+                            achieve={user?.achieve}
                             onClick={handleOpenAvatar}
                         />
 

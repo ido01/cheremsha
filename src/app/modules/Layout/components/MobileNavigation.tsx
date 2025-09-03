@@ -51,7 +51,7 @@ export const MobileNavigation: React.FC = () => {
             id: 4,
         },
         {
-            icon: <AvatarImage name={profile.name} image={profile.avatar?.thumb} size={'35px'} />,
+            icon: <AvatarImage name={profile.name} image={profile.avatar?.thumb} size={35} />,
             title: 'Профиль',
             path: '/profile',
         },
@@ -84,7 +84,7 @@ export const MobileNavigation: React.FC = () => {
         <Box
             sx={{
                 position: 'fixed',
-                bottom: '4px',
+                bottom: '12px',
                 left: 0,
                 m: 1,
                 width: 'calc( 100% - 16px )',

@@ -25,7 +25,7 @@ export const DocumentBigAuthorRow: React.FC<DocumentBigAuthorRowProps> = ({ item
                         <AvatarImage
                             name={`${item.author.last_name} ${item.author.name}`}
                             image={item.author.avatar?.thumb}
-                            size={'24px'}
+                            size={24}
                         />
 
                         <Typography variant="body1" color="grey.900" sx={{ ml: 1 }}>
