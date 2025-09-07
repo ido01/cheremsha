@@ -10,3 +10,5 @@ export const selectProfileRole = createSelector([selectDomain], (state) => state
 export const selectProfile = createSelector([selectDomain], (state) => state.data)
 
 export const selectForm = createSelector([selectDomain], (state) => state.form)
+
+export const selectDeleteModal = createSelector([selectDomain], (state) => state.deleteModal)

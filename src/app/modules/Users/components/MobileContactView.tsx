@@ -13,7 +13,7 @@ interface MobileContactViewProps {
 export const MobileContactView: React.FC<MobileContactViewProps> = ({ user }) => {
     const getLocation = useSelector(selectLocation)
     return (
-        <Box px={2} pt={2} width={'100%'}>
+        <Box p={2} width={'100%'}>
             <Box>
                 <Box display={'flex'}>
                     <AvatarImage

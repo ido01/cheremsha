@@ -10,6 +10,7 @@ import React, { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { ERole } from 'types'
 import { convertGenderName, convertRoleName } from 'utils/convertUtils'
+import { checkAdminAccess } from 'utils/roles'
 
 import { favoritesActions } from '../slice'
 import { selectFavoriteById, selectModal } from '../slice/selectors'
@@ -62,7 +63,7 @@ export const FavoriteModal: React.FC = () => {
                             {`${user?.last_name} ${user?.name}`}
                         </Typography>
 
-                        {profileRole === ERole.ADMIN && (
+                        {checkAdminAccess(profileRole) && (
                             <>
                                 {!!user?.favorite && (
                                     <IconButton onClick={handleDeleteFavorite}>
@@ -78,7 +79,7 @@ export const FavoriteModal: React.FC = () => {
                             </>
                         )}
 
-                        {profileRole !== ERole.ADMIN && (
+                        {checkAdminAccess(profileRole) && (
                             <>
                                 {!!user?.favorite && <StarRateIcon color="warning" />}
 

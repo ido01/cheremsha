@@ -1,19 +1,51 @@
-import DownloadIcon from '@mui/icons-material/Download'
+import { Delete as DeleteIcon, Download as DownloadIcon } from '@mui/icons-material'
 import { Box, Button, Grid, Typography } from '@mui/material'
 import { LabelText } from 'app/components/LabelText'
 import { selectLocation } from 'app/modules/Locations/slice/selectors'
 import React from 'react'
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { convertGenderName } from 'utils/convertUtils'
 
+import { profileActions } from '../slice'
 import { selectProfile } from '../slice/selectors'
 
 export const AccountData: React.FC = () => {
+    const dispatch = useDispatch()
+
     const profile = useSelector(selectProfile)
     const getLocation = useSelector(selectLocation)
 
+    const handleDeleteOpen = () => {
+        dispatch(profileActions.showDeleteModal())
+    }
+
     return (
         <Box>
+            <Box mb={1}>
+                <Typography variant="h5" fontWeight={500}>
+                    Telegram аккаунт
+                </Typography>
+            </Box>
+
+            <Box mb={4}>
+                {!profile.telegram_id && <Typography variant="body3">Не привязан</Typography>}
+                {!!profile.telegram_id && (
+                    <Box
+                        sx={{
+                            display: 'flex',
+                            gap: 2,
+                            alignItems: 'center',
+                        }}
+                    >
+                        <Typography variant="body3">Аккаунт привязан</Typography>
+
+                        <Button color="error" startIcon={<DeleteIcon />} onClick={handleDeleteOpen}>
+                            Отвязать аккаунт
+                        </Button>
+                    </Box>
+                )}
+            </Box>
+
             <Box mb={1}>
                 <Typography variant="h5" fontWeight={500}>
                     Санитарная книжка

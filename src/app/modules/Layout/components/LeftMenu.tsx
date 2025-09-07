@@ -15,8 +15,8 @@ import { selectProfile, selectProfileRole } from 'app/modules/Profile/slice/sele
 import { selectSettings } from 'app/modules/Settings/slice/selectors'
 import React, { useState } from 'react'
 import { useSelector } from 'react-redux'
-import { ERole } from 'types'
 import { TMenuItem } from 'types/TMenuItem'
+import { checkAdminAccess } from 'utils/roles'
 
 import { MenuItem } from './MenuItem'
 
@@ -67,7 +67,7 @@ export const LeftMenu: React.FC = () => {
         })
     }
 
-    if (profileRole === ERole.ADMIN) {
+    if (checkAdminAccess(profileRole)) {
         menuItems.push({
             icon: <AssistWalkerIcon />,
             title: 'Админка',

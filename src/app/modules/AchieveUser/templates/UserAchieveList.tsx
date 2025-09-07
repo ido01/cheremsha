@@ -6,9 +6,10 @@ import { achieveActions } from 'app/modules/Achieve/slice'
 import { selectProfileRole } from 'app/modules/Profile/slice/selectors'
 import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { ERole, EStatus } from 'types'
+import { EStatus } from 'types'
 import { IAchieve } from 'types/IAchieve'
 import { TTableRowData } from 'types/ITableDisplay'
+import { checkAdminAccess } from 'utils/roles'
 
 import { DeleteModal } from '../components/DeleteModal'
 import { FormModal } from '../components/FormModal'
@@ -89,7 +90,7 @@ export const UserAchieveList: React.FC<UserAchieveListProps> = ({ id }) => {
                         gap: 1,
                     }}
                 >
-                    {profileRole === ERole.ADMIN && (
+                    {checkAdminAccess(profileRole) && (
                         <IconButton color="error" aria-haspopup="true" onClick={() => handleDeleteOpen(achieve)}>
                             <DeleteIcon />
                         </IconButton>
@@ -118,7 +119,7 @@ export const UserAchieveList: React.FC<UserAchieveListProps> = ({ id }) => {
                 // handleClickRow={handleClickRow}
             />
 
-            {profileRole === ERole.ADMIN && (
+            {checkAdminAccess(profileRole) && (
                 <>
                     <DeleteModal />
                     <FormModal />

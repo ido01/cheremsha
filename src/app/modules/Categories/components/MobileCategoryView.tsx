@@ -9,7 +9,7 @@ interface MobileCategoryViewProps {
 }
 
 export const MobileCategoryView: React.FC<MobileCategoryViewProps> = ({ item }) => (
-    <Box px={2} width={'100%'}>
+    <Box px={2} pb={2} pt={1} width={'100%'}>
         <CategoryHeaderRow item={item} />
         <Box mt={1} display={'flex'} justifyContent={'space-between'} alignItems={'center'}>
             <Box display={'flex'} flexDirection={'column'} alignItems={'flex-start'}>

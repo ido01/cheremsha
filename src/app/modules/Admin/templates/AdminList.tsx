@@ -5,7 +5,7 @@ import {
     Poll as PollIcon,
     TableRestaurant as TableRestaurantIcon,
 } from '@mui/icons-material'
-import { Grid, useMediaQuery, useTheme } from '@mui/material'
+import { Box, Grid, useMediaQuery, useTheme } from '@mui/material'
 import { ITile, Tile } from 'app/components/Tile'
 import { Main } from 'app/modules/Layout/templates/Main'
 import { selectProfileRole } from 'app/modules/Profile/slice/selectors'
@@ -13,7 +13,7 @@ import { selectSettings } from 'app/modules/Settings/slice/selectors'
 import React from 'react'
 import { useSelector } from 'react-redux'
 import { useHistory } from 'react-router-dom'
-import { ERole } from 'types'
+import { checkAdminAccess } from 'utils/roles'
 
 export const AdminList: React.FC = () => {
     const history = useHistory()
@@ -24,7 +24,7 @@ export const AdminList: React.FC = () => {
     const settings = useSelector(selectSettings)
 
     const links: ITile[] = []
-    if (profileRole === ERole.ADMIN) {
+    if (checkAdminAccess(profileRole)) {
         links.push({
             icon: <PollIcon fontSize="large" />,
             title: 'Опрос',
@@ -64,13 +64,15 @@ export const AdminList: React.FC = () => {
 
     return (
         <Main title={'Админка'} searchDisabled>
-            <Grid container spacing={2}>
-                {links.map((link, index) => (
-                    <Grid item key={index} xs={isMobile ? 6 : 3}>
-                        <Tile data={link} onClick={handleClickRow} />
-                    </Grid>
-                ))}
-            </Grid>
+            <Box pb={11}>
+                <Grid container spacing={2}>
+                    {links.map((link, index) => (
+                        <Grid item key={index} xs={isMobile ? 6 : 3}>
+                            <Tile data={link} onClick={handleClickRow} />
+                        </Grid>
+                    ))}
+                </Grid>
+            </Box>
         </Main>
     )
 }

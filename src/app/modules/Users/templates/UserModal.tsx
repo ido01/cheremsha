@@ -2,7 +2,6 @@ import { StarBorder as StarBorderIcon, StarRate as StarRateIcon } from '@mui/ico
 import { TabContext, TabList, TabPanel } from '@mui/lab'
 import { Box, Container, IconButton, Modal as ModalComponent, Tab, Typography } from '@mui/material'
 import { Modal } from 'app/components/Modal'
-import { UserAchieveList } from 'app/modules/AchieveUser/templates/UserAchieveList'
 import { logActions } from 'app/modules/Log/slice'
 import { LogList } from 'app/modules/Log/templates/LogList'
 import { AvatarImage } from 'app/modules/Profile/components/AvatarImage'
@@ -10,7 +9,7 @@ import { selectProfileRole } from 'app/modules/Profile/slice/selectors'
 import { ResultUserList } from 'app/modules/Results/templates/ResultUserList'
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { ERole } from 'types'
+import { checkAdminAccess } from 'utils/roles'
 
 import { UserModalContent } from '../components/UserModalContent'
 import { usersActions } from '../slice'
@@ -52,7 +51,7 @@ export const UserModal: React.FC = () => {
     }
 
     useEffect(() => {
-        if (user && profileRole === ERole.ADMIN) {
+        if (user && checkAdminAccess(profileRole)) {
             dispatch(logActions.loadLog(user?.id))
         }
     }, [user?.id])
@@ -76,7 +75,7 @@ export const UserModal: React.FC = () => {
                             {`${user?.last_name} ${user?.name}`}
                         </Typography>
 
-                        {profileRole === ERole.ADMIN && (
+                        {checkAdminAccess(profileRole) && (
                             <>
                                 {!!user?.favorite && (
                                     <IconButton onClick={handleDeleteFavorite}>
@@ -92,7 +91,7 @@ export const UserModal: React.FC = () => {
                             </>
                         )}
 
-                        {profileRole !== ERole.ADMIN && (
+                        {!checkAdminAccess(profileRole) && (
                             <>
                                 {!!user?.favorite && <StarRateIcon color="warning" />}
 
@@ -115,7 +114,7 @@ export const UserModal: React.FC = () => {
                 >
                     <Container>
                         <TabContext value={value}>
-                            {profileRole === ERole.ADMIN && (
+                            {checkAdminAccess(profileRole) && (
                                 <TabList onChange={handleChange}>
                                     <Tab label="Профиль" value="user" sx={{ px: 3 }} />
                                     <Tab label="Тестирование" value="test" sx={{ px: 3 }} />

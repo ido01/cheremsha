@@ -12,7 +12,7 @@ import { QuizModal } from 'app/modules/Quiz/templates/QuizModal'
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { useParams } from 'react-router-dom'
-import { ERole } from 'types'
+import { checkAdminAccess } from 'utils/roles'
 
 export const DocumentsCategoriesList: React.FC = () => {
     const dispatch = useDispatch()
@@ -79,7 +79,7 @@ export const DocumentsCategoriesList: React.FC = () => {
             breadcrumbs={breadcrumbsItems}
             breadcrumbsItemsMobile={breadcrumbsItemsMobile}
             endNode={
-                profileRole === ERole.ADMIN ? (
+                checkAdminAccess(profileRole) ? (
                     <IconButton
                         sx={{ bgcolor: '#FDFDFD90' }}
                         aria-label="more"
@@ -100,7 +100,7 @@ export const DocumentsCategoriesList: React.FC = () => {
 
             <QuizModal />
 
-            {profileRole === ERole.ADMIN && (
+            {checkAdminAccess(profileRole) && (
                 <CategoryAdminSettings open={open} id={id} category={category} handleClose={handleClose} />
             )}
         </Main>

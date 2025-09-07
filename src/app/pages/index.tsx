@@ -11,6 +11,7 @@ import { List } from 'app/modules/List/templates/List'
 import { LocationsList } from 'app/modules/Locations/templates/LocationsList'
 import { PositionsList } from 'app/modules/Positions/templates/PositionsList'
 import { QuizView } from 'app/modules/Quiz/templates/QuizView'
+import { ReviewsList } from 'app/modules/Reviews/templates/ReviewsList'
 import { TablesList } from 'app/modules/Tables/templates/TablesList'
 import { PeoplesList } from 'app/modules/Users/templates/PeoplesList'
 import React from 'react'
@@ -53,6 +54,7 @@ export const Pages: React.FC = () => (
                     <Route exact path={['/', '/profile', '/profile/*']} component={ProfilePages} />
                     <Route exact path={['/admin']} component={AdminList} />
                     <Route exact path={['/positions']} component={PositionsList} />
+                    <Route exact path={['/reviews']} component={ReviewsList} />
                     <Route exact path={['/locations']} component={LocationsList} />
                     <Route exact path={['/achieve']} component={AchieveList} />
                     <Route exact path={['/tables']} component={TablesList} />

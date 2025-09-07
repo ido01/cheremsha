@@ -4,8 +4,8 @@ import { selectProfileRole } from 'app/modules/Profile/slice/selectors'
 import React, { useState } from 'react'
 import { useSelector } from 'react-redux'
 import { Link, useRouteMatch } from 'react-router-dom'
-import { ERole } from 'types'
 import { TMenuItem } from 'types/TMenuItem'
+import { checkAdminAccess } from 'utils/roles'
 
 interface MenuItemProps {
     item: TMenuItem
@@ -37,7 +37,7 @@ export const MenuItem: React.FC<MenuItemProps> = ({ item, isLage, onClick }) => 
 
     return (
         <>
-            {(!item.isAdmin || profileRole === ERole.ADMIN) && (
+            {(!item.isAdmin || checkAdminAccess(profileRole)) && (
                 <>
                     <Box
                         display={'flex'}

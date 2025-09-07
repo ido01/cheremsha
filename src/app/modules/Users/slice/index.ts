@@ -39,6 +39,8 @@ const slice = createSlice({
             status: EStatus.INITIAL,
             data: {
                 id: '',
+                telegram_id: '',
+                username: '',
                 active: false,
                 ban: false,
                 role: ERole.GUEST,

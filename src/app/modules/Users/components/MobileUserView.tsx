@@ -13,7 +13,7 @@ interface MobileUserViewProps {
 export const MobileUserView: React.FC<MobileUserViewProps> = ({ user }) => {
     const getLocation = useSelector(selectLocation)
     return (
-        <Box px={2} pt={2} width={'100%'}>
+        <Box p={2} width={'100%'}>
             <Box>
                 <Box display={'flex'}>
                     <AvatarImage

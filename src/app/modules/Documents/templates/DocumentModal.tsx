@@ -18,9 +18,10 @@ import { AvatarImage } from 'app/modules/Profile/components/AvatarImage'
 import { selectProfile, selectProfileRole } from 'app/modules/Profile/slice/selectors'
 import React, { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { ERole, EState, EStatus } from 'types'
+import { EState, EStatus } from 'types'
 import { IDocumentPoint } from 'types/IDocumentPoint'
 import { IDocumentTaskUser } from 'types/IDocumentTaskUser'
+import { checkAdminAccess } from 'utils/roles'
 
 import { DocumentBigStatusRow } from '../components/DocumentBigStatusRow'
 import { documentsActions } from '../slice'
@@ -319,7 +320,7 @@ export const DocumentModal: React.FC = () => {
                                                             Выполнить задачу
                                                         </LoadingButton>
                                                     )}
-                                                {profileRole === ERole.ADMIN && taskUser.status === EStatus.FINISHED && (
+                                                {checkAdminAccess(profileRole) && taskUser.status === EStatus.FINISHED && (
                                                     <LoadingButton
                                                         color="error"
                                                         variant="contained"
@@ -333,7 +334,7 @@ export const DocumentModal: React.FC = () => {
                                                     </LoadingButton>
                                                 )}
 
-                                                {profileRole === ERole.ADMIN && (
+                                                {checkAdminAccess(profileRole) && (
                                                     <IconButton
                                                         color="error"
                                                         onClick={() => handleOpenDeleteUser(taskUser)}
@@ -402,7 +403,7 @@ export const DocumentModal: React.FC = () => {
                                                             Выполнить задачу
                                                         </LoadingButton>
                                                     )}
-                                                {profileRole === ERole.ADMIN && point.status === EStatus.FINISHED && (
+                                                {checkAdminAccess(profileRole) && point.status === EStatus.FINISHED && (
                                                     <LoadingButton
                                                         color="error"
                                                         variant="contained"
@@ -416,7 +417,7 @@ export const DocumentModal: React.FC = () => {
                                                     </LoadingButton>
                                                 )}
 
-                                                {profileRole === ERole.ADMIN && (
+                                                {checkAdminAccess(profileRole) && (
                                                     <IconButton
                                                         color="error"
                                                         onClick={() => handleOpenDeletePoint(point)}
@@ -436,7 +437,7 @@ export const DocumentModal: React.FC = () => {
                     </Container>
                 </Box>
 
-                {profileRole === ERole.ADMIN && (
+                {checkAdminAccess(profileRole) && (
                     <Box
                         sx={{
                             position: 'absolute',

@@ -3,6 +3,7 @@ export interface ISettings {
     logo: string
     project: string
     tinymce?: string
+    telegram?: string
 }
 
 export interface IResponseSettings {

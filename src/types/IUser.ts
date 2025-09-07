@@ -3,6 +3,15 @@ import { IAchieve } from './IAchieve'
 import { IFile } from './IFile'
 import { IQuizState } from './IQuizState'
 
+export interface TelegramAuth {
+    auth_date: number
+    first_name: string
+    hash: string
+    id: number
+    photo_url: string
+    username: string
+}
+
 export type IUsersCollectionResponse = {
     data: IUser[]
     meta: {
@@ -35,6 +44,8 @@ export interface IResultRequest {
 
 export interface IUser {
     id: string
+    telegram_id: string
+    username: string
     active: boolean
     ban: boolean
     role: ERole

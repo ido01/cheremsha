@@ -1,4 +1,5 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
+import { TelegramAuthData } from '@telegram-auth/react'
 import moment from 'moment'
 import { ERole, EStatus } from 'types'
 import { IProfileResponse, IUser } from 'types/IUser'
@@ -7,6 +8,8 @@ import { IProfileState } from './types'
 
 const initialProfile: IUser = {
     id: '',
+    telegram_id: '',
+    username: '',
     active: false,
     ban: false,
     role: ERole.GUEST,
@@ -39,6 +42,10 @@ const initialProfile: IUser = {
 const initialState: IProfileState = {
     status: EStatus.INITIAL,
     data: initialProfile,
+    deleteModal: {
+        open: false,
+        status: EStatus.INITIAL,
+    },
     form: {
         status: EStatus.INITIAL,
         data: initialProfile,
@@ -95,6 +102,23 @@ const slice = createSlice({
         },
         setProfile(state, action: PayloadAction<IUser>) {
             state.form.data = action.payload
+        },
+        telegramProfile(state, action: PayloadAction<TelegramAuthData>) {
+            state
+            action
+        },
+        deleteTelegram(state) {
+            state.deleteModal.status = EStatus.PENDING
+        },
+        telegramDeleted(state) {
+            state.deleteModal.open = false
+            state.deleteModal.status = EStatus.FINISHED
+        },
+        showDeleteModal(state) {
+            state.deleteModal.open = true
+        },
+        closeDeleteModal(state) {
+            state.deleteModal.open = false
         },
     },
 })

@@ -1,5 +1,5 @@
 export type TOrder = 'desc' | 'asc'
-export type TLimit = 10 | 25 | 50
+export type TLimit = 10 | 25 | 50 | 100
 
 export type TTableRowData = {
     title: string

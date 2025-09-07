@@ -32,11 +32,12 @@ import { UserModal } from 'app/modules/Users/templates/UserModal'
 import dayjs, { Dayjs } from 'dayjs'
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { ERole, EStatus } from 'types'
+import { EStatus } from 'types'
 import { IEvent } from 'types/IEvent'
 import { TTableRowData } from 'types/ITableDisplay'
 import { IUser } from 'types/IUser'
 import { getNoun } from 'utils/getNoun'
+import { checkAdminAccess } from 'utils/roles'
 
 import { AdminSettings } from '../components/AdminSettings'
 import { MobileEventView } from '../components/MobileEventView'
@@ -270,7 +271,7 @@ export const EventsList: React.FC = () => {
             breadcrumbs={breadcrumbsItems}
             breadcrumbsItemsMobile={breadcrumbsItemsMobile}
             endNode={
-                profileRole === ERole.ADMIN ? (
+                checkAdminAccess(profileRole) ? (
                     <IconButton
                         sx={{ ml: 2 }}
                         aria-label="more"
@@ -358,7 +359,7 @@ export const EventsList: React.FC = () => {
                 <EventModal />
             </Box>
 
-            {profileRole === ERole.ADMIN && <AdminSettings open={open} handleClose={handleClose} />}
+            {checkAdminAccess(profileRole) && <AdminSettings open={open} handleClose={handleClose} />}
         </Main>
     )
 }

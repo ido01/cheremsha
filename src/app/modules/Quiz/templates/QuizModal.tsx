@@ -26,9 +26,9 @@ import { selectProfileRole } from 'app/modules/Profile/slice/selectors'
 import React, { useMemo, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { Link } from 'react-router-dom'
-import { ERole } from 'types'
 import { EQuizState } from 'types/IQuizState'
 import { convertQuizState } from 'utils/convertUtils'
+import { checkAdminAccess } from 'utils/roles'
 
 import { quizActions } from '../slice'
 import { selectModal, selectQuizById } from '../slice/selectors'
@@ -280,7 +280,7 @@ export const QuizModal: React.FC = () => {
                             </LoadingButton>
                         </Box>
                     )}
-                {profileRole === ERole.ADMIN && (
+                {checkAdminAccess(profileRole) && (
                     <Box
                         sx={{
                             position: 'absolute',

@@ -36,6 +36,7 @@ import { ERole, EStatus } from 'types'
 import { IUser } from 'types/IUser'
 import { convertGenderName, convertRoleName } from 'utils/convertUtils'
 import { getNoun } from 'utils/getNoun'
+import { checkAdminAccess } from 'utils/roles'
 
 import { usersActions } from '../slice'
 import { selectForm, selectUrl } from '../slice/selectors'
@@ -144,7 +145,7 @@ export const UserModalContent: React.FC<UserModalContentProps> = ({ profileRole,
         <>
             <Grid container sx={{ mt: 2.5 }} spacing={2.5}>
                 {user && <UserAchieveList id={user?.id} />}
-                {profileRole === ERole.ADMIN && (
+                {checkAdminAccess(profileRole) && (
                     <Grid item xs={12}>
                         <Box mb={1}>
                             <Typography variant="caption" fontWeight={500}>
@@ -266,7 +267,7 @@ export const UserModalContent: React.FC<UserModalContentProps> = ({ profileRole,
                 </Grid>
             </Grid>
 
-            {profileRole === ERole.ADMIN && (
+            {checkAdminAccess(profileRole) && (
                 <Box
                     sx={{
                         position: 'absolute',
@@ -298,7 +299,7 @@ export const UserModalContent: React.FC<UserModalContentProps> = ({ profileRole,
                 </Box>
             )}
 
-            {profileRole === ERole.ADMIN && (!user?.active || user?.ban) && (
+            {checkAdminAccess(profileRole) && (!user?.active || user?.ban) && (
                 <Box
                     sx={{
                         position: 'absolute',
@@ -324,7 +325,7 @@ export const UserModalContent: React.FC<UserModalContentProps> = ({ profileRole,
                 </Box>
             )}
 
-            {profileRole === ERole.ADMIN && user?.active && !user?.ban && (
+            {checkAdminAccess(profileRole) && user?.active && !user?.ban && (
                 <Box
                     sx={{
                         position: 'absolute',

@@ -54,7 +54,7 @@ export const DragTableItem: React.FC<DragTableItemProps> = ({
                 }
             }}
         >
-            <Box display={'flex'} alignItems={'center'} minHeight={'56px'} py={1.25} px={{ md: 2 }}>
+            <Box display={'flex'} alignItems={'center'} minHeight={'56px'} py={{ md: 1.25 }} px={{ md: 2 }}>
                 {(!isMobile || !mobileView) && (
                     <Grid container columnSpacing={2}>
                         {rows.map((row, i) => (

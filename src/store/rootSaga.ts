@@ -16,6 +16,7 @@ import { positionsWatcher } from 'app/modules/Positions/slice/saga'
 import { profileWatcher } from 'app/modules/Profile/slice/saga'
 import { quizWatcher } from 'app/modules/Quiz/slice/saga'
 import { resultsWatcher } from 'app/modules/Results/slice/saga'
+import { reviewsWatcher } from 'app/modules/Reviews/slice/saga'
 import { settingsWatcher } from 'app/modules/Settings/slice/saga'
 import { tablesWatcher } from 'app/modules/Tables/slice/saga'
 import { usersWatcher } from 'app/modules/Users/slice/saga'
@@ -46,5 +47,6 @@ export default function* rootSaga() {
         quizWatcher(),
         workdaysWatcher(),
         listsWatcher(),
+        reviewsWatcher(),
     ])
 }

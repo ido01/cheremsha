@@ -4,6 +4,7 @@ export type EGender = 'female' | 'male'
 
 export enum EState {
     INITIAL = 'initial',
+    OPEN = 'open',
     PENDING = 'pending',
     REJECTED = 'rejected',
     COMPLETED = 'completed',
@@ -15,6 +16,7 @@ export enum ERole {
     USER = 'user',
     MODER = 'moder',
     ADMIN = 'admin',
+    SUDO = 'sudo',
 }
 
 export enum EStatus {

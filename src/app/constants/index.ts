@@ -14,10 +14,12 @@ export const ROLE_NAME: { [key in ERole]: string } = {
     user: 'Пользователь',
     moder: 'Модератор',
     admin: 'Администратор',
+    sudo: 'Полный доступ',
 }
 
 export const DOCUMENT_STATE: { [key in EState]: string } = {
     initial: 'Новый',
+    open: 'Открыт',
     pending: 'В процессе',
     rejected: 'Отклонён',
     completed: 'Изучено',

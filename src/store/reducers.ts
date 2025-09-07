@@ -17,6 +17,7 @@ import { positionsReducer } from 'app/modules/Positions/slice'
 import { profileReducer } from 'app/modules/Profile/slice'
 import { quizReducer } from 'app/modules/Quiz/slice'
 import { resultsReducer } from 'app/modules/Results/slice'
+import { reviewsReducer } from 'app/modules/Reviews/slice'
 import { settingsReducer } from 'app/modules/Settings/slice'
 import { tablesReducer } from 'app/modules/Tables/slice'
 import { usersReducer } from 'app/modules/Users/slice'
@@ -48,5 +49,6 @@ export function createReducer(injectedReducers: InjectedReducersType = {}): Redu
         lists: listsReducer,
         tables: tablesReducer,
         workdays: workdaysReducer,
+        reviews: reviewsReducer,
     })
 }

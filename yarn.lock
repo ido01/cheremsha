@@ -2132,6 +2132,11 @@
     "@svgr/plugin-svgo" "^5.5.0"
     loader-utils "^2.0.0"
 
+"@telegram-auth/react@^1.0.4":
+  version "1.0.4"
+  resolved "https://registry.yarnpkg.com/@telegram-auth/react/-/react-1.0.4.tgz#4b44dfbd92ca646dde2cbb4352fd85bd959ef52c"
+  integrity sha512-VPCIrA6h5+w69S1QvB/k2PphmAA9E8BSqEX4WMSE1P7KxexKl/VRdoTRKSsSx1/In94S+R7FufbjLrRMnEGEKg==
+
 "@testing-library/dom@^7.28.1":
   version "7.31.2"
   resolved "https://registry.yarnpkg.com/@testing-library/dom/-/dom-7.31.2.tgz#df361db38f5212b88555068ab8119f5d841a8c4a"

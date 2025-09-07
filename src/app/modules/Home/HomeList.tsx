@@ -3,6 +3,7 @@ import {
     CalendarMonth as CalendarMonthIcon,
     Contacts as ContactsIcon,
     ListAlt as ListAltIcon,
+    LiveHelp as LiveHelpIcon,
     Poll as PollIcon,
     School as SchoolIcon,
     SportsEsports as SportsEsportsIcon,
@@ -14,7 +15,7 @@ import { selectSettings } from 'app/modules/Settings/slice/selectors'
 import React from 'react'
 import { useSelector } from 'react-redux'
 import { useHistory } from 'react-router-dom'
-import { ERole } from 'types'
+import { checkAdminAccess } from 'utils/roles'
 
 import { Main } from '../Layout/templates/Main'
 
@@ -57,6 +58,11 @@ export const HomeList: React.FC = () => {
             title: 'Игры',
             path: '/game',
         },
+        {
+            icon: <LiveHelpIcon fontSize="large" />,
+            title: 'Обратная связь',
+            path: '/reviews',
+        },
     ]
     if (settings.project === 'hrzn') {
         links.push({
@@ -66,7 +72,7 @@ export const HomeList: React.FC = () => {
         })
     }
 
-    if (profileRole === ERole.ADMIN) {
+    if (checkAdminAccess(profileRole)) {
         links.push({
             icon: <PollIcon fontSize="large" />,
             title: 'Опрос',

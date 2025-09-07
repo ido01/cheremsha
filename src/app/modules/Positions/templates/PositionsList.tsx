@@ -5,9 +5,10 @@ import { Main } from 'app/modules/Layout/templates/Main'
 import { selectProfileRole } from 'app/modules/Profile/slice/selectors'
 import React, { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { ERole, EStatus } from 'types'
+import { EStatus } from 'types'
 import { IPosition } from 'types/IPosition'
 import { TTableRowData } from 'types/ITableDisplay'
+import { checkAdminAccess } from 'utils/roles'
 
 import { DeleteModal } from '../components/DeleteModal'
 import { FormModal } from '../components/FormModal'
@@ -84,7 +85,7 @@ export const PositionsList: React.FC = () => {
             count={positions.length}
             searchDisabled
             endNode={
-                profileRole === ERole.ADMIN ? (
+                checkAdminAccess(profileRole) ? (
                     <IconButton
                         sx={{ ml: 2 }}
                         aria-label="more"
@@ -105,7 +106,7 @@ export const PositionsList: React.FC = () => {
                 // handleClickRow={handleClickRow}
             />
 
-            {profileRole === ERole.ADMIN && (
+            {checkAdminAccess(profileRole) && (
                 <>
                     <Settings open={open} handleClose={handleClose} />
                     <DeleteModal />

@@ -10,7 +10,7 @@ import { selectProfileRole } from 'app/modules/Profile/slice/selectors'
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { useHistory } from 'react-router-dom'
-import { ERole } from 'types'
+import { checkAdminAccess } from 'utils/roles'
 
 export const DocumentsList: React.FC = () => {
     const dispatch = useDispatch()
@@ -46,7 +46,7 @@ export const DocumentsList: React.FC = () => {
             title={'Документы'}
             searchDisabled
             endNode={
-                profileRole === ERole.ADMIN ? (
+                checkAdminAccess(profileRole) ? (
                     <IconButton
                         sx={{ ml: 2 }}
                         aria-label="more"
@@ -79,7 +79,7 @@ export const DocumentsList: React.FC = () => {
                 })}
             </Grid>
 
-            {profileRole === ERole.ADMIN && <CategoryMainAdminSettings open={open} handleClose={handleClose} />}
+            {checkAdminAccess(profileRole) && <CategoryMainAdminSettings open={open} handleClose={handleClose} />}
         </Main>
     )
 }

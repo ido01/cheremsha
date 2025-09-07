@@ -1,9 +1,11 @@
-import { Delete as DeleteIcon, Edit as EditIcon } from '@mui/icons-material'
+import { Delete as DeleteIcon } from '@mui/icons-material'
 import * as Icons from '@mui/icons-material'
-import { Box, Button, IconButton, Typography } from '@mui/material'
+import { Box, IconButton, Typography } from '@mui/material'
+import { selectProfileRole } from 'app/modules/Profile/slice/selectors'
 import React from 'react'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { IAchieve } from 'types/IAchieve'
+import { checkAdminAccess } from 'utils/roles'
 
 import { achieveUserActions } from '../slice'
 
@@ -17,12 +19,14 @@ export const MobileView: React.FC<MobileViewProps> = ({ achieve }) => {
     const Icon = Icons[achieve.icon]
     const dispatch = useDispatch()
 
+    const profileRole = useSelector(selectProfileRole)
+
     const handleDeleteOpen = () => {
         dispatch(achieveUserActions.showDeleteModal(achieve))
     }
 
     return (
-        <Box px={1} width={'100%'} display="flex" justifyContent="space-between" gap={1}>
+        <Box width={'100%'} display="flex" justifyContent="space-between" gap={1}>
             <Box
                 sx={{
                     display: 'flex',
@@ -51,9 +55,11 @@ export const MobileView: React.FC<MobileViewProps> = ({ achieve }) => {
                 </Box>
             </Box>
 
-            <IconButton color="error" onClick={handleDeleteOpen}>
-                <DeleteIcon />
-            </IconButton>
+            {checkAdminAccess(profileRole) && (
+                <IconButton color="error" onClick={handleDeleteOpen}>
+                    <DeleteIcon />
+                </IconButton>
+            )}
         </Box>
     )
 }

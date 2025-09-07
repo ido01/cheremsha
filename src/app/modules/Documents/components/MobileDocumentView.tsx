@@ -10,7 +10,7 @@ interface MobileDocumentViewProps {
 }
 
 export const MobileDocumentView: React.FC<MobileDocumentViewProps> = ({ item }) => (
-    <Box px={2} width={'100%'}>
+    <Box px={2} pb={1} pt={1} width={'100%'}>
         <DocumentHeaderRow item={item} />
         <Box mt={1} display={'flex'} justifyContent={'space-between'} alignItems={'center'}>
             <Box>

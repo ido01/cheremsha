@@ -16,7 +16,7 @@ import { Modal } from 'app/components/Modal'
 import { selectProfileRole } from 'app/modules/Profile/slice/selectors'
 import React, { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { ERole } from 'types'
+import { checkAdminAccess } from 'utils/roles'
 
 import { eventsActions } from '../slice/events'
 import { selectEventById, selectModal } from '../slice/events/selectors'
@@ -97,7 +97,7 @@ export const EventModal: React.FC = () => {
                     </Container>
                 </Box>
 
-                {profileRole === ERole.ADMIN && (
+                {checkAdminAccess(profileRole) && (
                     <Box
                         sx={{
                             position: 'absolute',

@@ -8,7 +8,7 @@ import { UserModalContent } from 'app/modules/Users/components/UserModalContent'
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { useParams } from 'react-router-dom'
-import { ERole } from 'types'
+import { checkAdminAccess } from 'utils/roles'
 
 import { ResultModalContent } from '../components/ResultModalContent'
 import { resultsActions } from '../slice'
@@ -63,7 +63,7 @@ export const ResultModal: React.FC = () => {
                             {`${user?.last_name} ${user?.name}`}
                         </Typography>
 
-                        {profileRole !== ERole.ADMIN && (
+                        {!checkAdminAccess(profileRole) && (
                             <>
                                 {!!user?.favorite && <StarRateIcon color="warning" />}
 

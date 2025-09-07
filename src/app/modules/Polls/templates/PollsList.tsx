@@ -4,7 +4,8 @@ import { Main } from 'app/modules/Layout/templates/Main'
 import { selectProfileRole } from 'app/modules/Profile/slice/selectors'
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { ERole, EStatus } from 'types'
+import { EStatus } from 'types'
+import { checkAdminAccess } from 'utils/roles'
 
 import { PollsListView } from '../components/PollsListView'
 import { PollsSettings } from '../components/PollsSettings'
@@ -39,7 +40,7 @@ export const PollsList: React.FC = () => {
             count={count}
             searchDisabled
             endNode={
-                profileRole === ERole.ADMIN ? (
+                checkAdminAccess(profileRole) ? (
                     <IconButton
                         sx={{ ml: 2 }}
                         aria-label="more"

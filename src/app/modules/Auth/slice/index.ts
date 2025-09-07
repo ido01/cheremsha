@@ -1,4 +1,5 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
+import { TelegramAuthData } from '@telegram-auth/react'
 import { EAuthStatus, EStatus } from 'types'
 import { IUser } from 'types/IUser'
 
@@ -120,6 +121,10 @@ const slice = createSlice({
         },
         statusError(state) {
             state.status = EStatus.ERROR
+        },
+        telegramAuth(state, action: PayloadAction<TelegramAuthData>) {
+            state
+            action
         },
     },
 })

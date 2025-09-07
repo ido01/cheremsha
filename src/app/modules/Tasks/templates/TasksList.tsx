@@ -10,7 +10,7 @@ import { selectProfileRole } from 'app/modules/Profile/slice/selectors'
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { useParams } from 'react-router-dom'
-import { ERole } from 'types'
+import { checkAdminAccess } from 'utils/roles'
 
 import { FilterBlock } from '../components/FilterBlock'
 
@@ -48,7 +48,7 @@ export const TasksList: React.FC = () => {
             breadcrumbs={breadcrumbsItems}
             searchDisabled
             endNode={
-                profileRole === ERole.ADMIN ? (
+                checkAdminAccess(profileRole) ? (
                     <IconButton
                         sx={{ ml: 2 }}
                         aria-label="more"
@@ -66,7 +66,7 @@ export const TasksList: React.FC = () => {
 
             <DocumentModal />
 
-            {profileRole === ERole.ADMIN && <CategoryAdminSettings open={open} id={id} handleClose={handleClose} />}
+            {checkAdminAccess(profileRole) && <CategoryAdminSettings open={open} id={id} handleClose={handleClose} />}
         </Main>
     )
 }

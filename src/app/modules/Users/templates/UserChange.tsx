@@ -48,12 +48,18 @@ export const UserChange: React.FC = () => {
             breadcrumbs={breadcrumbsItems}
             breadcrumbsItemsMobile={breadcrumbsItemsMobile}
         >
-            <Box display={'flex'} sx={{ px: { sm: 0, md: 2 } }}>
-                <AvatarImage name={userName} image={imageSrc} size={70} achieve={user?.achieve} />
-            </Box>
+            <Box
+                sx={{
+                    pb: 11,
+                }}
+            >
+                <Box display={'flex'} sx={{ px: { sm: 0, md: 2 } }}>
+                    <AvatarImage name={userName} image={imageSrc} size={70} achieve={user?.achieve} />
+                </Box>
 
-            <Box sx={{ mt: 5, px: { sm: 0, md: 2 } }}>
-                <UserDataForm />
+                <Box sx={{ mt: 5, px: { sm: 0, md: 2 } }}>
+                    <UserDataForm />
+                </Box>
             </Box>
         </Main>
     )

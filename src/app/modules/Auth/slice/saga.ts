@@ -1,4 +1,5 @@
 import { PayloadAction } from '@reduxjs/toolkit'
+import { TelegramAuthData } from '@telegram-auth/react'
 import { call, put, takeLeading } from 'redux-saga/effects'
 import { request } from 'utils/request'
 
@@ -30,6 +31,19 @@ export function* recoveryLogin(action: PayloadAction<IActiveToken>) {
         })
 
         yield put(authActions.loginRecovery(response))
+    } catch (error: any) {
+        yield put(authActions.statusError())
+    }
+}
+
+export function* telegramAuth(action: PayloadAction<TelegramAuthData>) {
+    try {
+        const response: signInResponse = yield call(request, `auth/telegram`, {
+            method: 'POST',
+            data: action.payload,
+        })
+
+        yield put(authActions.logined(response.token))
     } catch (error: any) {
         yield put(authActions.statusError())
     }
@@ -107,4 +121,5 @@ export function* authWatcher() {
     yield takeLeading(authActions.recovery.type, recovery)
     yield takeLeading(authActions.confirmRecovery.type, confirmRecovery)
     yield takeLeading(authActions.logout.type, logout)
+    yield takeLeading(authActions.telegramAuth.type, telegramAuth)
 }

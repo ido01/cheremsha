@@ -1,8 +1,10 @@
 import { LoadingButton } from '@mui/lab'
-import { Box, Button, Paper, TextField } from '@mui/material'
+import { Box, Button, Paper, TextField, Typography } from '@mui/material'
+import { LoginButton, TelegramAuthData } from '@telegram-auth/react'
 import { Logo } from 'app/components/Logo/Logo'
+import { selectSettings } from 'app/modules/Settings/slice/selectors'
 import { useFormik } from 'formik'
-import React from 'react'
+import React, { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { useHistory } from 'react-router-dom'
 import { EStatus } from 'types'
@@ -16,7 +18,17 @@ export const SignIn: React.FC = () => {
     const dispatch = useDispatch()
     const history = useHistory()
 
+    const [showTelegram, setTelegram] = useState(false)
+    const settings = useSelector(selectSettings)
     const { status, data } = useSelector(selectSigninForm)
+
+    const handleTelegram = (data: TelegramAuthData) => {
+        dispatch(authActions.telegramAuth(data))
+    }
+
+    const handleShowTelegram = () => {
+        setTelegram(true)
+    }
 
     const validationSchema = yup.object({
         email: yup.string().required().email(),
@@ -101,7 +113,7 @@ export const SignIn: React.FC = () => {
                             Войти
                         </LoadingButton>
 
-                        <Box mt={1} display={'flex'} justifyContent={'space-between'}>
+                        <Box my={1} display={'flex'} justifyContent={'space-between'}>
                             <Button
                                 variant="text"
                                 onClick={() => history.push('/auth/recovery')}
@@ -118,6 +130,32 @@ export const SignIn: React.FC = () => {
                                 Регистрация
                             </Button>
                         </Box>
+
+                        {!!settings.telegram && (
+                            <>
+                                <Typography variant="caption">Если привязали аккаунт Telegram</Typography>
+                                {showTelegram ? (
+                                    <LoginButton
+                                        botUsername={settings.telegram}
+                                        buttonSize="large" // "large" | "medium" | "small"
+                                        cornerRadius={20} // 0 - 20
+                                        showAvatar={true} // true | false
+                                        lang="ru"
+                                        onAuthCallback={handleTelegram}
+                                    />
+                                ) : (
+                                    <LoadingButton
+                                        fullWidth
+                                        size="large"
+                                        color="info"
+                                        variant="contained"
+                                        onClick={handleShowTelegram}
+                                    >
+                                        Войти через Telegram
+                                    </LoadingButton>
+                                )}
+                            </>
+                        )}
                     </Box>
                 </Paper>
             </Box>
