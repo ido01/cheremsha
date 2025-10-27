@@ -1,6 +1,6 @@
 import { Box, Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle } from '@mui/material'
 import React, { useState } from 'react'
-import { useHistory } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 import { EGameState } from 'types/IGame'
 
 interface FindColorInitProps {
@@ -8,7 +8,7 @@ interface FindColorInitProps {
 }
 
 export const FindColorInit: React.FC<FindColorInitProps> = ({ onChangeState }) => {
-    const history = useHistory()
+    const history = useNavigate()
 
     const [openHelp, setOpenHelp] = useState<boolean>(false)
 
@@ -37,7 +37,7 @@ export const FindColorInit: React.FC<FindColorInitProps> = ({ onChangeState }) =
                 <Button color="primary" variant="contained" size="large" onClick={() => setOpenHelp(true)}>
                     Правила игры
                 </Button>
-                <Button color="error" variant="contained" size="large" onClick={() => history.push('/game')}>
+                <Button color="error" variant="contained" size="large" onClick={() => history('/games')}>
                     Выйти с игры
                 </Button>
             </Box>

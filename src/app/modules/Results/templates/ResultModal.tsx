@@ -40,7 +40,7 @@ export const ResultModal: React.FC = () => {
     }
 
     useEffect(() => {
-        if (activeId) {
+        if (activeId && id) {
             dispatch(resultsActions.loadResult({ id, uid: activeId }))
         }
     }, [activeId])
@@ -95,7 +95,7 @@ export const ResultModal: React.FC = () => {
                                 {user && <UserModalContent profileRole={profileRole} user={user} />}
                             </TabPanel>
                             <TabPanel value="test" sx={{ p: 0 }}>
-                                {user && <ResultModalContent id={id} user={user} />}
+                                {user && id && <ResultModalContent id={id} user={user} />}
                             </TabPanel>
                         </TabContext>
                     </Container>

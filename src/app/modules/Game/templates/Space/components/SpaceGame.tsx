@@ -6,7 +6,7 @@ import {
 import { Box, Button, Dialog, IconButton, Typography } from '@mui/material'
 import * as Colors from '@mui/material/colors'
 import React, { useCallback, useEffect, useLayoutEffect, useRef, useState } from 'react'
-import { useHistory } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 import { IGame } from 'types/IGame'
 import { rand } from 'utils/rand'
 import { request } from 'utils/request'
@@ -82,7 +82,7 @@ const badEnds: string[] = [
 ]
 
 export const SpaceGame: React.FC = () => {
-    const history = useHistory()
+    const history = useNavigate()
 
     const isGameInit = useRef<boolean>(false)
     const ref = useRef<HTMLCanvasElement>(null)
@@ -125,7 +125,7 @@ export const SpaceGame: React.FC = () => {
     const deltaRocketPosition = useRef<number>(0)
     const lockResetSize = useRef<number>(0)
     const moveLockSize = useRef<number>(0)
-    const spaceCoord = useRef<ISpaceSize>()
+    const spaceCoord = useRef<ISpaceSize | undefined>(undefined)
     const starSize = useRef<number>(0)
     const halfStarSize = useRef<number>(0)
     const stoneSize = useRef<number>(0)
@@ -135,16 +135,16 @@ export const SpaceGame: React.FC = () => {
     })
     const doubleStoneSize = useRef<number>(0)
     const stoneCrashSize = useRef<number>(0)
-    const startMove = useRef<TCoord>()
+    const startMove = useRef<TCoord | undefined>(undefined)
     const center = useRef<TCoord>({
         x: 0,
         y: 0,
     })
 
     // visible helps
-    const visibleStoneCoord = useRef<IVisibleSpaceSize>()
-    const visiblePlanetCoord = useRef<IVisibleSpaceSize>()
-    const visiblePlanetWayCoord = useRef<IVisibleSpaceSize>()
+    const visibleStoneCoord = useRef<IVisibleSpaceSize | undefined>(undefined)
+    const visiblePlanetCoord = useRef<IVisibleSpaceSize | undefined>(undefined)
+    const visiblePlanetWayCoord = useRef<IVisibleSpaceSize | undefined>(undefined)
 
     // New Game
     const inGame = useRef<boolean>(false)
@@ -153,7 +153,7 @@ export const SpaceGame: React.FC = () => {
     const lives = useRef<number>(3)
     const moveLock = useRef<boolean>(true)
     const lockReset = useRef<boolean>(false)
-    const bias = useRef<number>()
+    const bias = useRef<number | undefined>(undefined)
     const spaceAngle = useRef<number>(0)
     const speedAngle = useRef<TCoord>({
         x: 0,
@@ -161,8 +161,8 @@ export const SpaceGame: React.FC = () => {
     })
     const stars = useRef<IStar[]>([])
     const stones = useRef<IStone[]>([])
-    const planet = useRef<IPlanet>()
-    const fromPlanet = useRef<IPlanet>()
+    const planet = useRef<IPlanet | undefined>(undefined)
+    const fromPlanet = useRef<IPlanet | undefined>(undefined)
     const health = useRef<IHelp>({
         coord: {
             x: 0,
@@ -200,8 +200,8 @@ export const SpaceGame: React.FC = () => {
     })
 
     // Game
-    const planetImage = useRef<HTMLImageElement>()
-    const fromPlanetImage = useRef<HTMLImageElement>()
+    const planetImage = useRef<HTMLImageElement | undefined>(undefined)
+    const fromPlanetImage = useRef<HTMLImageElement | undefined>(undefined)
     const status = useRef<ESpaceStatus>(ESpaceStatus.INIT)
     const [statusState, setStatus] = useState<ESpaceStatus>(ESpaceStatus.INIT)
     const [openSuccess, setOpenSuccess] = useState<boolean>(false)
@@ -1428,7 +1428,7 @@ export const SpaceGame: React.FC = () => {
                             right: 5,
                             zIndex: 101,
                         }}
-                        onClick={() => history.push('/game')}
+                        onClick={() => history('/games')}
                     >
                         <LogoutIcon sx={{ color: Colors.blueGrey[50] }} />
                     </IconButton>

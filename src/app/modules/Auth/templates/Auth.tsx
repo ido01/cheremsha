@@ -3,7 +3,7 @@ import { profileActions } from 'app/modules/Profile/slice'
 import { selectProfile } from 'app/modules/Profile/slice/selectors'
 import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { useHistory, useRouteMatch } from 'react-router-dom'
+import { useLocation, useNavigate } from 'react-router-dom'
 import { EAuthStatus } from 'types'
 import { EQuizState } from 'types/IQuizState'
 
@@ -15,8 +15,8 @@ interface AuthProps {
 
 export const Auth: React.FC<AuthProps> = ({ children }) => {
     const dispatch = useDispatch()
-    const history = useHistory()
-    const { url } = useRouteMatch()
+    const history = useNavigate()
+    const { pathname: url } = useLocation()
 
     const authStatus = useSelector(selectAuthStatus)
     const profile = useSelector(selectProfile)
@@ -26,12 +26,12 @@ export const Auth: React.FC<AuthProps> = ({ children }) => {
             authStatus === EAuthStatus.NOT_AUTHORIZED &&
             (url.indexOf('/auth') !== 0 || url === '/auth/questionnaire')
         ) {
-            history.push('/auth')
+            history('/auth')
         } else if (authStatus === EAuthStatus.AUTHORIZED && url.indexOf('/auth') === 0) {
-            history.push('/')
+            history('/')
         } else if (authStatus === EAuthStatus.NEW && url !== '/auth/questionnaire') {
             dispatch(profileActions.loadProfile())
-            history.push('/auth/questionnaire')
+            history('/auth/questionnaire')
         }
         if (authStatus === EAuthStatus.AUTHORIZED) {
             dispatch(profileActions.loadProfile())
@@ -41,9 +41,9 @@ export const Auth: React.FC<AuthProps> = ({ children }) => {
     useEffect(() => {
         if (authStatus === EAuthStatus.AUTHORIZED) {
             if (profile.state?.state === EQuizState.PENDING && url !== '/test') {
-                history.push('/test')
+                history('/test')
             } else if (profile.state?.state !== EQuizState.PENDING && url === '/test') {
-                history.push('/')
+                history('/')
             }
         }
     }, [profile])

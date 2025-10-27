@@ -1,7 +1,6 @@
 import { LoadingButton } from '@mui/lab'
 import { Box, Container, TextField, Typography } from '@mui/material'
 import { Modal } from 'app/components/Modal'
-import { PhoneField } from 'app/components/PhoneField'
 import { useFormik } from 'formik'
 import React, { useEffect, useMemo, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
@@ -460,7 +459,16 @@ export const ListModalForm: React.FC = () => {
 
                         <Box>
                             <Typography variant="body2">Телефон:</Typography>
-                            <PhoneField
+                            {/* <PhoneField
+                                fullWidth
+                                variant="outlined"
+                                label="Номер телефона"
+                                name="phone"
+                                value={formik.values.phone || ''}
+                                error={!!formik.errors.phone && formik.touched.phone}
+                                onChange={formik.handleChange}
+                            /> */}
+                            <TextField
                                 fullWidth
                                 variant="outlined"
                                 label="Номер телефона"

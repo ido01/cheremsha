@@ -8,10 +8,10 @@ import { Box, Grid, useMediaQuery, useTheme } from '@mui/material'
 import { ITile, Tile } from 'app/components/Tile'
 import { Main } from 'app/modules/Layout/templates/Main'
 import React from 'react'
-import { useHistory } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 
 export const GameList: React.FC = () => {
-    const history = useHistory()
+    const history = useNavigate()
 
     const theme = useTheme()
     const isMobile = useMediaQuery(theme.breakpoints.between('xs', 'md'))
@@ -25,7 +25,10 @@ export const GameList: React.FC = () => {
         {
             icon: <RocketIcon fontSize="large" />,
             title: 'Space',
-            path: '/game/space',
+            // path: '/game/space',
+            onClick: () => {
+                location.href = '/pddtf/space'
+            },
         },
         {
             icon: <WidgetsIcon fontSize="large" />,
@@ -40,7 +43,10 @@ export const GameList: React.FC = () => {
     ]
 
     const handleClickRow = (item: ITile) => {
-        history.push(item.path)
+        if (item.path) {
+            history(item.path)
+        }
+        item.onClick?.()
     }
 
     return (

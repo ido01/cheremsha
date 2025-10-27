@@ -1,7 +1,7 @@
 import { ArrowBack as ArrowBackIcon, Search as SearchIcon } from '@mui/icons-material'
 import { Box, IconButton, TextField, Typography, useMediaQuery, useTheme } from '@mui/material'
 import React, { useState } from 'react'
-import { useHistory } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 
 import Breadcrumbs, { BreadcrumbItem } from './Breadcrumbs'
 
@@ -26,7 +26,7 @@ export const TitleBlock: React.FC<TitleBlockProps> = ({
     endNode,
     onSearch,
 }) => {
-    const history = useHistory()
+    const history = useNavigate()
     const theme = useTheme()
     const isMobile = useMediaQuery(theme.breakpoints.between('xs', 'md'))
 
@@ -79,7 +79,7 @@ export const TitleBlock: React.FC<TitleBlockProps> = ({
                                 aria-haspopup="true"
                                 onClick={() => {
                                     if (breadcrumbsItemsMobile.link) {
-                                        history.push(breadcrumbsItemsMobile.link)
+                                        history(breadcrumbsItemsMobile.link)
                                     }
                                 }}
                             >

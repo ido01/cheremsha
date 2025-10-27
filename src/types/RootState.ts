@@ -11,7 +11,6 @@ import { IFileState } from 'app/modules/File/slice/types'
 import { IListState } from 'app/modules/List/slice/types'
 import { ILocationsState } from 'app/modules/Locations/slice/types'
 import { ILogState } from 'app/modules/Log/slice/types'
-import { IPollsState } from 'app/modules/Polls/slice/types'
 import { IPositionsState } from 'app/modules/Positions/slice/types'
 import { IProfileState } from 'app/modules/Profile/slice/types'
 import { IQuizState } from 'app/modules/Quiz/slice/types'
@@ -34,7 +33,6 @@ export interface RootState {
     file: IFileState
     locations: ILocationsState
     log: ILogState
-    polls: IPollsState
     positions: IPositionsState
     profile: IProfileState
     quiz: IQuizState

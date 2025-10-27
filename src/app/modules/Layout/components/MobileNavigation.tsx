@@ -9,13 +9,13 @@ import { AvatarImage } from 'app/modules/Profile/components/AvatarImage'
 import { selectProfile } from 'app/modules/Profile/slice/selectors'
 import React from 'react'
 import { useSelector } from 'react-redux'
-import { useHistory, useRouteMatch } from 'react-router-dom'
+import { useLocation, useNavigate } from 'react-router-dom'
 import { TMenuItem } from 'types/TMenuItem'
 
 export const MobileNavigation: React.FC = () => {
-    const history = useHistory()
+    const history = useNavigate()
 
-    const { url } = useRouteMatch()
+    const { pathname: url } = useLocation()
 
     const profile = useSelector(selectProfile)
 
@@ -47,7 +47,7 @@ export const MobileNavigation: React.FC = () => {
         {
             icon: <SportsEsportsIcon />,
             title: 'Игры',
-            path: '/game',
+            path: '/games',
             id: 4,
         },
         {
@@ -76,7 +76,7 @@ export const MobileNavigation: React.FC = () => {
 
     const handleClick = (item: TMenuItem) => {
         if (item.path) {
-            history.push(item.path)
+            history(item.path)
         }
     }
 

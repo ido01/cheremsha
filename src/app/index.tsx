@@ -1,5 +1,4 @@
 import 'dayjs/locale/ru'
-import 'react-toastify/dist/ReactToastify.min.css'
 
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs'
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider'

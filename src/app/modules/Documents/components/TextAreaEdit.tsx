@@ -1,15 +1,15 @@
+import '@mantine/core/styles.css'
+import '@mantine/tiptap/styles.css'
+
 import { Link, RichTextEditor } from '@mantine/tiptap'
 import { Box } from '@mui/material'
-import { Editor } from '@tinymce/tinymce-react'
 import Highlight from '@tiptap/extension-highlight'
 import SubScript from '@tiptap/extension-subscript'
 import Superscript from '@tiptap/extension-superscript'
 import TextAlign from '@tiptap/extension-text-align'
 import { useEditor } from '@tiptap/react'
 import StarterKit from '@tiptap/starter-kit'
-import { selectSettings } from 'app/modules/Settings/slice/selectors'
 import React, { useEffect } from 'react'
-import { useSelector } from 'react-redux'
 
 interface TextAreaEditProps {
     value: string
@@ -17,8 +17,6 @@ interface TextAreaEditProps {
 }
 
 export const TextAreaEdit: React.FC<TextAreaEditProps> = ({ value, onChange }) => {
-    const settings = useSelector(selectSettings)
-
     const editor = useEditor({
         shouldRerenderOnTransaction: true,
         extensions: [
@@ -30,11 +28,14 @@ export const TextAreaEdit: React.FC<TextAreaEditProps> = ({ value, onChange }) =
             TextAlign.configure({ types: ['heading', 'paragraph'] }),
         ],
         content: value,
+        onUpdate: ({ editor }) => {
+            onChange(editor.getHTML())
+        },
     })
 
-    const handleEditorChange = (content: string) => {
-        onChange(content)
-    }
+    // const handleEditorChange = (content: string) => {
+    //     onChange(content)
+    // }
 
     useEffect(() => {
         document.addEventListener('focusin', (e: FocusEvent) => {
@@ -96,7 +97,7 @@ export const TextAreaEdit: React.FC<TextAreaEditProps> = ({ value, onChange }) =
 
                 <RichTextEditor.Content />
             </RichTextEditor>
-            <Editor
+            {/* <Editor
                 apiKey={settings.tinymce || 'xnk50yfbqv537gxly6kuu0okwlx0zxqqalzvhtkwkjqk96hp'}
                 initialValue={value}
                 init={{
@@ -115,7 +116,7 @@ export const TextAreaEdit: React.FC<TextAreaEditProps> = ({ value, onChange }) =
                 plugins="code link lists"
                 toolbar="numlist bullist | bold italic | alignleft aligncenter alignright alignjustify | link code"
                 onEditorChange={handleEditorChange}
-            />
+            /> */}
         </Box>
     )
 }

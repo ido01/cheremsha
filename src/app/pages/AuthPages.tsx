@@ -7,22 +7,34 @@ import { Signup } from 'app/modules/Auth/templates/Signup'
 import { Empty } from 'app/modules/Layout/templates/Empty'
 import { Settings } from 'app/modules/Settings/templates/Settings'
 import React from 'react'
-import { Route, Switch } from 'react-router-dom'
+import { Route, Routes } from 'react-router-dom'
 
 import { MainPage } from './MainPage'
 
 export const AuthPages: React.FC = () => (
     <Settings>
-        <Switch>
-            <Route exact path={'/auth'} component={SignIn} />
-            <Route exact path={'/auth/active'} component={ActiveToken} />
-            <Route exact path={'/auth/recovery'} component={Recovery} />
-            <Route exact path={'/auth/confirm_recovery'} component={ConfirmRecovery} />
-            <Empty>
-                <Route exact path={'/auth/signup'} component={Signup} />
-                <Route exact path={'/auth/questionnaire'} component={Questionnaire} />
-            </Empty>
-            <Route exact path={['/*']} component={MainPage} />
-        </Switch>
+        <Routes>
+            <Route path={'/'} element={<SignIn />} />
+            <Route path={'/active'} element={<ActiveToken />} />
+            <Route path={'/recovery'} element={<Recovery />} />
+            <Route path={'/confirm_recovery'} element={<ConfirmRecovery />} />
+            <Route
+                path={'/signup'}
+                element={
+                    <Empty>
+                        <Signup />
+                    </Empty>
+                }
+            />
+            <Route
+                path={'/questionnaire'}
+                element={
+                    <Empty>
+                        <Questionnaire />
+                    </Empty>
+                }
+            />
+            <Route path={'/*'} element={<MainPage />} />
+        </Routes>
     </Settings>
 )

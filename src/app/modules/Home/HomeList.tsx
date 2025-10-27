@@ -13,13 +13,13 @@ import { selectProfileRole } from 'app/modules/Profile/slice/selectors'
 import { selectSettings } from 'app/modules/Settings/slice/selectors'
 import React from 'react'
 import { useSelector } from 'react-redux'
-import { useHistory } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 import { checkAdminAccess } from 'utils/roles'
 
 import { Main } from '../Layout/templates/Main'
 
 export const HomeList: React.FC = () => {
-    const history = useHistory()
+    const history = useNavigate()
     const theme = useTheme()
     const isMobile = useMediaQuery(theme.breakpoints.between('xs', 'md'))
 
@@ -55,7 +55,7 @@ export const HomeList: React.FC = () => {
         {
             icon: <SportsEsportsIcon fontSize="large" />,
             title: 'Игры',
-            path: '/game',
+            path: '/games',
         },
         {
             icon: <LiveHelpIcon fontSize="large" />,
@@ -86,7 +86,10 @@ export const HomeList: React.FC = () => {
     }
 
     const handleClickRow = (item: ITile) => {
-        history.push(item.path)
+        if (item.path) {
+            history(item.path)
+        }
+        item.onClick?.()
     }
 
     return (

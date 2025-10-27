@@ -1,9 +1,9 @@
 import { ResultList } from 'app/modules/Results/templates/ResultList'
 import React from 'react'
-import { Route, Switch } from 'react-router-dom'
+import { Route, Routes } from 'react-router-dom'
 
 export const QuizPages: React.FC = () => (
-    <Switch>
-        <Route exact path="/quiz/result/:id" component={ResultList} />
-    </Switch>
+    <Routes>
+        <Route path="/quiz/result/:id" element={<ResultList />} />
+    </Routes>
 )

@@ -1,7 +1,7 @@
 import { Add as AddIcon } from '@mui/icons-material'
 import { Box, Typography } from '@mui/material'
 import { listsActions } from 'app/modules/List/slice'
-import React, { useEffect } from 'react'
+import React from 'react'
 import { useDispatch } from 'react-redux'
 import { IReservationStatus, ITable, ITime } from 'types/ITable'
 

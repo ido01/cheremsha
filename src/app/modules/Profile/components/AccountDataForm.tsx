@@ -3,7 +3,6 @@ import 'date-fns/locale/ru'
 import { LoadingButton } from '@mui/lab'
 import { Box, FormControl, Grid, InputLabel, MenuItem, Select, TextField, Typography } from '@mui/material'
 import { DatePicker } from '@mui/x-date-pickers/DatePicker'
-import { PhoneField } from 'app/components/PhoneField'
 import { selectLocationsFilter } from 'app/modules/Locations/slice/selectors'
 import { selectPositions } from 'app/modules/Positions/slice/selectors'
 import dayjs from 'dayjs'
@@ -112,7 +111,7 @@ export const AccountDataForm: React.FC<AccountDataFormProps> = ({ onEditFinish }
                 </Grid>
 
                 <Grid item xs={12} md={4}>
-                    <PhoneField
+                    <TextField
                         fullWidth
                         variant="outlined"
                         label="Номер телефона"
@@ -122,6 +121,16 @@ export const AccountDataForm: React.FC<AccountDataFormProps> = ({ onEditFinish }
                         onChange={formik.handleChange}
                         onBlur={handleBlur}
                     />
+                    {/* <PhoneField
+                        fullWidth
+                        variant="outlined"
+                        label="Номер телефона"
+                        name="phone"
+                        value={formik.values.phone || ''}
+                        error={!!formik.errors.phone && formik.touched.phone}
+                        onChange={formik.handleChange}
+                        onBlur={handleBlur}
+                    /> */}
                 </Grid>
 
                 <Grid item xs={12} md={4}>

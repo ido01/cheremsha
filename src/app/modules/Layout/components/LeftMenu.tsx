@@ -56,7 +56,7 @@ export const LeftMenu: React.FC = () => {
         {
             icon: <SportsEsportsIcon />,
             title: 'Игры',
-            path: '/game',
+            path: '/games',
         },
         {
             icon: <LiveHelpIcon />,

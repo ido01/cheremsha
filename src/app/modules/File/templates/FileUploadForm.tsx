@@ -10,6 +10,12 @@ import { cropImage } from 'utils/cropImage'
 import { fileActions } from '../slice'
 import { selectOpen, selectStatus } from '../slice/selectors'
 
+type CropperFix = React.Component
+
+const Cropped = Cropper as any as {
+    new (): CropperFix
+}
+
 interface FileUploadFormProps {
     image: string
     fileName: string
@@ -71,6 +77,18 @@ export const FileUploadForm: React.FC<FileUploadFormProps> = ({ image, fileName 
         })
     }
 
+    const cropProps = {
+        image,
+        crop,
+        zoom,
+        aspect: 1,
+        maxZoom,
+        cropShape: 'round',
+        onCropChange: setCrop,
+        onCropComplete: handleCropComplete,
+        onZoomChange: setZoom,
+    }
+
     return (
         <Drawer
             anchor={'bottom'}
@@ -113,17 +131,7 @@ export const FileUploadForm: React.FC<FileUploadFormProps> = ({ image, fileName 
                     </Box>
 
                     <Box mt={6.25} position={'relative'} height={'300px'} sx={{ flex: '1 0 auto' }}>
-                        <Cropper
-                            image={image}
-                            crop={crop}
-                            zoom={zoom}
-                            aspect={1}
-                            maxZoom={maxZoom}
-                            cropShape="round"
-                            onCropChange={setCrop}
-                            onCropComplete={handleCropComplete}
-                            onZoomChange={setZoom}
-                        />
+                        <Cropped {...cropProps} />
                     </Box>
 
                     <Stack spacing={2} direction="row" sx={{ mt: 5 }} alignItems="center">

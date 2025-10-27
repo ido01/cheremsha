@@ -4,7 +4,7 @@ import { Logo } from 'app/components/Logo/Logo'
 import { useFormik } from 'formik'
 import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { useHistory } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 import { EStatus } from 'types'
 import * as yup from 'yup'
 
@@ -14,7 +14,7 @@ import { Auth } from './Auth'
 
 export const Recovery: React.FC = () => {
     const dispatch = useDispatch()
-    const history = useHistory()
+    const history = useNavigate()
 
     const { status, data: initialValues } = useSelector(selectRecoveryForm)
 
@@ -35,7 +35,7 @@ export const Recovery: React.FC = () => {
 
     useEffect(() => {
         if (status === EStatus.FINISHED) {
-            history.push('/auth/confirm_recovery')
+            history('/auth/confirm_recovery')
             dispatch(authActions.recoveryInit())
         }
     }, [status])
@@ -96,17 +96,13 @@ export const Recovery: React.FC = () => {
                         </LoadingButton>
 
                         <Box mt={1} display={'flex'} justifyContent={'space-between'}>
-                            <Button
-                                variant="text"
-                                onClick={() => history.push('/auth')}
-                                sx={{ textTransform: 'initial' }}
-                            >
+                            <Button variant="text" onClick={() => history('/auth')} sx={{ textTransform: 'initial' }}>
                                 Вспомнил пароль!
                             </Button>
 
                             <Button
                                 variant="text"
-                                onClick={() => history.push('/auth/confirm_recovery')}
+                                onClick={() => history('/auth/confirm_recovery')}
                                 sx={{ textTransform: 'initial' }}
                             >
                                 Уже получил код

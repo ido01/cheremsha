@@ -1,3 +1,4 @@
+import { MantineProvider } from '@mantine/core'
 import { Box, CircularProgress, useMediaQuery, useTheme } from '@mui/material'
 import { Auth } from 'app/modules/Auth/templates/Auth'
 import { FavoriteModal } from 'app/modules/Favorites/templates/FavoriteModal'
@@ -23,43 +24,45 @@ export const Layout: React.FC<LayoutProps> = ({ children }) => {
     const settingsStatus = useSelector(selectSettingsStatus)
 
     return (
-        <Settings>
-            <Auth>
-                {status !== EStatus.FINISHED || settingsStatus !== EStatus.FINISHED ? (
-                    <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center', height: '100vh' }}>
-                        <CircularProgress size={50} />
-                    </Box>
-                ) : (
-                    <Box display="flex" height={'100%'}>
-                        {!isMobile && <LeftMenu />}
-
-                        <Box
-                            display={'flex'}
-                            flexDirection={'column'}
-                            flex={'1 1 auto'}
-                            maxHeight={'100vh'}
-                            overflow={'auto'}
-                            sx={{
-                                position: 'relative',
-                                bgcolor: '#FFF',
-                                borderRadius: 8,
-                                m: { sm: 0, md: 1 },
-                                boxSizing: 'border-box',
-                                border: !isMobile ? '1px solid #EEEEEE' : undefined,
-                                height: { sm: 'calc( 100vh - 2px )', md: 'calc( 100vh - 18px )' },
-                            }}
-                        >
-                            <Box display="flex" flexDirection="column" minHeight="calc( 100vh - 18px )">
-                                {children}
-                            </Box>
+        <MantineProvider>
+            <Settings>
+                <Auth>
+                    {status !== EStatus.FINISHED || settingsStatus !== EStatus.FINISHED ? (
+                        <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center', height: '100vh' }}>
+                            <CircularProgress size={50} />
                         </Box>
+                    ) : (
+                        <Box display="flex" height={'100%'}>
+                            {!isMobile && <LeftMenu />}
 
-                        <FavoriteModal />
+                            <Box
+                                display={'flex'}
+                                flexDirection={'column'}
+                                flex={'1 1 auto'}
+                                maxHeight={'100vh'}
+                                overflow={'auto'}
+                                sx={{
+                                    position: 'relative',
+                                    bgcolor: '#FFF',
+                                    borderRadius: 8,
+                                    m: { sm: 0, md: 1 },
+                                    boxSizing: 'border-box',
+                                    border: !isMobile ? '1px solid #EEEEEE' : undefined,
+                                    height: { sm: 'calc( 100vh - 2px )', md: 'calc( 100vh - 18px )' },
+                                }}
+                            >
+                                <Box display="flex" flexDirection="column" minHeight="calc( 100vh - 18px )">
+                                    {children}
+                                </Box>
+                            </Box>
 
-                        {isMobile && <MobileNavigation />}
-                    </Box>
-                )}
-            </Auth>
-        </Settings>
+                            <FavoriteModal />
+
+                            {isMobile && <MobileNavigation />}
+                        </Box>
+                    )}
+                </Auth>
+            </Settings>
+        </MantineProvider>
     )
 }

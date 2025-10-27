@@ -15,7 +15,7 @@ export const UserChange: React.FC = () => {
     const { id } = useParams<{ id: string }>()
 
     const getUser = useSelector(selectUserById)
-    const user = getUser(id)
+    const user = getUser(id || '')
 
     const imageSrc = user?.avatar?.url || ''
     const userName = user?.name
@@ -39,7 +39,7 @@ export const UserChange: React.FC = () => {
     }
 
     useEffect(() => {
-        dispatch(usersActions.loadUser(id))
+        dispatch(usersActions.loadUser(id || ''))
     }, [])
 
     return (

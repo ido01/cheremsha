@@ -6,7 +6,7 @@ import { selectSettings } from 'app/modules/Settings/slice/selectors'
 import { useFormik } from 'formik'
 import React, { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { useHistory } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 import { EStatus } from 'types'
 import * as yup from 'yup'
 
@@ -16,7 +16,7 @@ import { Auth } from './Auth'
 
 export const SignIn: React.FC = () => {
     const dispatch = useDispatch()
-    const history = useHistory()
+    const history = useNavigate()
 
     const [showTelegram, setTelegram] = useState(false)
     const settings = useSelector(selectSettings)
@@ -116,7 +116,7 @@ export const SignIn: React.FC = () => {
                         <Box my={1} display={'flex'} justifyContent={'space-between'}>
                             <Button
                                 variant="text"
-                                onClick={() => history.push('/auth/recovery')}
+                                onClick={() => history('/auth/recovery')}
                                 sx={{ textTransform: 'initial' }}
                             >
                                 Забыл пароль?
@@ -124,7 +124,7 @@ export const SignIn: React.FC = () => {
 
                             <Button
                                 variant="text"
-                                onClick={() => history.push('/auth/signup')}
+                                onClick={() => history('/auth/signup')}
                                 sx={{ textTransform: 'initial' }}
                             >
                                 Регистрация

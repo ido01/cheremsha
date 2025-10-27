@@ -13,7 +13,7 @@ import { selectDocuments, selectSearchDocuments, selectStatus } from 'app/module
 import moment from 'moment'
 import React from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { useHistory, useParams } from 'react-router-dom'
+import { useNavigate, useParams } from 'react-router-dom'
 import { EState, EStatus } from 'types'
 import { ICategory } from 'types/ICategory'
 import { IDocument } from 'types/IDocument'
@@ -27,7 +27,7 @@ interface CategoriesListProps {
 
 export const CategoriesBigList: React.FC<CategoriesListProps> = ({ search }) => {
     const dispatch = useDispatch()
-    const history = useHistory()
+    const history = useNavigate()
 
     const { id } = useParams<{ id?: string }>()
 
@@ -117,7 +117,7 @@ export const CategoriesBigList: React.FC<CategoriesListProps> = ({ search }) => 
     // }
 
     const handleClickRow = (item: ICategory | IDocument) => {
-        item.type === 'category' && history.push(`/doc/${item.id}`)
+        item.type === 'category' && history(`/doc/${item.id}`)
 
         if (item.type === 'document') {
             dispatch(documentsActions.setActiveId(item.id))

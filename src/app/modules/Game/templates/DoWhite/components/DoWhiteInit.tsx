@@ -11,7 +11,7 @@ import {
     Typography,
 } from '@mui/material'
 import React, { useState } from 'react'
-import { useHistory } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 import { EGameState } from 'types/IGame'
 
 interface FindColorInitProps {
@@ -21,7 +21,7 @@ interface FindColorInitProps {
 }
 
 export const DoWhiteInit: React.FC<FindColorInitProps> = ({ itemSize, width, onChangeState }) => {
-    const history = useHistory()
+    const history = useNavigate()
 
     const [activeStep, setActiveStep] = useState(0)
     const [openHelp, setOpenHelp] = useState<boolean>(false)
@@ -65,7 +65,7 @@ export const DoWhiteInit: React.FC<FindColorInitProps> = ({ itemSize, width, onC
                 <Button color="primary" variant="contained" size="large" onClick={handleRules}>
                     Правила игры
                 </Button>
-                <Button color="error" variant="contained" size="large" onClick={() => history.push('/game')}>
+                <Button color="error" variant="contained" size="large" onClick={() => history('/games')}>
                     Выйти с игры
                 </Button>
             </Box>

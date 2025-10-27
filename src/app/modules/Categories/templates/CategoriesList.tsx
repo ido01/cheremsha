@@ -23,7 +23,7 @@ import { selectQuiz, selectSearchQuiz } from 'app/modules/Quiz/slice/selectors'
 import moment from 'moment'
 import React from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { useHistory } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 import { EState, EStatus } from 'types'
 import { ICategory } from 'types/ICategory'
 import { IDocument } from 'types/IDocument'
@@ -40,7 +40,7 @@ interface CategoriesListProps {
 
 export const CategoriesList: React.FC<CategoriesListProps> = ({ id, search }) => {
     const dispatch = useDispatch()
-    const history = useHistory()
+    const history = useNavigate()
 
     const status = useSelector(selectStatus)
     const categoryStatus = useSelector(selectCategoryStatus)
@@ -182,7 +182,7 @@ export const CategoriesList: React.FC<CategoriesListProps> = ({ id, search }) =>
     // }
 
     const handleClickRow = (item: ICategory | IDocument | IQuiz) => {
-        item.type === 'category' && history.push(`/doc/${item.id}`)
+        item.type === 'category' && history(`/doc/${item.id}`)
 
         if (item.type === 'document') {
             dispatch(documentsActions.setActiveId(item.id))

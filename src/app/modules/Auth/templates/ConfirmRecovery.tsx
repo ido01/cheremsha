@@ -4,7 +4,7 @@ import { Logo } from 'app/components/Logo/Logo'
 import { useFormik } from 'formik'
 import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { useHistory, useLocation } from 'react-router-dom'
+import { useLocation, useNavigate } from 'react-router-dom'
 import { EStatus } from 'types'
 import * as yup from 'yup'
 
@@ -14,7 +14,7 @@ import { Auth } from './Auth'
 
 export const ConfirmRecovery: React.FC = () => {
     const dispatch = useDispatch()
-    const history = useHistory()
+    const history = useNavigate()
 
     const { status, data: initialValues } = useSelector(selectConfirmRecoveryForm)
 
@@ -126,17 +126,13 @@ export const ConfirmRecovery: React.FC = () => {
                         <Box mt={1} display={'flex'} justifyContent={'space-between'}>
                             <Button
                                 variant="text"
-                                onClick={() => history.push('/auth/recovery')}
+                                onClick={() => history('/auth/recovery')}
                                 sx={{ textTransform: 'initial' }}
                             >
                                 Отправить код еще раз
                             </Button>
 
-                            <Button
-                                variant="text"
-                                onClick={() => history.push('/auth')}
-                                sx={{ textTransform: 'initial' }}
-                            >
+                            <Button variant="text" onClick={() => history('/auth')} sx={{ textTransform: 'initial' }}>
                                 Войти
                             </Button>
                         </Box>

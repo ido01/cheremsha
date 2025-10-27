@@ -3,7 +3,7 @@ import { Box, Button, Dialog, DialogActions, DialogTitle, Grid, TextField } from
 import { useFormik } from 'formik'
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { useHistory } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 import { EStatus } from 'types'
 import * as yup from 'yup'
 
@@ -12,7 +12,7 @@ import { selectSignupForm } from '../slice/selectors'
 
 export const Signup: React.FC = () => {
     const dispatch = useDispatch()
-    const history = useHistory()
+    const history = useNavigate()
 
     const [open, setOpen] = useState<boolean>(false)
 
@@ -98,11 +98,7 @@ export const Signup: React.FC = () => {
                         </LoadingButton>
 
                         <Box mt={1}>
-                            <Button
-                                variant="text"
-                                onClick={() => history.push('/auth')}
-                                sx={{ textTransform: 'initial' }}
-                            >
+                            <Button variant="text" onClick={() => history('/auth')} sx={{ textTransform: 'initial' }}>
                                 Уже есть аккаунт
                             </Button>
                         </Box>

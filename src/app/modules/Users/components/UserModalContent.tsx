@@ -30,7 +30,7 @@ import { selectLocation } from 'app/modules/Locations/slice/selectors'
 import dayjs from 'dayjs'
 import React, { useMemo, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { useHistory } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 import { toast } from 'react-toastify'
 import { ERole, EStatus } from 'types'
 import { IUser } from 'types/IUser'
@@ -48,7 +48,7 @@ interface UserModalContentProps {
 }
 
 export const UserModalContent: React.FC<UserModalContentProps> = ({ profileRole, user, handleClose }) => {
-    const history = useHistory()
+    const history = useNavigate()
     const dispatch = useDispatch()
 
     const theme = useTheme()
@@ -107,7 +107,7 @@ export const UserModalContent: React.FC<UserModalContentProps> = ({ profileRole,
         if (user) {
             handleClose?.()
             dispatch(usersActions.setForm(user))
-            history.push(`/users/${user.id}`)
+            history(`/users/${user.id}`)
         }
     }
 

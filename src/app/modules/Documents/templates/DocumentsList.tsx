@@ -9,13 +9,13 @@ import { Main } from 'app/modules/Layout/templates/Main'
 import { selectProfileRole } from 'app/modules/Profile/slice/selectors'
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { useHistory } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 import { checkAdminAccess } from 'utils/roles'
 
 export const DocumentsList: React.FC = () => {
     const dispatch = useDispatch()
 
-    const history = useHistory()
+    const history = useNavigate()
     const theme = useTheme()
     const isMobile = useMediaQuery(theme.breakpoints.between('xs', 'md'))
 
@@ -38,7 +38,10 @@ export const DocumentsList: React.FC = () => {
     }, [])
 
     const handleClickRow = (item: ITile) => {
-        history.push(item.path)
+        if (item.path) {
+            history(item.path)
+        }
+        item.onClick?.()
     }
 
     return (

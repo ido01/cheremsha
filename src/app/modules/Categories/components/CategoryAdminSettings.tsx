@@ -32,7 +32,7 @@ import { selectMoveQuizId } from 'app/modules/Quiz/slice/selectors'
 import { QuizForm } from 'app/modules/Quiz/templates/QuizForm'
 import React, { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { useHistory } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 import { EState, EStatus } from 'types'
 import { ICategory } from 'types/ICategory'
 import { EQuizState } from 'types/IQuizState'
@@ -48,7 +48,7 @@ interface CategoryAdminSettingsProps {
 
 export const CategoryAdminSettings: React.FC<CategoryAdminSettingsProps> = ({ id, category, open, handleClose }) => {
     const dispatch = useDispatch()
-    const history = useHistory()
+    const history = useNavigate()
 
     const { open: openDocumentForm, copy } = useSelector(selectForm)
     const moveCategoryId = useSelector(selectmoveCategoryId)
@@ -190,7 +190,7 @@ export const CategoryAdminSettings: React.FC<CategoryAdminSettingsProps> = ({ id
     const handleDeleteCategory = () => {
         if (id) {
             dispatch(categoriesActions.deleteCategory(id))
-            history.push(`/doc/${category?.parentId}`)
+            history(`/doc/${category?.parentId}`)
         }
         setOpenDelete(false)
     }

@@ -4,7 +4,8 @@ import React from 'react'
 export interface ITile {
     icon: React.ReactNode
     title: string
-    path: string
+    path?: string
+    onClick?: () => void
 }
 
 interface ITileProps {

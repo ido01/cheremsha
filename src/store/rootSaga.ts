@@ -11,7 +11,6 @@ import { fileWatcher } from 'app/modules/File/slice/saga'
 import { listsWatcher } from 'app/modules/List/slice/saga'
 import { locationsWatcher } from 'app/modules/Locations/slice/saga'
 import { logWatcher } from 'app/modules/Log/slice/saga'
-import { pollsWatcher } from 'app/modules/Polls/slice/saga'
 import { positionsWatcher } from 'app/modules/Positions/slice/saga'
 import { profileWatcher } from 'app/modules/Profile/slice/saga'
 import { quizWatcher } from 'app/modules/Quiz/slice/saga'
@@ -36,7 +35,6 @@ export default function* rootSaga() {
         fileWatcher(),
         locationsWatcher(),
         logWatcher(),
-        pollsWatcher(),
         positionsWatcher(),
         profileWatcher(),
         resultsWatcher(),

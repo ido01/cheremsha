@@ -3,7 +3,7 @@ import { Box, Collapse, Typography } from '@mui/material'
 import { selectProfileRole } from 'app/modules/Profile/slice/selectors'
 import React, { useState } from 'react'
 import { useSelector } from 'react-redux'
-import { Link, useRouteMatch } from 'react-router-dom'
+import { Link, useLocation } from 'react-router-dom'
 import { TMenuItem } from 'types/TMenuItem'
 import { checkAdminAccess } from 'utils/roles'
 
@@ -14,7 +14,7 @@ interface MenuItemProps {
 }
 
 export const MenuItem: React.FC<MenuItemProps> = ({ item, isLage, onClick }) => {
-    const { url } = useRouteMatch()
+    const { pathname: url } = useLocation()
     const isActive =
         item.path === '/profile'
             ? url === '/'

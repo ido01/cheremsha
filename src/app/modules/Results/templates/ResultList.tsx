@@ -46,7 +46,7 @@ export const ResultList: React.FC = () => {
     const filter = useSelector(selectFilter)
     const getLocation = useSelector(selectLocation)
     const getQuiz = useSelector(selectQuizById)
-    const quiz = getQuiz(id)
+    const quiz = getQuiz(id || '')
 
     const tableRows: TTableRowData[] = [
         {
@@ -132,22 +132,22 @@ export const ResultList: React.FC = () => {
 
     useEffect(() => {
         dispatch(resultsActions.cleanResults())
-        dispatch(resultsActions.loadResults(id))
+        dispatch(resultsActions.loadResults(id || ''))
     }, [filter])
 
     const handleOrderChange = (order: TTableOrder) => {
         dispatch(resultsActions.setOrder(order))
-        dispatch(resultsActions.loadResults(id))
+        dispatch(resultsActions.loadResults(id || ''))
     }
 
     const handlePageChange = (page: number) => {
         dispatch(resultsActions.setPage(page))
-        dispatch(resultsActions.loadResults(id))
+        dispatch(resultsActions.loadResults(id || ''))
     }
 
     const handleLimitChange = (limit: TLimit) => {
         dispatch(resultsActions.setLimit(limit))
-        dispatch(resultsActions.loadResults(id))
+        dispatch(resultsActions.loadResults(id || ''))
     }
 
     const handleClickRow = (user: IUser) => {
