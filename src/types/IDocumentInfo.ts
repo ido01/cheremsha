@@ -1,6 +1,6 @@
 import { IFile } from './IFile'
 
-export type TDocumentInfoType = 'title' | 'text' | 'image' | 'delete'
+export type TDocumentInfoType = 'title' | 'text' | 'image' | 'delete' | 'video'
 
 export interface IDocumentInfo {
     id: string

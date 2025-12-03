@@ -50,22 +50,24 @@ export const ResultQuestion: React.FC<ResultQuestionProps> = ({ index, question 
                 question.variants.map((variant) => {
                     return (
                         <Box key={`${variant.id}_${variant.uniq}`} sx={{ display: 'flex', alignItems: 'center' }}>
-                            {variant.id === question.state?.vid && variant.isCorrect && (
-                                <CheckCircleOutlineIcon
-                                    sx={(theme) => ({
-                                        fontSize: 20,
-                                        color: theme.palette.success.main,
-                                    })}
-                                />
-                            )}
-                            {variant.id === question.state?.vid && !variant.isCorrect && (
-                                <HighlightOffIcon
-                                    sx={(theme) => ({
-                                        fontSize: 20,
-                                        color: theme.palette.error.main,
-                                    })}
-                                />
-                            )}
+                            {(variant.id === question.state?.vid || (variant.state && variant.state.result)) &&
+                                variant.isCorrect && (
+                                    <CheckCircleOutlineIcon
+                                        sx={(theme) => ({
+                                            fontSize: 20,
+                                            color: theme.palette.success.main,
+                                        })}
+                                    />
+                                )}
+                            {(variant.id === question.state?.vid || (variant.state && variant.state.result)) &&
+                                !variant.isCorrect && (
+                                    <HighlightOffIcon
+                                        sx={(theme) => ({
+                                            fontSize: 20,
+                                            color: theme.palette.error.main,
+                                        })}
+                                    />
+                                )}
                             <Typography
                                 variant="body3"
                                 sx={(theme) => ({

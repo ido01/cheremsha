@@ -9,6 +9,10 @@ export interface IQuizItemResponse {
     data: IQuiz
 }
 
+export interface IVariantValue {
+    [key: string]: boolean
+}
+
 export interface ISortValue {
     [key: string]: string
 }
@@ -19,6 +23,7 @@ export interface IQuestionRequest {
     vid?: string
     answer?: string
     sortValue?: ISortValue
+    variants?: string[]
 }
 
 export interface IQuiz {

@@ -335,6 +335,19 @@ export const DocumentForm: React.FC = () => {
                                     />
                                 )}
 
+                                {info.type === 'video' && (
+                                    <TextField
+                                        fullWidth
+                                        multiline
+                                        minRows={3}
+                                        variant="outlined"
+                                        label="Код видео"
+                                        name={`info.${index}.text`}
+                                        value={formik.values.info[index].text || ''}
+                                        onChange={formik.handleChange}
+                                    />
+                                )}
+
                                 {info.type === 'image' && (
                                     <Box flex="1 0 0%">
                                         {!info.image ? (
@@ -370,6 +383,7 @@ export const DocumentForm: React.FC = () => {
                     <ButtonGroup fullWidth size="small" sx={{ my: 5 }}>
                         <Button onClick={() => handleAddInfo('title')}>Добавить Заголовок</Button>
                         <Button onClick={() => handleAddInfo('text')}>Добавить текст</Button>
+                        <Button onClick={() => handleAddInfo('video')}>Добавить видео</Button>
                         <Button
                             disabled={
                                 formik.values.info.filter((item) => item.type === 'image' && item.fid === '').length > 0

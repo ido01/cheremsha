@@ -6,4 +6,5 @@ export type TMenuItem = {
     activePath?: string[]
     submenus?: TMenuItem[]
     isAdmin?: boolean
+    onClick?: () => void
 }

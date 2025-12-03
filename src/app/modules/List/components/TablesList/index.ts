@@ -1,1 +1,0 @@
-export { TablesList } from './TablesList'

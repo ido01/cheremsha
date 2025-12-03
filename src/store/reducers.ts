@@ -9,7 +9,6 @@ import { birthdaysReducer } from 'app/modules/Events/slice/users'
 import { workdaysReducer } from 'app/modules/Events/slice/workday'
 import { favoritesReducer } from 'app/modules/Favorites/slice'
 import { fileReducer } from 'app/modules/File/slice'
-import { listsReducer } from 'app/modules/List/slice'
 import { locationsReducer } from 'app/modules/Locations/slice'
 import { logReducer } from 'app/modules/Log/slice'
 import { positionsReducer } from 'app/modules/Positions/slice'
@@ -44,7 +43,6 @@ export function createReducer(injectedReducers: InjectedReducersType = {}): Redu
         settings: settingsReducer,
         users: usersReducer,
         tinyUsers: tinyUsersReducer,
-        lists: listsReducer,
         tables: tablesReducer,
         workdays: workdaysReducer,
         reviews: reviewsReducer,

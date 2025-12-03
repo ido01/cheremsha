@@ -8,7 +8,6 @@ import { birthdaysWatcher } from 'app/modules/Events/slice/users/saga'
 import { workdaysWatcher } from 'app/modules/Events/slice/workday/saga'
 import { favoritesWatcher } from 'app/modules/Favorites/slice/saga'
 import { fileWatcher } from 'app/modules/File/slice/saga'
-import { listsWatcher } from 'app/modules/List/slice/saga'
 import { locationsWatcher } from 'app/modules/Locations/slice/saga'
 import { logWatcher } from 'app/modules/Log/slice/saga'
 import { positionsWatcher } from 'app/modules/Positions/slice/saga'
@@ -44,7 +43,6 @@ export default function* rootSaga() {
         tablesWatcher(),
         quizWatcher(),
         workdaysWatcher(),
-        listsWatcher(),
         reviewsWatcher(),
     ])
 }

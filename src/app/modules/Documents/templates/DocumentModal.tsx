@@ -21,7 +21,7 @@ import { LabelText } from 'app/components/LabelText'
 import { Modal } from 'app/components/Modal'
 import { AvatarImage } from 'app/modules/Profile/components/AvatarImage'
 import { selectProfile, selectProfileRole } from 'app/modules/Profile/slice/selectors'
-import React, { useState } from 'react'
+import React, { useMemo, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { EState, EStatus } from 'types'
 import { IDocumentPoint } from 'types/IDocumentPoint'
@@ -47,6 +47,43 @@ export const DocumentModal: React.FC = () => {
     const { isOpen, activeId } = useSelector(selectModal)
     const getDocument = useSelector(selectDocumentById)
     const document = getDocument(activeId)
+
+    const content = useMemo(() => {
+        return (
+            <>
+                {document?.info.map((info) => (
+                    <Box key={info.id}>
+                        {info.type === 'title' && (
+                            <Typography sx={{ mt: 3, mb: 1 }} variant="h5" fontWeight={500}>
+                                {info.text}
+                            </Typography>
+                        )}
+
+                        {(info.type === 'text' || info.type === 'video') && (
+                            <Typography sx={{ mt: 1 }} variant="body1">
+                                <span
+                                    dangerouslySetInnerHTML={{
+                                        __html: info.text,
+                                    }}
+                                />
+                            </Typography>
+                        )}
+
+                        {info.type === 'image' && (
+                            <Box
+                                sx={{
+                                    display: 'flex',
+                                    justifyContent: 'center',
+                                }}
+                            >
+                                <Box mt={1.5} mb={0.5} component={'img'} src={info.image?.url} maxWidth="100%" />
+                            </Box>
+                        )}
+                    </Box>
+                ))}
+            </>
+        )
+    }, [document])
 
     const handleClose = () => {
         dispatch(documentsActions.hideModal())
@@ -217,42 +254,7 @@ export const DocumentModal: React.FC = () => {
                                 )}
                             </Box>
                         )} */}
-                        {document?.info.map((info, index) => (
-                            <Box key={index}>
-                                {info.type === 'title' && (
-                                    <Typography sx={{ mt: 3, mb: 1 }} variant="h5" fontWeight={500}>
-                                        {info.text}
-                                    </Typography>
-                                )}
-
-                                {info.type === 'text' && (
-                                    <Typography sx={{ mt: 1 }} variant="body1">
-                                        <span
-                                            dangerouslySetInnerHTML={{
-                                                __html: info.text,
-                                            }}
-                                        />
-                                    </Typography>
-                                )}
-
-                                {info.type === 'image' && (
-                                    <Box
-                                        sx={{
-                                            display: 'flex',
-                                            justifyContent: 'center',
-                                        }}
-                                    >
-                                        <Box
-                                            mt={1.5}
-                                            mb={0.5}
-                                            component={'img'}
-                                            src={info.image?.url}
-                                            maxWidth="100%"
-                                        />
-                                    </Box>
-                                )}
-                            </Box>
-                        ))}
+                        {content}
 
                         {document?.users && document?.users.length > 0 && (
                             <Box mt={4}>

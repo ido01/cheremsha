@@ -4,6 +4,6 @@ import { Route, Routes } from 'react-router-dom'
 
 export const QuizPages: React.FC = () => (
     <Routes>
-        <Route path="/quiz/result/:id" element={<ResultList />} />
+        <Route path="/result/:id" element={<ResultList />} />
     </Routes>
 )

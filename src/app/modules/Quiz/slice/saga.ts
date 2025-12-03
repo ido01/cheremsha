@@ -38,6 +38,7 @@ export function* question(action: PayloadAction<IQuestionRequest>) {
                 vid: action.payload.vid,
                 answer: action.payload.answer,
                 sortValue: action.payload.sortValue,
+                variants: action.payload.variants,
             },
         })
 

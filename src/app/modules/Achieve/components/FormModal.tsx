@@ -13,6 +13,7 @@ import { selectForm } from '../slice/selectors'
 import { AvatarForm } from './AvatarForm'
 
 const IconsNames = [
+    'AcUnit',
     'AccessTimeFilled',
     'BarChart',
     'BeachAccess',
@@ -26,9 +27,22 @@ const IconsNames = [
     'Verified',
     'Whatshot',
     'WorkspacePremium',
+    'AccessibleForward',
+    'AirlineSeatIndividualSuite',
+    'AssistWalker',
+    'Audiotrack',
+    'AutoAwesome',
+    'BakeryDining',
+    'AutoGraph',
+    'Casino',
+    'CleanHands',
+    'Deck',
+    'ImagesearchRoller',
+    'RocketLaunch',
+    'Sick',
 ]
 
-const Colors = ['#4CAF50', '#00B0FF', '#FFA000', '#7E57C2', '#00BCD4']
+const Colors = ['#4CAF50', '#00B0FF', '#FFA000', '#7E57C2', '#00BCD4', '#D32F2F', '#212121', '#795548']
 
 export const FormModal: React.FC = () => {
     const dispatch = useDispatch()

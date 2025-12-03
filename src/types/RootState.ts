@@ -8,7 +8,6 @@ import { IBirthdayState } from 'app/modules/Events/slice/users/types'
 import { IWorkdayState } from 'app/modules/Events/slice/workday/types'
 import { IFavoritesState } from 'app/modules/Favorites/slice/types'
 import { IFileState } from 'app/modules/File/slice/types'
-import { IListState } from 'app/modules/List/slice/types'
 import { ILocationsState } from 'app/modules/Locations/slice/types'
 import { ILogState } from 'app/modules/Log/slice/types'
 import { IPositionsState } from 'app/modules/Positions/slice/types'
@@ -40,7 +39,6 @@ export interface RootState {
     settings: ISettingsState
     users: IUsersState
     tinyUsers: ITinyUsersState
-    lists: IListState
     tables: ITablesState
     workdays: IWorkdayState
     reviews: IReviewsState

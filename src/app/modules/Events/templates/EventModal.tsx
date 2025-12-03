@@ -79,7 +79,7 @@ export const EventModal: React.FC = () => {
                                     </Typography>
                                 )}
 
-                                {info.type === 'text' && (
+                                {(info.type === 'text' || info.type === 'video') && (
                                     <Typography sx={{ mt: 1 }} variant="body1">
                                         <span
                                             dangerouslySetInnerHTML={{

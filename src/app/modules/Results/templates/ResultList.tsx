@@ -29,6 +29,7 @@ import {
 import { ResultModal } from './ResultModal'
 
 export const ResultList: React.FC = () => {
+    console.log('PDDTF PAGEPAGE')
     const dispatch = useDispatch()
 
     const { id } = useParams<{ id: string }>()

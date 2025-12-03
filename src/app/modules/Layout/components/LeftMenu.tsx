@@ -69,7 +69,9 @@ export const LeftMenu: React.FC = () => {
         menuItems.push({
             icon: <ListAltIcon />,
             title: 'Брони',
-            path: '/list',
+            onClick: () => {
+                location.href = '/list'
+            },
         })
     }
 

@@ -67,7 +67,9 @@ export const HomeList: React.FC = () => {
         links.push({
             icon: <ListAltIcon fontSize="large" />,
             title: 'Брони',
-            path: '/list',
+            onClick: () => {
+                location.href = '/list'
+            },
         })
     }
 

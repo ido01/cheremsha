@@ -1,6 +1,6 @@
 import { IFile } from './IFile'
 
-export type TEventInfoType = 'title' | 'text' | 'image' | 'delete'
+export type TEventInfoType = 'title' | 'text' | 'image' | 'delete' | 'video'
 
 export interface IEventInfo {
     id: string

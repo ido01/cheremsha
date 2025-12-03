@@ -32,6 +32,7 @@ export const MenuItem: React.FC<MenuItemProps> = ({ item, isLage, onClick }) => 
         if (item.submenus && item.submenus.length > 0) {
             setOpen(!open)
         }
+        item.onClick?.()
         onClick?.()
     }
 
