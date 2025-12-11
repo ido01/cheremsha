@@ -18,7 +18,7 @@ import {
     TextField,
     Typography,
 } from '@mui/material'
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { EQuestionType, IQuestion } from 'types/IQuestion'
 import { ISortValue, IVariantValue } from 'types/IQuiz'
@@ -77,10 +77,6 @@ export const Question: React.FC<QuestionProps> = ({ expanded, index, qid, questi
             dispatch(quizActions.question({ id: qid, qid: question.id, sortValue }))
         }
     }
-
-    useEffect(() => {
-        console.log('PDDTF variantValue', Object.keys(variantValue))
-    }, [variantValue])
 
     return (
         <Accordion expanded={expanded === index} sx={{ flexGrow: 1 }}>

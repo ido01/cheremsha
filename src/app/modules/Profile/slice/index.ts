@@ -37,6 +37,7 @@ const initialProfile: IUser = {
     blocked: false,
     favorite: false,
     createdAt: '',
+    access: [],
 }
 
 const initialState: IProfileState = {

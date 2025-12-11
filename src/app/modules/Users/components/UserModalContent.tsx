@@ -44,10 +44,11 @@ import { selectForm, selectUrl } from '../slice/selectors'
 interface UserModalContentProps {
     profileRole: ERole
     user: IUser
+    profile: IUser
     handleClose?: () => void
 }
 
-export const UserModalContent: React.FC<UserModalContentProps> = ({ profileRole, user, handleClose }) => {
+export const UserModalContent: React.FC<UserModalContentProps> = ({ profileRole, user, profile, handleClose }) => {
     const history = useNavigate()
     const dispatch = useDispatch()
 
@@ -267,7 +268,7 @@ export const UserModalContent: React.FC<UserModalContentProps> = ({ profileRole,
                 </Grid>
             </Grid>
 
-            {checkAdminAccess(profileRole) && (
+            {checkAdminAccess(profileRole, { key: 'user_control', access: profile.access }) && (
                 <Box
                     sx={{
                         position: 'absolute',
@@ -282,17 +283,21 @@ export const UserModalContent: React.FC<UserModalContentProps> = ({ profileRole,
                     }}
                 >
                     <Box display={'flex'} gap={1}>
-                        {!user?.ban && (
-                            <IconButton color="error" onClick={handleOpenDelete} sx={{ bgcolor: '#FDFDFD90' }}>
-                                <DeleteIcon />
-                            </IconButton>
+                        {checkAdminAccess(profileRole) && (
+                            <>
+                                {!user?.ban && (
+                                    <IconButton color="error" onClick={handleOpenDelete} sx={{ bgcolor: '#FDFDFD90' }}>
+                                        <DeleteIcon />
+                                    </IconButton>
+                                )}
+
+                                <IconButton color="info" onClick={handleEditDocument} sx={{ bgcolor: '#FDFDFD90' }}>
+                                    <EditIcon />
+                                </IconButton>
+                            </>
                         )}
 
-                        <IconButton color="info" onClick={handleEditDocument} sx={{ bgcolor: '#FDFDFD90' }}>
-                            <EditIcon />
-                        </IconButton>
-
-                        {checkSudoAccess(profileRole) && (
+                        {checkSudoAccess(profileRole, { key: 'user_control_achive', access: profile.access }) && (
                             <IconButton color="success" onClick={handleAddAchive} sx={{ bgcolor: '#FDFDFD90' }}>
                                 <AddCircleIcon />
                             </IconButton>

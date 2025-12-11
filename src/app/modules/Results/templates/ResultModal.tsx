@@ -3,7 +3,7 @@ import { TabContext, TabList, TabPanel } from '@mui/lab'
 import { Box, Container, Modal as ModalComponent, Tab, Typography } from '@mui/material'
 import { Modal } from 'app/components/Modal'
 import { AvatarImage } from 'app/modules/Profile/components/AvatarImage'
-import { selectProfileRole } from 'app/modules/Profile/slice/selectors'
+import { selectProfile, selectProfileRole } from 'app/modules/Profile/slice/selectors'
 import { UserModalContent } from 'app/modules/Users/components/UserModalContent'
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
@@ -23,6 +23,7 @@ export const ResultModal: React.FC = () => {
     const [openPhoto, setOpenPhoto] = useState<boolean>(false)
 
     const profileRole = useSelector(selectProfileRole)
+    const profile = useSelector(selectProfile)
     const { isOpen, activeId } = useSelector(selectModal)
     const getResult = useSelector(selectResultById)
     const user = getResult(activeId)
@@ -92,7 +93,7 @@ export const ResultModal: React.FC = () => {
                             </TabList>
 
                             <TabPanel value="user" sx={{ p: 0 }}>
-                                {user && <UserModalContent profileRole={profileRole} user={user} />}
+                                {user && <UserModalContent profileRole={profileRole} user={user} profile={profile} />}
                             </TabPanel>
                             <TabPanel value="test" sx={{ p: 0 }}>
                                 {user && id && <ResultModalContent id={id} user={user} />}

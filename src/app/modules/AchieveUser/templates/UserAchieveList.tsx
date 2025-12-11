@@ -3,7 +3,7 @@ import * as Icons from '@mui/icons-material'
 import { Box, IconButton, Typography } from '@mui/material'
 import Table from 'app/components/Table'
 import { achieveActions } from 'app/modules/Achieve/slice'
-import { selectProfileRole } from 'app/modules/Profile/slice/selectors'
+import { selectProfile, selectProfileRole } from 'app/modules/Profile/slice/selectors'
 import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { EStatus } from 'types'
@@ -25,6 +25,7 @@ export const UserAchieveList: React.FC<UserAchieveListProps> = ({ id }) => {
     const dispatch = useDispatch()
 
     const profileRole = useSelector(selectProfileRole)
+    const profile = useSelector(selectProfile)
     const status = useSelector(selectStatus)
     const achieves = useSelector(selectAchieve)
 
@@ -94,7 +95,7 @@ export const UserAchieveList: React.FC<UserAchieveListProps> = ({ id }) => {
                         gap: 1,
                     }}
                 >
-                    {checkSudoAccess(profileRole) && (
+                    {checkSudoAccess(profileRole, { key: 'user_control_achive', access: profile.access }) && (
                         <IconButton color="error" aria-haspopup="true" onClick={() => handleDeleteOpen(achieve)}>
                             <DeleteIcon />
                         </IconButton>
@@ -123,7 +124,7 @@ export const UserAchieveList: React.FC<UserAchieveListProps> = ({ id }) => {
                 // handleClickRow={handleClickRow}
             />
 
-            {checkSudoAccess(profileRole) && (
+            {checkSudoAccess(profileRole, { key: 'user_control_achive', access: profile.access }) && (
                 <>
                     <DeleteModal />
                     <FormModal />

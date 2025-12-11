@@ -80,6 +80,7 @@ export interface IUser {
     state?: IQuizState
     quiz?: IQuizState
     achieve?: IAchieve
+    access: string[]
 }
 
 export interface ITinyUser {

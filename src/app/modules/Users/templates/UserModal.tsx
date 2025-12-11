@@ -5,12 +5,13 @@ import { Modal } from 'app/components/Modal'
 import { logActions } from 'app/modules/Log/slice'
 import { LogList } from 'app/modules/Log/templates/LogList'
 import { AvatarImage } from 'app/modules/Profile/components/AvatarImage'
-import { selectProfileRole } from 'app/modules/Profile/slice/selectors'
+import { selectProfile, selectProfileRole } from 'app/modules/Profile/slice/selectors'
 import { ResultUserList } from 'app/modules/Results/templates/ResultUserList'
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { checkAdminAccess } from 'utils/roles'
 
+import { AccessList } from '../components/AccessList'
 import { UserModalContent } from '../components/UserModalContent'
 import { usersActions } from '../slice'
 import { selectModal, selectUserById } from '../slice/selectors'
@@ -22,6 +23,7 @@ export const UserModal: React.FC = () => {
     const [value, setValue] = useState<string>('user')
 
     const profileRole = useSelector(selectProfileRole)
+    const profile = useSelector(selectProfile)
     const { isOpen, activeId } = useSelector(selectModal)
     const getUser = useSelector(selectUserById)
     const user = getUser(activeId)
@@ -119,11 +121,17 @@ export const UserModal: React.FC = () => {
                                     <Tab label="Профиль" value="user" sx={{ px: 3 }} />
                                     <Tab label="Тестирование" value="test" sx={{ px: 3 }} />
                                     <Tab label="Изменения" value="history" sx={{ px: 3 }} />
+                                    {user?.access.length && <Tab label="Доступы" value="access" sx={{ px: 3 }} />}
                                 </TabList>
                             )}
                             <TabPanel value="user" sx={{ p: 0 }}>
                                 {user && (
-                                    <UserModalContent handleClose={handleClose} profileRole={profileRole} user={user} />
+                                    <UserModalContent
+                                        handleClose={handleClose}
+                                        profileRole={profileRole}
+                                        user={user}
+                                        profile={profile}
+                                    />
                                 )}
                             </TabPanel>
                             <TabPanel value="test" sx={{ p: 0 }}>
@@ -131,6 +139,9 @@ export const UserModal: React.FC = () => {
                             </TabPanel>
                             <TabPanel value="history" sx={{ p: 0 }}>
                                 <LogList />
+                            </TabPanel>
+                            <TabPanel value="access" sx={{ p: 0 }}>
+                                {user && <AccessList uid={user.id} access={user.access} />}
                             </TabPanel>
                         </TabContext>
                     </Container>

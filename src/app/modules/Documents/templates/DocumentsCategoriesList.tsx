@@ -11,13 +11,16 @@ import { selectProfileRole } from 'app/modules/Profile/slice/selectors'
 import { QuizModal } from 'app/modules/Quiz/templates/QuizModal'
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { useParams } from 'react-router-dom'
 import { checkAdminAccess } from 'utils/roles'
 
-export const DocumentsCategoriesList: React.FC = () => {
-    const dispatch = useDispatch()
+interface Props {
+    id: string
+    did?: string
+    qid?: string
+}
 
-    const { id } = useParams<{ id?: string }>()
+export const DocumentsCategoriesList: React.FC<Props> = ({ id, did, qid }) => {
+    const dispatch = useDispatch()
 
     const [open, setOpen] = useState<boolean>(false)
     const [search, setSearch] = useState<string>('')
@@ -57,8 +60,7 @@ export const DocumentsCategoriesList: React.FC = () => {
     }
 
     useEffect(() => {
-        dispatch(categoriesActions.loadCategories(id || '0'))
-        // dispatch(documentsActions.loadDocuments('faq'))
+        dispatch(categoriesActions.loadCategories(id))
     }, [id])
 
     const handleSettingOpen = () => {
@@ -94,7 +96,7 @@ export const DocumentsCategoriesList: React.FC = () => {
             value={search}
             onSearch={handleSearchChange}
         >
-            <CategoriesList id={id || '0'} search={search} />
+            <CategoriesList id={id} search={search} did={did} qid={qid} />
 
             <DocumentModal />
 

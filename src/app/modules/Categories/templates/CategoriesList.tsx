@@ -21,7 +21,7 @@ import { QuizStatusRow } from 'app/modules/Quiz/components/QuizStatusRow'
 import { quizActions } from 'app/modules/Quiz/slice'
 import { selectQuiz, selectSearchQuiz } from 'app/modules/Quiz/slice/selectors'
 import moment from 'moment'
-import React from 'react'
+import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 import { EState, EStatus } from 'types'
@@ -35,10 +35,12 @@ import { categoriesActions } from '../slice'
 
 interface CategoriesListProps {
     id: string
+    did?: string
+    qid?: string
     search?: string
 }
 
-export const CategoriesList: React.FC<CategoriesListProps> = ({ id, search }) => {
+export const CategoriesList: React.FC<CategoriesListProps> = ({ id, search, did, qid }) => {
     const dispatch = useDispatch()
     const history = useNavigate()
 
@@ -55,6 +57,24 @@ export const CategoriesList: React.FC<CategoriesListProps> = ({ id, search }) =>
     const categories = !search ? getCategories(id || '0') : searchCategories(search, id)
     const documents = !search ? getDocuments(id || '0') : searchDocuments(search, id)
     const quiz = !search ? getQuiz(id || '0') : searchQuiz(search, id || '0')
+
+    useEffect(() => {
+        if (did && status === EStatus.FINISHED && categoryStatus === EStatus.FINISHED) {
+            dispatch(documentsActions.setActiveId(did))
+            dispatch(documentsActions.showModal())
+        } else if (!did) {
+            dispatch(documentsActions.hideModal())
+        }
+    }, [did, status, categoryStatus])
+
+    useEffect(() => {
+        if (qid && status === EStatus.FINISHED && categoryStatus === EStatus.FINISHED) {
+            dispatch(quizActions.setActiveId(qid))
+            dispatch(quizActions.showModal())
+        } else if (!qid) {
+            dispatch(quizActions.hideModal())
+        }
+    }, [qid, status, categoryStatus])
 
     const stateSort: (EState | EQuizState)[] = [
         EState.REJECTED,
@@ -171,27 +191,15 @@ export const CategoriesList: React.FC<CategoriesListProps> = ({ id, search }) =>
         dispatch(categoriesActions.setOrder(order))
     }
 
-    // const handlePageChange = (page: number) => {
-    //     dispatch(officesActions.setPage(page))
-    //     dispatch(officesActions.loadOffices())
-    // }
-
-    // const handleLimitChange = (limit: TLimit) => {
-    //     dispatch(officesActions.setLimit(limit))
-    //     dispatch(officesActions.loadOffices())
-    // }
-
     const handleClickRow = (item: ICategory | IDocument | IQuiz) => {
         item.type === 'category' && history(`/doc/${item.id}`)
 
         if (item.type === 'document') {
-            dispatch(documentsActions.setActiveId(item.id))
-            dispatch(documentsActions.showModal())
+            history(`/doc/${id}/document/${item.id}`)
         }
 
         if (item.type === 'quiz') {
-            dispatch(quizActions.setActiveId(item.id))
-            dispatch(quizActions.showModal())
+            history(`/doc/${id}/quiz/${item.id}`)
         }
     }
 

@@ -17,6 +17,7 @@ import { quizReducer } from 'app/modules/Quiz/slice'
 import { resultsReducer } from 'app/modules/Results/slice'
 import { reviewsReducer } from 'app/modules/Reviews/slice'
 import { settingsReducer } from 'app/modules/Settings/slice'
+import { statsReducer } from 'app/modules/Stat/slice'
 import { tablesReducer } from 'app/modules/Tables/slice'
 import { usersReducer } from 'app/modules/Users/slice'
 import { tinyUsersReducer } from 'app/modules/Users/slice/tiny'
@@ -46,5 +47,6 @@ export function createReducer(injectedReducers: InjectedReducersType = {}): Redu
         tables: tablesReducer,
         workdays: workdaysReducer,
         reviews: reviewsReducer,
+        stats: statsReducer,
     })
 }

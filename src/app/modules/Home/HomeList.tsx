@@ -6,6 +6,7 @@ import {
     LiveHelp as LiveHelpIcon,
     School as SchoolIcon,
     SportsEsports as SportsEsportsIcon,
+    SsidChart as SsidChartIcon,
 } from '@mui/icons-material'
 import { Box, Grid, useMediaQuery, useTheme } from '@mui/material'
 import { ITile, Tile } from 'app/components/Tile'
@@ -70,6 +71,12 @@ export const HomeList: React.FC = () => {
             onClick: () => {
                 location.href = '/list'
             },
+        })
+
+        links.push({
+            icon: <SsidChartIcon fontSize="large" />,
+            title: 'Статистика',
+            path: '/stats',
         })
     }
 

@@ -16,6 +16,7 @@ import { IQuizState } from 'app/modules/Quiz/slice/types'
 import { IResultsState } from 'app/modules/Results/slice/types'
 import { IReviewsState } from 'app/modules/Reviews/slice/types'
 import { ISettingsState } from 'app/modules/Settings/slice/types'
+import { IStatState } from 'app/modules/Stat/slice/types'
 import { ITablesState } from 'app/modules/Tables/slice/types'
 import { ITinyUsersState } from 'app/modules/Users/slice/tiny/types'
 import { IUsersState } from 'app/modules/Users/slice/types'
@@ -42,4 +43,5 @@ export interface RootState {
     tables: ITablesState
     workdays: IWorkdayState
     reviews: IReviewsState
+    stats: IStatState
 }

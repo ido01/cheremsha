@@ -5,6 +5,11 @@ import { IUser } from 'types/IUser'
 
 export type TUserStatus = 'all' | 'new' | 'active' | 'blocked'
 
+export type AccessProps = {
+    key: string
+    uid: string
+}
+
 export interface IUserFilter {
     position_id: string
     place_id: string

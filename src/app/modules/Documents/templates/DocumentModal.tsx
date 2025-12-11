@@ -3,6 +3,7 @@ import {
     ContentCut as ContentCutIcon,
     Delete as DeleteIcon,
     Edit as EditIcon,
+    IosShare as IosShareIcon,
 } from '@mui/icons-material'
 import { LoadingButton } from '@mui/lab'
 import {
@@ -23,6 +24,8 @@ import { AvatarImage } from 'app/modules/Profile/components/AvatarImage'
 import { selectProfile, selectProfileRole } from 'app/modules/Profile/slice/selectors'
 import React, { useMemo, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
+import { useNavigate } from 'react-router-dom'
+import { toast } from 'react-toastify'
 import { EState, EStatus } from 'types'
 import { IDocumentPoint } from 'types/IDocumentPoint'
 import { IDocumentTaskUser } from 'types/IDocumentTaskUser'
@@ -34,6 +37,7 @@ import { selectDocumentById, selectModal } from '../slice/selectors'
 
 export const DocumentModal: React.FC = () => {
     const dispatch = useDispatch()
+    const history = useNavigate()
 
     const [openDelete, setOpenDelete] = useState<boolean>(false)
     const [openDeletePoint, setOpenDeletePoint] = useState<string>('0')
@@ -87,6 +91,9 @@ export const DocumentModal: React.FC = () => {
 
     const handleClose = () => {
         dispatch(documentsActions.hideModal())
+        if (document) {
+            history(`/doc/${document.parentId}`)
+        }
     }
 
     const handleEditDocument = () => {
@@ -201,6 +208,19 @@ export const DocumentModal: React.FC = () => {
         if (document) {
             setLoadingTasks((value) => [...value, `${point.id}p${point.status}`])
             dispatch(documentsActions.rejectPoint(point.id))
+        }
+    }
+
+    const handleShareDocument = async () => {
+        try {
+            await navigator.clipboard.writeText(location.href)
+            toast.success('Ссылка успешно скопирована', {
+                type: 'success',
+            })
+        } catch (e) {
+            toast.success('Не получилось скопировать ссылку в буфер обмена', {
+                type: 'error',
+            })
         }
     }
 
@@ -450,7 +470,7 @@ export const DocumentModal: React.FC = () => {
                     </Container>
                 </Box>
 
-                {checkAdminAccess(profileRole) && (
+                {checkAdminAccess(profileRole) ? (
                     <Box
                         sx={{
                             position: 'absolute',
@@ -477,8 +497,32 @@ export const DocumentModal: React.FC = () => {
                                 <ContentCutIcon />
                             </IconButton>
 
-                            <IconButton color="success" onClick={handleCopyDocument} sx={{ bgcolor: '#FDFDFD90' }}>
+                            <IconButton color="primary" onClick={handleCopyDocument} sx={{ bgcolor: '#FDFDFD90' }}>
                                 <ContentCopyIcon />
+                            </IconButton>
+
+                            <IconButton color="success" onClick={handleShareDocument} sx={{ bgcolor: '#FDFDFD90' }}>
+                                <IosShareIcon />
+                            </IconButton>
+                        </Box>
+                    </Box>
+                ) : (
+                    <Box
+                        sx={{
+                            position: 'absolute',
+                            bottom: '4px',
+                            left: 0,
+                            m: 1,
+                            p: 1,
+                            borderRadius: 8,
+                            backdropFilter: 'blur(4px)',
+                            bgcolor: '#FDFDFD30',
+                            border: '1px solid #F5F5F5',
+                        }}
+                    >
+                        <Box display={'flex'} gap={1}>
+                            <IconButton color="success" onClick={handleShareDocument} sx={{ bgcolor: '#FDFDFD90' }}>
+                                <IosShareIcon />
                             </IconButton>
                         </Box>
                     </Box>

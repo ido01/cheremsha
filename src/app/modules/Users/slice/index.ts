@@ -68,6 +68,7 @@ const slice = createSlice({
                 blocked: false,
                 favorite: false,
                 createdAt: '',
+                access: [],
             },
         },
     }),

@@ -25,7 +25,7 @@ import { Modal } from 'app/components/Modal'
 import { selectProfileRole } from 'app/modules/Profile/slice/selectors'
 import React, { useMemo, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { EQuizState } from 'types/IQuizState'
 import { convertQuizState } from 'utils/convertUtils'
 import { checkAdminAccess } from 'utils/roles'
@@ -35,6 +35,7 @@ import { selectModal, selectQuizById } from '../slice/selectors'
 
 export const QuizModal: React.FC = () => {
     const dispatch = useDispatch()
+    const history = useNavigate()
 
     const [openDelete, setOpenDelete] = useState<boolean>(false)
     const [openStart, setOpenStart] = useState<boolean>(false)
@@ -68,6 +69,9 @@ export const QuizModal: React.FC = () => {
 
     const handleClose = () => {
         dispatch(quizActions.hideModal())
+        if (quiz) {
+            history(`/doc/${quiz.parentId}`)
+        }
     }
 
     const handleEditDocument = () => {
@@ -123,7 +127,7 @@ export const QuizModal: React.FC = () => {
     return (
         <>
             <Modal
-                open={isOpen}
+                open={isOpen && !!quiz}
                 title={`${quiz?.name || ''}${quiz?.draft ? ' (Черновик)' : ''}`}
                 handleClose={handleClose}
             >
