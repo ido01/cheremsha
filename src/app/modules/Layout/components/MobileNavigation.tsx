@@ -12,6 +12,8 @@ import { useSelector } from 'react-redux'
 import { useLocation, useNavigate } from 'react-router-dom'
 import { TMenuItem } from 'types/TMenuItem'
 
+import { Garland } from './Garland'
+
 export const MobileNavigation: React.FC = () => {
     const history = useNavigate()
 
@@ -95,8 +97,10 @@ export const MobileNavigation: React.FC = () => {
                 bgcolor: '#FDFDFD30',
                 boxShadow: '0px 4px 4px #3332',
                 border: '1px solid #F5F5F5',
+                overflow: 'hidden',
             }}
         >
+            <Garland />
             <Box sx={{ display: 'flex', justifyContent: 'space-around' }}>
                 {menuItems.map((item, index) => {
                     const isActive =

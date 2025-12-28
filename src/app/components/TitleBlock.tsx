@@ -63,6 +63,8 @@ export const TitleBlock: React.FC<TitleBlockProps> = ({
                     pl: !!breadcrumbsItemsMobile?.link && isMobile ? 1 : 3,
                     m: 1,
                     backdropFilter: 'blur(4px)',
+                    position: 'relative',
+                    overflow: 'hidden',
                 }}
             >
                 <Box

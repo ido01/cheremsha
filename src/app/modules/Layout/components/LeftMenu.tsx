@@ -19,6 +19,7 @@ import { useSelector } from 'react-redux'
 import { TMenuItem } from 'types/TMenuItem'
 import { checkAdminAccess } from 'utils/roles'
 
+import { Garland } from './Garland'
 import { MenuItem } from './MenuItem'
 
 export const LeftMenu: React.FC = () => {
@@ -115,8 +116,12 @@ export const LeftMenu: React.FC = () => {
                         p: 1,
                         pr: 2,
                         m: 1,
+                        overflow: 'hidden',
+                        position: 'relative',
                     }}
                 >
+                    <Garland />
+
                     <IconButton onClick={() => setLage(!isLage)}>
                         <MenuIcon />
                     </IconButton>
