@@ -10,9 +10,9 @@ interface CategoryNameRowProps {
 export const CategoryNameRow: React.FC<CategoryNameRowProps> = ({ item }) => (
     <>
         <FolderOpenIcon
-            sx={(theme) => ({
-                color: theme.palette.grey[600],
-            })}
+            sx={{
+                color: '#6261a3',
+            }}
         />
 
         <Typography ml={1} variant="body2">

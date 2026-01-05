@@ -1,5 +1,7 @@
 import { Box, Typography } from '@mui/material'
+import dayjs from 'dayjs'
 import React from 'react'
+import { EState } from 'types'
 import { IDocument } from 'types/IDocument'
 
 import { DocumentHeaderRow } from './DocumentHeaderRow'
@@ -12,24 +14,23 @@ interface MobileDocumentViewProps {
 export const MobileDocumentView: React.FC<MobileDocumentViewProps> = ({ item }) => (
     <Box px={2} pb={1} pt={1} width={'100%'}>
         <DocumentHeaderRow item={item} />
-        <Box mt={1} display={'flex'} justifyContent={'space-between'} alignItems={'center'}>
-            <Box>
-                <Box display={'flex'}>
-                    <Typography variant="h6" sx={{ fontSize: 20 }}>
-                        {item.name}
-                    </Typography>
-                </Box>
-            </Box>
-        </Box>
 
-        <Box display={'flex'} justifyContent={'flex-end'}>
+        <Box mt={2} display={'flex'} justifyContent={'space-between'}>
             <Box display={'flex'} justifyContent={'flex-end'} alignItems={'center'}>
-                <Typography mr={1} variant="caption" color="grey.600">
-                    Статус
+                <Typography variant="body3" color="grey.600">
+                    {dayjs(item.createdAt).locale('ru').format('D MMM YYYY')}
                 </Typography>
-
-                <DocumentStatusRow item={item} />
             </Box>
+
+            {item.state.state === EState.INITIAL && (
+                <Box display={'flex'} justifyContent={'flex-end'} alignItems={'center'}>
+                    <Typography mr={1} variant="caption" color="grey.600">
+                        Статус
+                    </Typography>
+
+                    <DocumentStatusRow item={item} />
+                </Box>
+            )}
         </Box>
     </Box>
 )

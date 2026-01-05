@@ -56,12 +56,10 @@ export const TitleBlock: React.FC<TitleBlockProps> = ({
                 justifyContent={'space-between'}
                 alignItems={'center'}
                 sx={{
-                    borderRadius: 8,
                     bgcolor: '#FDFDFD30',
                     boxShadow: '0px 4px 4px #3332',
                     p: 1,
                     pl: !!breadcrumbsItemsMobile?.link && isMobile ? 1 : 3,
-                    m: 1,
                     backdropFilter: 'blur(4px)',
                     position: 'relative',
                     overflow: 'hidden',
@@ -70,9 +68,9 @@ export const TitleBlock: React.FC<TitleBlockProps> = ({
                 <Box
                     display={'flex'}
                     alignItems={'flex-start'}
-                    sx={{ minHeight: '44px', maxWidth: !endNode ? 'calc(100%)' : 'calc(100% - 44px)' }}
+                    sx={{ minHeight: '40px', maxWidth: !endNode ? 'calc(100%)' : 'calc(100% - 44px)' }}
                 >
-                    <Box display={'flex'} alignItems={'center'} sx={{ minHeight: '44px', maxWidth: 'calc(100%)' }}>
+                    <Box display={'flex'} alignItems={'center'} sx={{ minHeight: '40px', maxWidth: 'calc(100%)' }}>
                         {!!breadcrumbs && !isMobile && breadcrumbs.length > 1 && <Breadcrumbs items={breadcrumbs} />}
                         {!!breadcrumbsItemsMobile?.link && isMobile && (
                             <IconButton
@@ -92,7 +90,12 @@ export const TitleBlock: React.FC<TitleBlockProps> = ({
                         <Typography
                             variant={isMobile ? 'h5' : 'h4'}
                             fontWeight={700}
-                            sx={{ whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}
+                            sx={{
+                                whiteSpace: 'nowrap',
+                                overflow: 'hidden',
+                                textOverflow: 'ellipsis',
+                                lineHeight: '40px',
+                            }}
                         >
                             {title}
                         </Typography>
@@ -122,6 +125,7 @@ export const TitleBlock: React.FC<TitleBlockProps> = ({
                                 startAdornment: <SearchIcon style={{ color: '#c7c7cc' }} />,
                                 sx: {
                                     borderRadius: '32px',
+                                    height: '40px',
                                 },
                             }}
                         />

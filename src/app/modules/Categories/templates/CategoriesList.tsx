@@ -1,3 +1,4 @@
+import { Box } from '@mui/material'
 import Table from 'app/components/Table'
 import { CategoryDateRow } from 'app/modules/Categories/components/CategoryDateRow'
 import { CategoryNameRow } from 'app/modules/Categories/components/CategoryNameRow'
@@ -77,9 +78,9 @@ export const CategoriesList: React.FC<CategoriesListProps> = ({ id, search, did,
     }, [qid, status, categoryStatus])
 
     const stateSort: (EState | EQuizState)[] = [
+        EState.INITIAL,
         EState.REJECTED,
         EState.PENDING,
-        EState.INITIAL,
         EState.COMPLETED,
         EQuizState.DONE,
         EQuizState.INITIAL,
@@ -92,9 +93,11 @@ export const CategoriesList: React.FC<CategoriesListProps> = ({ id, search, did,
         if (order.row === 'status') {
             if (order.order === 'desc') {
                 if (stateSort.indexOf(a.state.state) < stateSort.indexOf(b.state.state)) return -1
+                if (moment(a.createdAt).unix() > moment(b.createdAt).unix()) return -1
                 return 1
             } else {
                 if (stateSort.indexOf(a.state.state) > stateSort.indexOf(b.state.state)) return -1
+                if (moment(a.createdAt).unix() < moment(b.createdAt).unix()) return -1
                 return 1
             }
         } else if (order.row === 'createdAt') {
@@ -113,9 +116,11 @@ export const CategoriesList: React.FC<CategoriesListProps> = ({ id, search, did,
         if (order.row === 'status') {
             if (order.order === 'desc') {
                 if (stateSort.indexOf(a.state.state) < stateSort.indexOf(b.state.state)) return -1
+                if (moment(a.createdAt).unix() > moment(b.createdAt).unix()) return -1
                 return 1
             } else {
                 if (stateSort.indexOf(a.state.state) > stateSort.indexOf(b.state.state)) return -1
+                if (moment(a.createdAt).unix() < moment(b.createdAt).unix()) return -1
                 return 1
             }
         } else if (order.row === 'createdAt') {
@@ -204,16 +209,18 @@ export const CategoriesList: React.FC<CategoriesListProps> = ({ id, search, did,
     }
 
     return (
-        <Table
-            items={items}
-            rows={tableRows}
-            order={order}
-            isLoading={status === EStatus.PENDING || categoryStatus === EStatus.PENDING}
-            handleOrderChange={handleOrderChange}
-            // handleLimitChange={handleLimitChange}
-            // handlePageChange={handlePageChange}
-            mobileView={mobileView}
-            handleClickRow={handleClickRow}
-        />
+        <Box sx={{ pb: 11 }}>
+            <Table
+                items={items}
+                rows={tableRows}
+                order={order}
+                isLoading={status === EStatus.PENDING || categoryStatus === EStatus.PENDING}
+                handleOrderChange={handleOrderChange}
+                // handleLimitChange={handleLimitChange}
+                // handlePageChange={handlePageChange}
+                mobileView={mobileView}
+                handleClickRow={handleClickRow}
+            />
+        </Box>
     )
 }

@@ -11,7 +11,7 @@ export const DocumentNameRow: React.FC<DocumentNameRowProps> = ({ item }) => (
     <>
         <AssignmentIcon
             sx={(theme) => ({
-                color: theme.palette.grey[600],
+                color: theme.palette.success.main,
             })}
         />
 

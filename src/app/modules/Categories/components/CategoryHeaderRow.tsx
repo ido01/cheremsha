@@ -12,18 +12,15 @@ export const CategoryHeaderRow: React.FC<CategoryHeaderRowProps> = ({ item }) =>
     <Box display={'flex'} justifyContent={'space-between'} alignItems={'center'}>
         <Box display={'flex'} alignItems={'center'}>
             <FolderOpenIcon
-                sx={(theme) => ({
-                    color: theme.palette.grey[600],
-                })}
+                sx={{
+                    color: '#6261a3',
+                    mr: 1,
+                }}
             />
 
-            <Typography ml={1} variant="caption" color="grey.600">
-                Название
+            <Typography variant="h6" sx={{ fontSize: 20 }}>
+                {item.name}
             </Typography>
         </Box>
-
-        <Typography ml={1} variant="body3" color="grey.600">
-            {dayjs(item.createdAt).locale('ru').format('D MMM YYYY')}
-        </Typography>
     </Box>
 )

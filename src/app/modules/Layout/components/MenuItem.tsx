@@ -51,7 +51,7 @@ export const MenuItem: React.FC<MenuItemProps> = ({ item, isLage, onClick }) => 
                             textDecoration: 'none',
                             bgcolor: isActive ? '#757575' : 'transparent',
                             border: '1px solidrgb(56, 50, 50)',
-                            borderRadius: 8,
+                            borderRadius: isLage ? 8 : '100%',
                             '&:hover': {
                                 color: isActive ? '#FFFFFF' : 'grey.900',
                             },
@@ -63,7 +63,7 @@ export const MenuItem: React.FC<MenuItemProps> = ({ item, isLage, onClick }) => 
                         <Box display={'flex'} alignItems={'center'}>
                             <Box
                                 sx={{
-                                    p: '12px',
+                                    p: isLage ? '12px' : '8px',
                                     borderRadius: 8,
                                     display: 'flex',
                                     bgcolor: isActive ? '#616161' : '#F5F5F5',

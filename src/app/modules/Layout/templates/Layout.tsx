@@ -32,7 +32,14 @@ export const Layout: React.FC<LayoutProps> = ({ children }) => {
                             <CircularProgress size={50} />
                         </Box>
                     ) : (
-                        <Box display="flex" height={'100%'}>
+                        <Box
+                            display="flex"
+                            sx={{
+                                border: '1px solid #EEEEEE',
+                                height: '100vh',
+                                overflow: 'hidden',
+                            }}
+                        >
                             {!isMobile && <LeftMenu />}
 
                             <Box
@@ -45,13 +52,11 @@ export const Layout: React.FC<LayoutProps> = ({ children }) => {
                                     position: 'relative',
                                     bgcolor: '#FFF',
                                     borderRadius: 8,
-                                    m: { sm: 0, md: 1 },
                                     boxSizing: 'border-box',
-                                    border: !isMobile ? '1px solid #EEEEEE' : undefined,
-                                    height: { sm: 'calc( 100vh - 2px )', md: 'calc( 100vh - 18px )' },
+                                    height: '100vh',
                                 }}
                             >
-                                <Box display="flex" flexDirection="column" minHeight="calc( 100vh - 18px )">
+                                <Box display="flex" flexDirection="column" minHeight="100vh">
                                     {children}
                                 </Box>
                             </Box>

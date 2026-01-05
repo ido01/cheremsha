@@ -33,9 +33,9 @@ export const DragTableItem: React.FC<DragTableItemProps> = ({
             sx={{
                 mt: { xs: 1, md: fullBorder ? 1 : 0 },
                 bgcolor: '#FDFDFD',
-                borderRadius: 8,
+                borderRadius: isMobile ? 4 : 8,
                 cursor: handleClickRow ? 'pointer' : 'default',
-                border: '1px solid #F5F5F5',
+                border: isMobile ? '1px solid #E0E0E0' : '1px solid #F5F5F5',
                 boxShadow: '0px 1px 1px #3332',
                 p: isMobile ? 1 : 0,
                 '&:hover': handleClickRow

@@ -21,7 +21,7 @@ const slice = createSlice({
             order: 'desc',
         },
         pagination: {
-            limit: 25,
+            limit: 50,
             page: 1,
             total_pages: 0,
         },

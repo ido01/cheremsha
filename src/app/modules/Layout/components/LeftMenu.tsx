@@ -87,7 +87,7 @@ export const LeftMenu: React.FC = () => {
     return (
         <Paper
             sx={{
-                width: isLage ? '280px' : '68px',
+                width: isLage ? '280px' : '56px',
                 minHeight: '100%',
                 display: 'flex',
                 flexDirection: 'column',
@@ -96,11 +96,8 @@ export const LeftMenu: React.FC = () => {
                 transition: '.3s',
                 overflow: 'hidden',
                 flexShrink: 0,
-                borderRadius: 8,
-                m: 1,
-                mr: 0,
                 boxSizing: 'border-box',
-                border: '1px solid #EEEEEE',
+                borderRight: '1px solid #EEEEEE',
             }}
             elevation={0}
             square={true}
@@ -111,11 +108,9 @@ export const LeftMenu: React.FC = () => {
                         display: 'flex',
                         justifyContent: 'space-between',
                         alignItems: 'center',
-                        borderRadius: 8,
                         boxShadow: '0px 4px 4px #3332',
                         p: 1,
                         pr: 2,
-                        m: 1,
                         overflow: 'hidden',
                         position: 'relative',
                     }}

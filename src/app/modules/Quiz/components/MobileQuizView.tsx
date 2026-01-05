@@ -12,27 +12,15 @@ interface MobileQuizViewProps {
 
 export const MobileQuizView: React.FC<MobileQuizViewProps> = ({ item }) => (
     <Box px={2} width={'100%'}>
-        <Box display={'flex'} justifyContent={'space-between'} alignItems={'center'}>
-            <Box>
-                <Typography variant="caption" color="grey.600">
-                    Название
-                </Typography>
-
-                <Box display={'flex'}>
-                    <QuizNameRow item={item} />
-                </Box>
-            </Box>
-
-            <Box display={'flex'} flexDirection={'column'} alignItems={'flex-end'}>
-                <Typography variant="caption" color="grey.600">
-                    Дата создания
-                </Typography>
-
-                <QuizDateRow item={item} />
-            </Box>
+        <Box display={'flex'} alignItems={'center'}>
+            <QuizNameRow item={item} />
         </Box>
 
-        <Box mt={2} display={'flex'} justifyContent={'flex-end'}>
+        <Box mt={1} display={'flex'} justifyContent={'space-between'}>
+            <Box display={'flex'} justifyContent={'flex-end'} alignItems={'center'}>
+                <QuizDateRow item={item} />
+            </Box>
+
             <Box display={'flex'} justifyContent={'flex-end'} alignItems={'center'}>
                 <Typography mr={1} variant="caption" color="grey.600">
                     Статус
