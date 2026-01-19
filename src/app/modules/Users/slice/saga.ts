@@ -34,6 +34,20 @@ export function* loadUsers() {
     }
 }
 
+export function* searchUsers(action: PayloadAction<string>) {
+    try {
+        const response: IUsersCollectionResponse = yield call(request, `users/search`, {
+            params: {
+                query: action.payload,
+            },
+        })
+
+        yield put(usersActions.usersLoaded(response))
+    } catch (error: any) {
+        yield put(usersActions.statusError())
+    }
+}
+
 export function* loadContacts() {
     try {
         const pagination: TTablePagination = yield select(selectPagination)
@@ -158,4 +172,5 @@ export function* usersWatcher() {
     yield takeLeading(usersActions.banUser.type, banUser)
     yield takeLeading(usersActions.addFavorite.type, addFavorite)
     yield takeLeading(usersActions.deleteFavorite.type, deleteFavorite)
+    yield takeLeading(usersActions.searchUsers.type, searchUsers)
 }

@@ -7,6 +7,7 @@ import {
     School as SchoolIcon,
     SportsEsports as SportsEsportsIcon,
     SsidChart as SsidChartIcon,
+    TaskAlt as TaskAltIcon,
 } from '@mui/icons-material'
 import { Box, Grid, useMediaQuery, useTheme } from '@mui/material'
 import { ITile, Tile } from 'app/components/Tile'
@@ -48,15 +49,10 @@ export const HomeList: React.FC = () => {
             title: 'Документы',
             path: '/doc',
         },
-        // {
-        //     icon: <TaskAltIcon fontSize="large" />,
-        //     title: 'Задачи',
-        //     path: '/taskList',
-        // },
         {
-            icon: <SportsEsportsIcon fontSize="large" />,
-            title: 'Игры',
-            path: '/games',
+            icon: <TaskAltIcon fontSize="large" />,
+            title: 'Задачи',
+            path: '/issues',
         },
         {
             icon: <LiveHelpIcon fontSize="large" />,
@@ -79,6 +75,12 @@ export const HomeList: React.FC = () => {
             path: '/stats',
         })
     }
+
+    links.push({
+        icon: <SportsEsportsIcon fontSize="large" />,
+        title: 'Игры',
+        path: '/games',
+    })
 
     if (checkAdminAccess(profileRole)) {
         // links.push({

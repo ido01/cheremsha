@@ -2,6 +2,7 @@ import {
     Agriculture as AgricultureIcon,
     Apartment as ApartmentIcon,
     Grade as GradeIcon,
+    Key as KeyIcon,
     TableRestaurant as TableRestaurantIcon,
 } from '@mui/icons-material'
 import { Box, Grid, useMediaQuery, useTheme } from '@mui/material'
@@ -46,6 +47,12 @@ export const AdminList: React.FC = () => {
             icon: <GradeIcon fontSize="large" />,
             title: 'Ачивки',
             path: '/achieve',
+        })
+
+        links.push({
+            icon: <KeyIcon fontSize="large" />,
+            title: 'Доступы',
+            path: '/hands',
         })
     }
 

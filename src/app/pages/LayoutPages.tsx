@@ -5,7 +5,10 @@ import { DocumentsList } from 'app/modules/Documents/templates/DocumentsList'
 import { DocumentView } from 'app/modules/Documents/templates/DocumentView'
 import { QuizView } from 'app/modules/Documents/templates/QuizView'
 import { GameList } from 'app/modules/Game/templates/GameList'
+import { HandsList } from 'app/modules/Hands/templates/HandsList'
 import { HomeList } from 'app/modules/Home/HomeList'
+import { IssuesFolderList } from 'app/modules/Issue/templates/IssuesFolderList'
+import { IssuesList } from 'app/modules/Issue/templates/IssuesList'
 import { Layout } from 'app/modules/Layout/templates/Layout'
 import { LocationsList } from 'app/modules/Locations/templates/LocationsList'
 import { PositionsList } from 'app/modules/Positions/templates/PositionsList'
@@ -31,6 +34,7 @@ export const LayoutPages: React.FC = () => (
             <Route path={'/profile/*'} element={<ProfilePages />} />
             <Route path={'/admin'} element={<AdminList />} />
             <Route path={'/positions'} element={<PositionsList />} />
+            <Route path={'/hands'} element={<HandsList />} />
             <Route path={'/reviews'} element={<ReviewsList />} />
             <Route path={'/locations'} element={<LocationsList />} />
             <Route path={'/achieve'} element={<AchieveList />} />
@@ -47,6 +51,8 @@ export const LayoutPages: React.FC = () => (
             <Route path={'/peoples'} element={<PeoplesList />} />
             <Route path={'/games'} element={<GameList />} />
             <Route path={'/stats'} element={<StatList />} />
+            <Route path={'/issues'} element={<IssuesList />} />
+            <Route path={'/issues/:id'} element={<IssuesFolderList />} />
 
             <Route path={'/*'} element={<MainPage />} />
         </Routes>

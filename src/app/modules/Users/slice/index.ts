@@ -88,6 +88,10 @@ const slice = createSlice({
         loadContacts(state) {
             state.status = EStatus.PENDING
         },
+        searchUsers(state, action: PayloadAction<string>) {
+            state
+            action
+        },
         usersLoaded(state, action: PayloadAction<IUsersCollectionResponse>) {
             usersAdapter.setAll(state, action.payload.data)
             state.pagination.total_pages = action.payload.meta.totalPages

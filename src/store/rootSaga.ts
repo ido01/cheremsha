@@ -2,12 +2,16 @@ import { achieveWatcher } from 'app/modules/Achieve/slice/saga'
 import { achieveUserWatcher } from 'app/modules/AchieveUser/slice/saga'
 import { authWatcher } from 'app/modules/Auth/slice/saga'
 import { categoriesWatcher } from 'app/modules/Categories/slice/saga'
+import { commentsWatcher } from 'app/modules/Comments/slice/saga'
 import { documentsWatcher } from 'app/modules/Documents/slice/saga'
 import { eventsWatcher } from 'app/modules/Events/slice/events/saga'
 import { birthdaysWatcher } from 'app/modules/Events/slice/users/saga'
 import { workdaysWatcher } from 'app/modules/Events/slice/workday/saga'
 import { favoritesWatcher } from 'app/modules/Favorites/slice/saga'
 import { fileWatcher } from 'app/modules/File/slice/saga'
+import { handsWatcher } from 'app/modules/Hands/slice/saga'
+import { handUserWatcher } from 'app/modules/Hands/user/saga'
+import { issuesWatcher } from 'app/modules/Issue/slice/saga'
 import { locationsWatcher } from 'app/modules/Locations/slice/saga'
 import { logWatcher } from 'app/modules/Log/slice/saga'
 import { positionsWatcher } from 'app/modules/Positions/slice/saga'
@@ -46,5 +50,9 @@ export default function* rootSaga() {
         workdaysWatcher(),
         reviewsWatcher(),
         statsWatcher(),
+        issuesWatcher(),
+        commentsWatcher(),
+        handsWatcher(),
+        handUserWatcher(),
     ])
 }
