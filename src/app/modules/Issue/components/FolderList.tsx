@@ -1,11 +1,13 @@
 import { Box, Button, Typography } from '@mui/material'
 import { LinearProgress } from 'app/components/LinearProgress'
+import { selectProfile } from 'app/modules/Profile/slice/selectors'
 import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 
 import { issuesActions } from '../slice'
 import { issueInit } from '../slice/constants'
 import { selectIssueById, selectIssuesFolder } from '../slice/selectors'
+import { issueRoleCheck } from '../slice/utils'
 import { Issue } from './Issue'
 
 interface Props {
@@ -14,19 +16,23 @@ interface Props {
 
 export const FolderList: React.FC<Props> = ({ id }) => {
     const dispatch = useDispatch()
+    const profile = useSelector(selectProfile)
     const getCat = useSelector(selectIssueById)
     const cat = getCat(id || '')
     const getLists = useSelector(selectIssuesFolder)
     const lists = getLists(id || '')
 
     const handleAdd = () => {
+        console.log('PDDTF cat', cat)
         dispatch(
             issuesActions.openEditModal({
                 ...issueInit,
                 parent_id: id || '0',
                 type: 'task',
                 ...(cat && {
+                    access_update_id: cat.access_update_id,
                     access_update: cat.access_update,
+                    access_view_id: cat.access_view_id,
                     access_view: cat.access_view,
                     grade_name: cat.grade_name,
                 }),
@@ -61,15 +67,17 @@ export const FolderList: React.FC<Props> = ({ id }) => {
                 )}
 
                 <Box>
-                    <Button
-                        size="small"
-                        variant="contained"
-                        color="success"
-                        sx={{ whiteSpace: 'nowrap' }}
-                        onClick={handleAdd}
-                    >
-                        Добавить задачу
-                    </Button>
+                    {cat && issueRoleCheck(profile, cat.access_update, cat) && (
+                        <Button
+                            size="small"
+                            variant="contained"
+                            color="success"
+                            sx={{ whiteSpace: 'nowrap' }}
+                            onClick={handleAdd}
+                        >
+                            Добавить задачу
+                        </Button>
+                    )}
                 </Box>
             </Box>
             <Box

@@ -19,6 +19,7 @@ import { profileWatcher } from 'app/modules/Profile/slice/saga'
 import { quizWatcher } from 'app/modules/Quiz/slice/saga'
 import { resultsWatcher } from 'app/modules/Results/slice/saga'
 import { reviewsWatcher } from 'app/modules/Reviews/slice/saga'
+import { rolesWatcher } from 'app/modules/Role/saga'
 import { settingsWatcher } from 'app/modules/Settings/slice/saga'
 import { statsWatcher } from 'app/modules/Stat/slice/saga'
 import { tablesWatcher } from 'app/modules/Tables/slice/saga'
@@ -54,5 +55,6 @@ export default function* rootSaga() {
         commentsWatcher(),
         handsWatcher(),
         handUserWatcher(),
+        rolesWatcher(),
     ])
 }

@@ -19,6 +19,7 @@ import { IProfileState } from 'app/modules/Profile/slice/types'
 import { IQuizState } from 'app/modules/Quiz/slice/types'
 import { IResultsState } from 'app/modules/Results/slice/types'
 import { IReviewsState } from 'app/modules/Reviews/slice/types'
+import { IRoleState } from 'app/modules/Role/types'
 import { ISettingsState } from 'app/modules/Settings/slice/types'
 import { IStatState } from 'app/modules/Stat/slice/types'
 import { ITablesState } from 'app/modules/Tables/slice/types'
@@ -52,4 +53,5 @@ export interface RootState {
     comments: ICommentsState
     hands: IHandsState
     handUser: IHandUserState
+    roles: IRoleState
 }

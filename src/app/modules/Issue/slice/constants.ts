@@ -1,3 +1,4 @@
+import { ERole } from 'types'
 import { IIssue } from 'types/IIssue'
 
 export const priorities = [
@@ -32,8 +33,20 @@ export const issueInit: IIssue = {
     description: '',
     status: 'open',
     order_key: 0,
-    access_view: '',
-    access_update: '',
+    access_view_id: '',
+    access_update_id: '',
+    access_view: {
+        id: '',
+        key_name: '',
+        description: '',
+        role: ERole.USER,
+    },
+    access_update: {
+        id: '',
+        key_name: '',
+        description: '',
+        role: ERole.USER,
+    },
     grade: 0,
     priority: 0,
     grade_name: '',

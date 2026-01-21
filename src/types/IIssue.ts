@@ -1,3 +1,4 @@
+import { IAcecssInterface } from './IHand'
 import { IUser } from './IUser'
 
 export type TCollapseKey = 'description' | 'subTasks' | 'authors' | 'date' | 'detail' | 'comments'
@@ -6,7 +7,7 @@ export type TCollapse = { [key in TCollapseKey]: boolean }
 
 export type TIssueStatus = 'open' | 'progress' | 'review' | 'done' | 'error' | 'closed' | 'deleted'
 
-export interface IIssue {
+export interface IIssue extends IAcecssInterface {
     id: string
     type: 'folder' | 'task'
     author_id: string
@@ -20,8 +21,6 @@ export interface IIssue {
     description: string
     status: TIssueStatus
     order_key: number
-    access_view: string
-    access_update: string
     grade: number
     grade_name: string
     createdAt: string

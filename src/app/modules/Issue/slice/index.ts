@@ -47,6 +47,7 @@ const slice = createSlice({
             state.status = EStatus.FINISHED
         },
         openEditModal(state, action: PayloadAction<IIssue>) {
+            console.log('PDDTF action', action)
             state.form.status = EStatus.INITIAL
             state.form.open = true
             state.form.data = action.payload

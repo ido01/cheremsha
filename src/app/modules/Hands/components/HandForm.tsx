@@ -10,7 +10,7 @@ import * as yup from 'yup'
 import { handsActions } from '../slice'
 import { selectForm } from '../slice/selectors'
 
-export const FormModal: React.FC = () => {
+export const HandForm: React.FC = () => {
     const dispatch = useDispatch()
 
     const { data, status, open } = useSelector(selectForm)

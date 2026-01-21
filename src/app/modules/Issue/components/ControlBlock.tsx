@@ -4,6 +4,8 @@ import { LoadingButton } from '@mui/lab'
 import { Box, Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle } from '@mui/material'
 import { commentsActions } from 'app/modules/Comments/slice'
 import { commentInit } from 'app/modules/Comments/slice/constants'
+import { selectProfile } from 'app/modules/Profile/slice/selectors'
+import { selectCheckAccess } from 'app/modules/Role/selectors'
 import React, { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { IIssue } from 'types/IIssue'
@@ -11,6 +13,7 @@ import { IIssue } from 'types/IIssue'
 import { issuesActions } from '../slice'
 import { issueInit } from '../slice/constants'
 import { selectSteps } from '../slice/selectors'
+import { issueRoleCheck } from '../slice/utils'
 
 interface Props {
     issue: IIssue
@@ -21,6 +24,8 @@ export const ControlBlock: React.FC<Props> = ({ issue }) => {
 
     const [openDelete, setOpenDelete] = useState(false)
     const steps = useSelector(selectSteps)
+    const profile = useSelector(selectProfile)
+    const checkStatickRole = useSelector(selectCheckAccess)
 
     const handleEdit = () => {
         dispatch(issuesActions.openEditModal(issue))
@@ -130,7 +135,7 @@ export const ControlBlock: React.FC<Props> = ({ issue }) => {
                 display: 'flex',
                 justifyContent: 'space-between',
                 gap: 1,
-                flexDirection: { xs: 'column', lg: 'row' },
+                flexDirection: { xs: 'column', xl: 'row' },
             }}
         >
             <Box
@@ -140,18 +145,30 @@ export const ControlBlock: React.FC<Props> = ({ issue }) => {
                     flexDirection: { xs: 'column', lg: 'row' },
                 }}
             >
-                <Button variant="contained" color="grey" size="small" startIcon={<CreateIcon />} onClick={handleEdit}>
-                    Редактировать
-                </Button>
+                {issueRoleCheck(profile, issue.access_update, issue) && (
+                    <Button
+                        variant="contained"
+                        color="grey"
+                        size="small"
+                        startIcon={<CreateIcon />}
+                        onClick={handleEdit}
+                    >
+                        Редактировать
+                    </Button>
+                )}
 
                 <Box sx={{ display: 'flex', gap: 1 }}>
-                    <Button variant="contained" size="small" color="grey" onClick={handleAdd}>
-                        Добавить подзадачу
-                    </Button>
-                    <Button variant="contained" size="small" color="grey" onClick={handleAddComment}>
-                        Добавить комментарий
-                    </Button>
-                    {!issue.executor && (
+                    {issueRoleCheck(profile, issue.access_update, issue) && (
+                        <Button variant="contained" size="small" color="grey" onClick={handleAdd}>
+                            Добавить подзадачу
+                        </Button>
+                    )}
+                    {issueRoleCheck(profile, issue.access_view, issue) && (
+                        <Button variant="contained" size="small" color="grey" onClick={handleAddComment}>
+                            Добавить комментарий
+                        </Button>
+                    )}
+                    {!issue.executor && issueRoleCheck(profile, issue.access_update, issue) && (
                         <Button variant="contained" size="small" color="grey" onClick={handleExecutor}>
                             Назначить исполнителя
                         </Button>
@@ -159,136 +176,140 @@ export const ControlBlock: React.FC<Props> = ({ issue }) => {
                 </Box>
             </Box>
 
-            <Box sx={{ display: 'flex', gap: 2 }}>
-                <Box sx={{ display: 'flex', gap: 1 }}>
-                    {issue.status === 'open' && (
-                        <>
-                            <LoadingButton
-                                loading={steps.loading && steps.id === issue.id && steps.status === 'progress'}
-                                variant="contained"
-                                color="grey"
-                                onClick={handleProgress}
-                            >
-                                Взять в работу
-                            </LoadingButton>
-                            <LoadingButton
-                                loading={steps.loading && steps.id === issue.id && steps.status === 'closed'}
-                                variant="contained"
-                                color="grey"
-                                onClick={handleClosed}
-                            >
-                                Отменить
-                            </LoadingButton>
-                        </>
-                    )}
-                    {issue.status === 'progress' && (
-                        <>
-                            <LoadingButton
-                                loading={steps.loading && steps.id === issue.id && steps.status === 'review'}
-                                variant="contained"
-                                color="grey"
-                                onClick={handleReview}
-                            >
-                                На проверку
-                            </LoadingButton>
-                            <LoadingButton
-                                loading={steps.loading && steps.id === issue.id && steps.status === 'error'}
-                                variant="contained"
-                                color="grey"
-                                onClick={handleError}
-                            >
-                                Сообщить о проблеме
-                            </LoadingButton>
-                            <LoadingButton
-                                loading={steps.loading && steps.id === issue.id && steps.status === 'closed'}
-                                variant="contained"
-                                color="grey"
-                                onClick={handleClosed}
-                            >
-                                Отменить
-                            </LoadingButton>
-                        </>
-                    )}
-                    {issue.status === 'review' && (
-                        <>
-                            <LoadingButton
-                                loading={steps.loading && steps.id === issue.id && steps.status === 'done'}
-                                variant="contained"
-                                color="grey"
-                                onClick={handleDone}
-                            >
-                                Выполнена
-                            </LoadingButton>
-                            <LoadingButton
-                                loading={steps.loading && steps.id === issue.id && steps.status === 'error'}
-                                variant="contained"
-                                color="grey"
-                                onClick={handleError}
-                            >
-                                Сообщить о проблеме
-                            </LoadingButton>
-                            <LoadingButton
-                                loading={steps.loading && steps.id === issue.id && steps.status === 'open'}
-                                variant="contained"
-                                color="grey"
-                                onClick={handleOpen}
-                            >
-                                Переоткрыть
-                            </LoadingButton>
-                        </>
-                    )}
-                    {issue.status === 'done' && (
-                        <>
-                            <LoadingButton
-                                loading={steps.loading && steps.id === issue.id && steps.status === 'open'}
-                                variant="contained"
-                                color="grey"
-                                onClick={handleOpen}
-                            >
-                                Переоткрыть
-                            </LoadingButton>
-                        </>
-                    )}
-                    {issue.status === 'error' && (
-                        <>
-                            <LoadingButton
-                                loading={steps.loading && steps.id === issue.id && steps.status === 'open'}
-                                variant="contained"
-                                color="grey"
-                                onClick={handleOpen}
-                            >
-                                Переоткрыть
-                            </LoadingButton>
-                            <LoadingButton
-                                loading={steps.loading && steps.id === issue.id && steps.status === 'progress'}
-                                variant="contained"
-                                color="grey"
-                                onClick={handleProgress}
-                            >
-                                Взять в работу
-                            </LoadingButton>
-                            <LoadingButton
-                                loading={steps.loading && steps.id === issue.id && steps.status === 'closed'}
-                                variant="contained"
-                                color="grey"
-                                onClick={handleClosed}
-                            >
-                                Отменить
-                            </LoadingButton>
-                        </>
+            {issueRoleCheck(profile, issue.access_update, issue) && (
+                <Box sx={{ display: 'flex', gap: 2 }}>
+                    <Box sx={{ display: 'flex', gap: 1 }}>
+                        {issue.status === 'open' && (
+                            <>
+                                <LoadingButton
+                                    loading={steps.loading && steps.id === issue.id && steps.status === 'progress'}
+                                    variant="contained"
+                                    color="grey"
+                                    onClick={handleProgress}
+                                >
+                                    Взять в работу
+                                </LoadingButton>
+                                <LoadingButton
+                                    loading={steps.loading && steps.id === issue.id && steps.status === 'closed'}
+                                    variant="contained"
+                                    color="grey"
+                                    onClick={handleClosed}
+                                >
+                                    Отменить
+                                </LoadingButton>
+                            </>
+                        )}
+                        {issue.status === 'progress' && (
+                            <>
+                                <LoadingButton
+                                    loading={steps.loading && steps.id === issue.id && steps.status === 'review'}
+                                    variant="contained"
+                                    color="grey"
+                                    onClick={handleReview}
+                                >
+                                    На проверку
+                                </LoadingButton>
+                                <LoadingButton
+                                    loading={steps.loading && steps.id === issue.id && steps.status === 'error'}
+                                    variant="contained"
+                                    color="grey"
+                                    onClick={handleError}
+                                >
+                                    Сообщить о проблеме
+                                </LoadingButton>
+                                <LoadingButton
+                                    loading={steps.loading && steps.id === issue.id && steps.status === 'closed'}
+                                    variant="contained"
+                                    color="grey"
+                                    onClick={handleClosed}
+                                >
+                                    Отменить
+                                </LoadingButton>
+                            </>
+                        )}
+                        {issue.status === 'review' && (
+                            <>
+                                <LoadingButton
+                                    loading={steps.loading && steps.id === issue.id && steps.status === 'done'}
+                                    variant="contained"
+                                    color="grey"
+                                    onClick={handleDone}
+                                >
+                                    Выполнена
+                                </LoadingButton>
+                                <LoadingButton
+                                    loading={steps.loading && steps.id === issue.id && steps.status === 'error'}
+                                    variant="contained"
+                                    color="grey"
+                                    onClick={handleError}
+                                >
+                                    Сообщить о проблеме
+                                </LoadingButton>
+                                <LoadingButton
+                                    loading={steps.loading && steps.id === issue.id && steps.status === 'open'}
+                                    variant="contained"
+                                    color="grey"
+                                    onClick={handleOpen}
+                                >
+                                    Переоткрыть
+                                </LoadingButton>
+                            </>
+                        )}
+                        {issue.status === 'done' && (
+                            <>
+                                <LoadingButton
+                                    loading={steps.loading && steps.id === issue.id && steps.status === 'open'}
+                                    variant="contained"
+                                    color="grey"
+                                    onClick={handleOpen}
+                                >
+                                    Переоткрыть
+                                </LoadingButton>
+                            </>
+                        )}
+                        {issue.status === 'error' && (
+                            <>
+                                <LoadingButton
+                                    loading={steps.loading && steps.id === issue.id && steps.status === 'open'}
+                                    variant="contained"
+                                    color="grey"
+                                    onClick={handleOpen}
+                                >
+                                    Переоткрыть
+                                </LoadingButton>
+                                <LoadingButton
+                                    loading={steps.loading && steps.id === issue.id && steps.status === 'progress'}
+                                    variant="contained"
+                                    color="grey"
+                                    onClick={handleProgress}
+                                >
+                                    Взять в работу
+                                </LoadingButton>
+                                <LoadingButton
+                                    loading={steps.loading && steps.id === issue.id && steps.status === 'closed'}
+                                    variant="contained"
+                                    color="grey"
+                                    onClick={handleClosed}
+                                >
+                                    Отменить
+                                </LoadingButton>
+                            </>
+                        )}
+                    </Box>
+
+                    {checkStatickRole('sudo') && (
+                        <LoadingButton
+                            loading={steps.loading && steps.id === issue.id && steps.status === 'deleted'}
+                            variant="contained"
+                            color="error"
+                            onClick={handleOpenDeleted}
+                            startIcon={<DeleteForeverIcon />}
+                        >
+                            Удалить
+                        </LoadingButton>
                     )}
                 </Box>
-
-                <LoadingButton
-                    loading={steps.loading && steps.id === issue.id && steps.status === 'deleted'}
-                    variant="contained"
-                    color="error"
-                    onClick={handleOpenDeleted}
-                    startIcon={<DeleteForeverIcon />}
-                >
-                    Удалить
-                </LoadingButton>
-            </Box>
+            )}
 
             <Dialog open={openDelete} onClose={handleCloseDelete}>
                 <DialogTitle id="alert-dialog-title">Внимание!</DialogTitle>

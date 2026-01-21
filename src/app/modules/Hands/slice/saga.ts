@@ -45,6 +45,20 @@ export function* createHand(action: PayloadAction<IHand>) {
     }
 }
 
+export function* searchHands(action: PayloadAction<string>) {
+    try {
+        const response: IHandsCollectionResponse = yield call(request, `hands/search`, {
+            params: {
+                query: action.payload,
+            },
+        })
+
+        yield put(handsActions.handsLoaded(response))
+    } catch (error: any) {
+        yield put(handsActions.statusError())
+    }
+}
+
 export function* deleteHand(action: PayloadAction<string>) {
     try {
         yield call(request, `hands/${action.payload}`, {
@@ -62,4 +76,5 @@ export function* handsWatcher() {
     yield takeLeading(handsActions.updateHand.type, updateHand)
     yield takeLeading(handsActions.createHand.type, createHand)
     yield takeLeading(handsActions.deleteHand.type, deleteHand)
+    yield takeLeading(handsActions.searchHands.type, searchHands)
 }

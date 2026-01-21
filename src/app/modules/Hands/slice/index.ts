@@ -35,6 +35,10 @@ const slice = createSlice({
         loadHands(state) {
             state.status = EStatus.PENDING
         },
+        searchHands(state, action: PayloadAction<string>) {
+            state
+            action
+        },
         handsLoaded(state, action: PayloadAction<IHandsCollectionResponse>) {
             handsAdapter.setAll(state, action.payload.data)
             state.status = EStatus.FINISHED

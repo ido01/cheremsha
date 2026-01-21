@@ -1,10 +1,16 @@
 import { LoadingButton } from '@mui/lab'
-import { Box, Container, Grid, TextField } from '@mui/material'
+import { Autocomplete, Box, Button, Container, Grid, TextField, Typography } from '@mui/material'
 import { Modal } from 'app/components/Modal'
+import { HandForm } from 'app/modules/Hands/components/HandForm'
+import { handsActions } from 'app/modules/Hands/slice'
+import { selectHands } from 'app/modules/Hands/slice/selectors'
 import { useFormik } from 'formik'
-import React, { useMemo } from 'react'
+import useDebounce from 'hooks/useDebounce'
+import React, { useEffect, useMemo, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { EStatus } from 'types'
+import { IHand } from 'types/IHand'
+import { generateRole } from 'utils/generateRole'
 import * as yup from 'yup'
 
 import { issuesActions } from '../slice'
@@ -13,6 +19,12 @@ import { selectForm } from '../slice/selectors'
 export const IssueForm: React.FC = () => {
     const dispatch = useDispatch()
     const { open, status, data } = useSelector(selectForm)
+    const hands = useSelector(selectHands)
+
+    const [view, setView] = useState<IHand | undefined>(data.access_view)
+    const [update, setUpdate] = useState<IHand | undefined>(data.access_update)
+    const [tmpSearch, setTmpSearch] = useState('')
+    const search = useDebounce(tmpSearch, 1000)
 
     const title = useMemo(() => {
         if (data.id) {
@@ -30,6 +42,14 @@ export const IssueForm: React.FC = () => {
         title: yup.string().required(),
     })
 
+    const handleAddRoleView = () => {
+        dispatch(handsActions.openEditModal(generateRole(formik.values.title, 'issue', 'view')))
+    }
+
+    const handleAddRoleUpdate = () => {
+        dispatch(handsActions.openEditModal(generateRole(formik.values.title, 'issue', 'update')))
+    }
+
     const formik = useFormik({
         validationSchema,
         initialValues: data,
@@ -41,17 +61,49 @@ export const IssueForm: React.FC = () => {
                 dispatch(
                     issuesActions.updateIssue({
                         ...values,
+                        access_update_id: update?.id || '0',
+                        access_view_id: view?.id || '0',
                     })
                 )
             } else {
                 dispatch(
                     issuesActions.createIssue({
                         ...values,
+                        access_update_id: update?.id || '0',
+                        access_view_id: view?.id || '0',
                     })
                 )
             }
         },
     })
+
+    useEffect(() => {
+        if (!search && (data.access_view || data.access_update)) {
+            const initHands = []
+            if (data.access_view) {
+                initHands.push(data.access_view)
+            }
+            if (data.access_update) {
+                initHands.push(data.access_update)
+            }
+            dispatch(
+                handsActions.handsLoaded({
+                    data: initHands,
+                })
+            )
+        } else {
+            dispatch(handsActions.searchHands(search))
+        }
+    }, [search])
+
+    useEffect(() => {
+        if (data.access_view) {
+            setView(data.access_view)
+        }
+        if (data.access_update) {
+            setUpdate(data.access_update)
+        }
+    }, [data])
 
     return (
         <Modal open={open} title={title} handleClose={handleClose}>
@@ -134,42 +186,102 @@ export const IssueForm: React.FC = () => {
 
                         <Grid container columnSpacing={2}>
                             <Grid item xs={6}>
-                                <TextField
-                                    fullWidth
-                                    required
-                                    variant="outlined"
-                                    label="Ключ доступа к просмотру"
-                                    name="access_view"
-                                    InputProps={{
-                                        disableUnderline: true,
-                                        sx: {
-                                            borderRadius: '8px',
-                                        },
-                                    }}
-                                    helperText="Введите user, admin, sudo или уникальный ключ"
-                                    value={formik.values.access_view || ''}
-                                    error={!!formik.errors.access_view}
-                                    onChange={formik.handleChange}
-                                />
+                                <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
+                                    <Typography>{`Роль для просмотра`}</Typography>
+
+                                    <Autocomplete
+                                        value={view}
+                                        onChange={(event, newValue) => {
+                                            if (typeof newValue === 'string') {
+                                                //
+                                            } else if (newValue) {
+                                                // Create a new value from the user input
+                                                setView(newValue)
+                                            }
+                                        }}
+                                        filterOptions={(options, params) => {
+                                            setTmpSearch(params.inputValue)
+                                            return hands
+                                        }}
+                                        selectOnFocus
+                                        clearOnBlur
+                                        handleHomeEndKeys
+                                        options={hands}
+                                        getOptionLabel={(option) => {
+                                            if (typeof option === 'string') {
+                                                return option
+                                            }
+
+                                            return `${option.key_name}(${option.role})`
+                                        }}
+                                        renderOption={(props, option) => {
+                                            const { key, ...optionProps } = props
+                                            return (
+                                                <li key={key} {...optionProps}>
+                                                    {`${option.key_name}(${option.role})`}
+                                                </li>
+                                            )
+                                        }}
+                                        sx={{ width: '100%' }}
+                                        freeSolo
+                                        renderInput={(params) => (
+                                            <TextField {...params} label="Выбрать роль для просмотра" />
+                                        )}
+                                    />
+
+                                    <Button size="small" onClick={handleAddRoleView}>
+                                        Добавить роль
+                                    </Button>
+                                </Box>
                             </Grid>
                             <Grid item xs={6}>
-                                <TextField
-                                    fullWidth
-                                    required
-                                    variant="outlined"
-                                    label="Ключ доступа к редактированию"
-                                    name="access_update"
-                                    InputProps={{
-                                        disableUnderline: true,
-                                        sx: {
-                                            borderRadius: '8px',
-                                        },
-                                    }}
-                                    helperText="Введите user, admin, sudo или уникальный ключ"
-                                    value={formik.values.access_update || ''}
-                                    error={!!formik.errors.access_update}
-                                    onChange={formik.handleChange}
-                                />
+                                <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
+                                    <Typography>{`Роль для изменений`}</Typography>
+
+                                    <Autocomplete
+                                        value={update}
+                                        onChange={(event, newValue) => {
+                                            if (typeof newValue === 'string') {
+                                                //
+                                            } else if (newValue) {
+                                                // Create a new value from the user input
+                                                setUpdate(newValue)
+                                            }
+                                        }}
+                                        filterOptions={(options, params) => {
+                                            setTmpSearch(params.inputValue)
+                                            return hands
+                                        }}
+                                        selectOnFocus
+                                        clearOnBlur
+                                        handleHomeEndKeys
+                                        options={hands}
+                                        getOptionLabel={(option) => {
+                                            if (typeof option === 'string') {
+                                                return option
+                                            }
+
+                                            return `${option.key_name}(${option.role})`
+                                        }}
+                                        renderOption={(props, option) => {
+                                            const { key, ...optionProps } = props
+                                            return (
+                                                <li key={key} {...optionProps}>
+                                                    {`${option.key_name}(${option.role})`}
+                                                </li>
+                                            )
+                                        }}
+                                        sx={{ width: '100%' }}
+                                        freeSolo
+                                        renderInput={(params) => (
+                                            <TextField {...params} label="Выбрать роль для изменений" />
+                                        )}
+                                    />
+
+                                    <Button size="small" onClick={handleAddRoleUpdate}>
+                                        Добавить роль
+                                    </Button>
+                                </Box>
                             </Grid>
                         </Grid>
                     </Box>
@@ -213,6 +325,8 @@ export const IssueForm: React.FC = () => {
                 >
                     Сохранить
                 </LoadingButton>
+
+                <HandForm />
             </Box>
         </Modal>
     )

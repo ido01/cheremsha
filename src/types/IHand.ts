@@ -1,8 +1,10 @@
+import { ERole } from 'types'
+
 export interface IHand {
     id: string
     key_name: string
     description: string
-    role: string
+    role: ERole
 }
 
 export type IHandsCollectionResponse = {
@@ -26,4 +28,11 @@ export type IHandUserCollectionResponse = {
 
 export interface IHandUserItemResponse {
     data: IHandUser
+}
+
+export interface IAcecssInterface {
+    access_view_id: string
+    access_update_id: string
+    access_view: IHand
+    access_update: IHand
 }

@@ -11,22 +11,19 @@ import {
 } from '@mui/icons-material'
 import { Box, Grid, useMediaQuery, useTheme } from '@mui/material'
 import { ITile, Tile } from 'app/components/Tile'
-import { selectProfileRole } from 'app/modules/Profile/slice/selectors'
-import { selectSettings } from 'app/modules/Settings/slice/selectors'
 import React from 'react'
 import { useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
-import { checkAdminAccess } from 'utils/roles'
 
 import { Main } from '../Layout/templates/Main'
+import { selectCheckAccess } from '../Role/selectors'
 
 export const HomeList: React.FC = () => {
     const history = useNavigate()
     const theme = useTheme()
     const isMobile = useMediaQuery(theme.breakpoints.between('xs', 'md'))
 
-    const profileRole = useSelector(selectProfileRole)
-    const settings = useSelector(selectSettings)
+    const checkStatickRole = useSelector(selectCheckAccess)
 
     const links: ITile[] = [
         // {
@@ -50,9 +47,9 @@ export const HomeList: React.FC = () => {
             path: '/doc',
         },
         {
-            icon: <TaskAltIcon fontSize="large" />,
-            title: 'Задачи',
-            path: '/issues',
+            icon: <SportsEsportsIcon fontSize="large" />,
+            title: 'Игры',
+            path: '/games',
         },
         {
             icon: <LiveHelpIcon fontSize="large" />,
@@ -60,7 +57,7 @@ export const HomeList: React.FC = () => {
             path: '/reviews',
         },
     ]
-    if (settings.project === 'hrzn') {
+    if (checkStatickRole('show_tables_list')) {
         links.push({
             icon: <ListAltIcon fontSize="large" />,
             title: 'Брони',
@@ -76,19 +73,15 @@ export const HomeList: React.FC = () => {
         })
     }
 
-    links.push({
-        icon: <SportsEsportsIcon fontSize="large" />,
-        title: 'Игры',
-        path: '/games',
-    })
+    if (checkStatickRole('show_issue_list')) {
+        links.push({
+            icon: <TaskAltIcon fontSize="large" />,
+            title: 'Задачи',
+            path: '/issues',
+        })
+    }
 
-    if (checkAdminAccess(profileRole)) {
-        // links.push({
-        //     icon: <PollIcon fontSize="large" />,
-        //     title: 'Опрос',
-        //     path: '/polls',
-        // })
-
+    if (checkStatickRole('show_admin')) {
         links.push({
             icon: <AssistWalkerIcon fontSize="large" />,
             title: 'Админка',

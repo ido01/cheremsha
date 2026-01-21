@@ -7,7 +7,6 @@ import {
     Chip,
     Container,
     FormControl,
-    Grid,
     InputLabel,
     MenuItem,
     Select,
@@ -20,7 +19,7 @@ import { TextAreaEdit } from 'app/modules/Documents/components/TextAreaEdit'
 import dayjs, { Dayjs } from 'dayjs'
 import { useFormik } from 'formik'
 import moment from 'moment'
-import React, { ChangeEventHandler, useEffect, useMemo, useState } from 'react'
+import React, { useEffect, useMemo, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 import { EStatus } from 'types'
@@ -124,6 +123,7 @@ export const IssueFolderForm: React.FC = () => {
     }, [formik?.values?.tags])
 
     useEffect(() => {
+        console.log('PDDTF data', data)
         setEndDate(data.deadtimeFormAt ? dayjs(data.deadtimeFormAt.split('.').reverse().join('-')) : null)
     }, [data])
 

@@ -1,11 +1,10 @@
 import { Delete as DeleteIcon, Edit as EditIcon } from '@mui/icons-material'
 import * as Icons from '@mui/icons-material'
 import { Box, Button, Typography } from '@mui/material'
-import { selectProfileRole } from 'app/modules/Profile/slice/selectors'
+import { selectCheckAccess } from 'app/modules/Role/selectors'
 import React from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { IAchieve } from 'types/IAchieve'
-import { checkSudoAccess } from 'utils/roles'
 
 import { achieveActions } from '../slice'
 
@@ -19,7 +18,7 @@ export const MobileView: React.FC<MobileViewProps> = ({ achieve }) => {
     const Icon = Icons[achieve.icon]
     const dispatch = useDispatch()
 
-    const profileRole = useSelector(selectProfileRole)
+    const checkStatickRole = useSelector(selectCheckAccess)
 
     const handleDeleteOpen = () => {
         dispatch(achieveActions.showDeleteModal(achieve))
@@ -61,7 +60,7 @@ export const MobileView: React.FC<MobileViewProps> = ({ achieve }) => {
                 </Box>
             </Box>
 
-            {checkSudoAccess(profileRole) && (
+            {checkStatickRole('update_achieve') && (
                 <Box width="100%" display="flex" gap={2} justifyContent="space-between">
                     <Button color="info" startIcon={<EditIcon />} onClick={handleUpdateOpen}>
                         Редактировать

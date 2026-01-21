@@ -27,6 +27,7 @@ import { LabelText } from 'app/components/LabelText'
 import { achieveUserActions } from 'app/modules/AchieveUser/slice'
 import { UserAchieveList } from 'app/modules/AchieveUser/templates/UserAchieveList'
 import { selectLocation } from 'app/modules/Locations/slice/selectors'
+import { selectCheckAccess } from 'app/modules/Role/selectors'
 import dayjs from 'dayjs'
 import React, { useMemo, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
@@ -36,7 +37,7 @@ import { ERole, EStatus } from 'types'
 import { IUser } from 'types/IUser'
 import { convertGenderName, convertRoleName } from 'utils/convertUtils'
 import { getNoun } from 'utils/getNoun'
-import { checkAdminAccess, checkSudoAccess } from 'utils/roles'
+import { checkAdminAccess } from 'utils/roles'
 
 import { usersActions } from '../slice'
 import { selectForm, selectUrl } from '../slice/selectors'
@@ -44,11 +45,10 @@ import { selectForm, selectUrl } from '../slice/selectors'
 interface UserModalContentProps {
     profileRole: ERole
     user: IUser
-    profile: IUser
     handleClose?: () => void
 }
 
-export const UserModalContent: React.FC<UserModalContentProps> = ({ profileRole, user, profile, handleClose }) => {
+export const UserModalContent: React.FC<UserModalContentProps> = ({ profileRole, user, handleClose }) => {
     const history = useNavigate()
     const dispatch = useDispatch()
 
@@ -61,6 +61,7 @@ export const UserModalContent: React.FC<UserModalContentProps> = ({ profileRole,
     const { status } = useSelector(selectForm)
     const copyUrl = useSelector(selectUrl)
     const getLocation = useSelector(selectLocation)
+    const checkStatickRole = useSelector(selectCheckAccess)
 
     const workday = useMemo(() => {
         if (!user) return ''
@@ -268,7 +269,7 @@ export const UserModalContent: React.FC<UserModalContentProps> = ({ profileRole,
                 </Grid>
             </Grid>
 
-            {checkAdminAccess(profileRole, { key: 'user_control', access: profile.access }) && (
+            {checkStatickRole('user_control') && (
                 <Box
                     sx={{
                         position: 'absolute',
@@ -297,7 +298,7 @@ export const UserModalContent: React.FC<UserModalContentProps> = ({ profileRole,
                             </>
                         )}
 
-                        {checkSudoAccess(profileRole, { key: 'user_control_achive', access: profile.access }) && (
+                        {checkStatickRole('user_control_achive') && (
                             <IconButton color="success" onClick={handleAddAchive} sx={{ bgcolor: '#FDFDFD90' }}>
                                 <AddCircleIcon />
                             </IconButton>
@@ -306,7 +307,7 @@ export const UserModalContent: React.FC<UserModalContentProps> = ({ profileRole,
                 </Box>
             )}
 
-            {checkAdminAccess(profileRole) && (!user?.active || user?.ban) && (
+            {checkStatickRole('sudo') && (!user?.active || user?.ban) && (
                 <Box
                     sx={{
                         position: 'absolute',
@@ -332,7 +333,7 @@ export const UserModalContent: React.FC<UserModalContentProps> = ({ profileRole,
                 </Box>
             )}
 
-            {checkAdminAccess(profileRole) && user?.active && !user?.ban && (
+            {checkStatickRole('sudo') && user?.active && !user?.ban && (
                 <Box
                     sx={{
                         position: 'absolute',

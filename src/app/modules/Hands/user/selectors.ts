@@ -13,6 +13,9 @@ export const selectForm = createSelector([selectDomain], (state) => state.form)
 
 export const selectDeleteModal = createSelector([selectDomain], (state) => state.deleteModal)
 
-export const selectHands = createSelector([selectDomain], (state) => selectAll(state))
+export const selectHandUsers = createSelector(
+    [selectDomain],
+    (state) => (uid: string) => selectAll(state).filter((hand) => hand.uid === uid)
+)
 
 export const selectHandById = createSelector([selectDomain], (state) => (id: string) => selectById(state, id))

@@ -3,13 +3,12 @@ import * as Icons from '@mui/icons-material'
 import { Box, IconButton, Typography } from '@mui/material'
 import Table from 'app/components/Table'
 import { achieveActions } from 'app/modules/Achieve/slice'
-import { selectProfile, selectProfileRole } from 'app/modules/Profile/slice/selectors'
+import { selectCheckAccess } from 'app/modules/Role/selectors'
 import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { EStatus } from 'types'
 import { IAchieve } from 'types/IAchieve'
 import { TTableRowData } from 'types/ITableDisplay'
-import { checkSudoAccess } from 'utils/roles'
 
 import { DeleteModal } from '../components/DeleteModal'
 import { FormModal } from '../components/FormModal'
@@ -24,10 +23,9 @@ interface UserAchieveListProps {
 export const UserAchieveList: React.FC<UserAchieveListProps> = ({ id }) => {
     const dispatch = useDispatch()
 
-    const profileRole = useSelector(selectProfileRole)
-    const profile = useSelector(selectProfile)
     const status = useSelector(selectStatus)
     const achieves = useSelector(selectAchieve)
+    const checkStatickRole = useSelector(selectCheckAccess)
 
     const handleDeleteOpen = (achive: IAchieve) => {
         dispatch(achieveUserActions.showDeleteModal(achive))
@@ -95,7 +93,7 @@ export const UserAchieveList: React.FC<UserAchieveListProps> = ({ id }) => {
                         gap: 1,
                     }}
                 >
-                    {checkSudoAccess(profileRole, { key: 'user_control_achive', access: profile.access }) && (
+                    {checkStatickRole('user_control_achive') && (
                         <IconButton color="error" aria-haspopup="true" onClick={() => handleDeleteOpen(achieve)}>
                             <DeleteIcon />
                         </IconButton>
@@ -124,7 +122,7 @@ export const UserAchieveList: React.FC<UserAchieveListProps> = ({ id }) => {
                 // handleClickRow={handleClickRow}
             />
 
-            {checkSudoAccess(profileRole, { key: 'user_control_achive', access: profile.access }) && (
+            {checkStatickRole('user_control_achive') && (
                 <>
                     <DeleteModal />
                     <FormModal />

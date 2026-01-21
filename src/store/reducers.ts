@@ -20,6 +20,7 @@ import { profileReducer } from 'app/modules/Profile/slice'
 import { quizReducer } from 'app/modules/Quiz/slice'
 import { resultsReducer } from 'app/modules/Results/slice'
 import { reviewsReducer } from 'app/modules/Reviews/slice'
+import { rolesReducer } from 'app/modules/Role'
 import { settingsReducer } from 'app/modules/Settings/slice'
 import { statsReducer } from 'app/modules/Stat/slice'
 import { tablesReducer } from 'app/modules/Tables/slice'
@@ -56,5 +57,6 @@ export function createReducer(injectedReducers: InjectedReducersType = {}): Redu
         comments: commentsReducer,
         hands: handsReducer,
         handUser: handUserReducer,
+        roles: rolesReducer,
     })
 }

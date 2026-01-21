@@ -2,11 +2,13 @@ import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown'
 import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight'
 import { Box, Typography } from '@mui/material'
 import { AvatarImage } from 'app/modules/Profile/components/AvatarImage'
+import { selectProfile } from 'app/modules/Profile/slice/selectors'
 import React from 'react'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { IIssue, TCollapseKey } from 'types/IIssue'
 
 import { issuesActions } from '../slice'
+import { issueRoleCheck } from '../slice/utils'
 
 interface Props {
     open: boolean
@@ -16,6 +18,7 @@ interface Props {
 
 export const UsersRow: React.FC<Props> = ({ open, issue, onCollapse }) => {
     const dispatch = useDispatch()
+    const profile = useSelector(selectProfile)
 
     const handleClick = () => {
         onCollapse('authors')
@@ -107,7 +110,7 @@ export const UsersRow: React.FC<Props> = ({ open, issue, onCollapse }) => {
                                 gap: 1,
                                 px: 1,
                                 py: 0,
-                                cursor: 'pointer',
+                                cursor: issueRoleCheck(profile, issue.access_update, issue) ? 'pointer' : 'default',
                                 borderRadius: 2,
                                 backgroundColor: '#fafafa',
                                 border: '1px solid #f0f0f0',
@@ -115,7 +118,7 @@ export const UsersRow: React.FC<Props> = ({ open, issue, onCollapse }) => {
                                     backgroundColor: '#f0f0f0',
                                 },
                             }}
-                            onClick={handleExecutor}
+                            onClick={issueRoleCheck(profile, issue.access_update, issue) ? handleExecutor : undefined}
                         >
                             {issue.executor ? (
                                 <>

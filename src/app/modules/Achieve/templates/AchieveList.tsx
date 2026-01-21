@@ -3,13 +3,12 @@ import * as Icons from '@mui/icons-material'
 import { Box, IconButton, Typography } from '@mui/material'
 import Table from 'app/components/Table'
 import { Main } from 'app/modules/Layout/templates/Main'
-import { selectProfileRole } from 'app/modules/Profile/slice/selectors'
+import { selectCheckAccess } from 'app/modules/Role/selectors'
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { EStatus } from 'types'
 import { IAchieve } from 'types/IAchieve'
 import { TTableRowData } from 'types/ITableDisplay'
-import { checkSudoAccess } from 'utils/roles'
 
 import { DeleteModal } from '../components/DeleteModal'
 import { FormModal } from '../components/FormModal'
@@ -23,9 +22,9 @@ export const AchieveList: React.FC = () => {
 
     const [open, setOpen] = useState<boolean>(false)
 
-    const profileRole = useSelector(selectProfileRole)
     const status = useSelector(selectStatus)
     const achieves = useSelector(selectAchieve)
+    const checkStatickRole = useSelector(selectCheckAccess)
 
     const handleSettingOpen = () => {
         setOpen(true)
@@ -103,7 +102,7 @@ export const AchieveList: React.FC = () => {
                         gap: 1,
                     }}
                 >
-                    {checkSudoAccess(profileRole) && (
+                    {checkStatickRole('update_achieve') && (
                         <>
                             <IconButton color="info" aria-haspopup="true" onClick={() => handleUpdateOpen(achieve)}>
                                 <EditIcon />
@@ -120,13 +119,17 @@ export const AchieveList: React.FC = () => {
 
     const mobileView = (achieve: IAchieve) => <MobileView achieve={achieve} />
 
+    if (!checkStatickRole('show_achieve')) {
+        return null
+    }
+
     return (
         <Main
             title={'Ачивки'}
             count={achieves.length}
             searchDisabled
             endNode={
-                checkSudoAccess(profileRole) ? (
+                checkStatickRole('update_achieve') ? (
                     <IconButton
                         sx={{ ml: 2 }}
                         aria-label="more"
@@ -147,7 +150,7 @@ export const AchieveList: React.FC = () => {
                 // handleClickRow={handleClickRow}
             />
 
-            {checkSudoAccess(profileRole) && (
+            {checkStatickRole('update_achieve') && (
                 <>
                     <Settings open={open} handleClose={handleClose} />
                     <DeleteModal />

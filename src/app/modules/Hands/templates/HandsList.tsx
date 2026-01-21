@@ -2,16 +2,15 @@ import { Delete as DeleteIcon, Edit as EditIcon, MoreVert as MoreVertIcon } from
 import { Box, IconButton, Typography } from '@mui/material'
 import Table from 'app/components/Table'
 import { Main } from 'app/modules/Layout/templates/Main'
-import { selectProfileRole } from 'app/modules/Profile/slice/selectors'
+import { selectCheckAccess } from 'app/modules/Role/selectors'
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { EStatus } from 'types'
 import { IHand } from 'types/IHand'
 import { TTableRowData } from 'types/ITableDisplay'
-import { checkSudoAccess } from 'utils/roles'
 
 import { DeleteModal } from '../components/DeleteModal'
-import { FormModal } from '../components/FormModal'
+import { HandForm } from '../components/HandForm'
 import { MobileView } from '../components/MobileView'
 import { handsActions } from '../slice'
 import { selectHands, selectStatus } from '../slice/selectors'
@@ -22,9 +21,9 @@ export const HandsList: React.FC = () => {
 
     const [open, setOpen] = useState<boolean>(false)
 
-    const profileRole = useSelector(selectProfileRole)
     const status = useSelector(selectStatus)
     const hands = useSelector(selectHands)
+    const checkStatickRole = useSelector(selectCheckAccess)
 
     const handleSettingOpen = () => {
         setOpen(true)
@@ -44,7 +43,7 @@ export const HandsList: React.FC = () => {
 
     const tableRows: TTableRowData[] = [
         {
-            title: 'Кто',
+            title: 'Роль',
             name: 'name',
             xs: 9,
             element: (hand: IHand) => (
@@ -76,7 +75,7 @@ export const HandsList: React.FC = () => {
                         gap: 1,
                     }}
                 >
-                    {checkSudoAccess(profileRole) && (
+                    {checkStatickRole('update_hands') && (
                         <>
                             <IconButton color="info" aria-haspopup="true" onClick={() => handleUpdateOpen(hand)}>
                                 <EditIcon />
@@ -97,13 +96,17 @@ export const HandsList: React.FC = () => {
         dispatch(handsActions.loadHands())
     }, [])
 
+    if (!checkStatickRole('show_hands')) {
+        return null
+    }
+
     return (
         <Main
             title={'Роли'}
             count={hands.length}
             searchDisabled
             endNode={
-                checkSudoAccess(profileRole) ? (
+                checkStatickRole('update_hands') ? (
                     <IconButton
                         sx={{ ml: 2 }}
                         aria-label="more"
@@ -124,11 +127,11 @@ export const HandsList: React.FC = () => {
                 // handleClickRow={handleClickRow}
             />
 
-            {checkSudoAccess(profileRole) && (
+            {checkStatickRole('update_hands') && (
                 <>
                     <Settings open={open} handleClose={handleClose} />
                     <DeleteModal />
-                    <FormModal />
+                    <HandForm />
                 </>
             )}
         </Main>

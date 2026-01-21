@@ -1,3 +1,4 @@
+import { ERole } from 'types'
 import { IHandUser } from 'types/IHand'
 
 export const initHand: IHandUser = {
@@ -8,6 +9,6 @@ export const initHand: IHandUser = {
         id: '',
         key_name: '',
         description: '',
-        role: '',
+        role: ERole.USER,
     },
 }

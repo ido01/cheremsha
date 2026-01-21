@@ -8,16 +8,16 @@ import {
     Menu as MenuIcon,
     School as SchoolIcon,
     SportsEsports as SportsEsportsIcon,
+    TaskAlt as TaskAltIcon,
 } from '@mui/icons-material'
 import { Box, IconButton, Paper } from '@mui/material'
 import { Logo } from 'app/components/Logo/Logo'
 import { AvatarImage } from 'app/modules/Profile/components/AvatarImage'
-import { selectProfile, selectProfileRole } from 'app/modules/Profile/slice/selectors'
-import { selectSettings } from 'app/modules/Settings/slice/selectors'
+import { selectProfile } from 'app/modules/Profile/slice/selectors'
+import { selectCheckAccess } from 'app/modules/Role/selectors'
 import React, { useState } from 'react'
 import { useSelector } from 'react-redux'
 import { TMenuItem } from 'types/TMenuItem'
-import { checkAdminAccess } from 'utils/roles'
 
 import { Garland } from './Garland'
 import { MenuItem } from './MenuItem'
@@ -26,8 +26,7 @@ export const LeftMenu: React.FC = () => {
     const [isLage, setLage] = useState<boolean>(true)
 
     const profile = useSelector(selectProfile)
-    const profileRole = useSelector(selectProfileRole)
-    const settings = useSelector(selectSettings)
+    const checkStatickRole = useSelector(selectCheckAccess)
 
     const menuItems: TMenuItem[] = [
         // {
@@ -66,7 +65,7 @@ export const LeftMenu: React.FC = () => {
         },
     ]
 
-    if (settings.project === 'hrzn') {
+    if (checkStatickRole('show_tables_list')) {
         menuItems.push({
             icon: <ListAltIcon />,
             title: 'Брони',
@@ -76,7 +75,15 @@ export const LeftMenu: React.FC = () => {
         })
     }
 
-    if (checkAdminAccess(profileRole)) {
+    if (checkStatickRole('show_issue_list')) {
+        menuItems.push({
+            icon: <TaskAltIcon />,
+            title: 'Задачи',
+            path: '/issues',
+        })
+    }
+
+    if (checkStatickRole('show_admin')) {
         menuItems.push({
             icon: <AssistWalkerIcon />,
             title: 'Админка',
