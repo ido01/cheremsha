@@ -114,7 +114,7 @@ export const IssueFolderForm: React.FC = () => {
     }
 
     useEffect(() => {
-        const tmp = formik?.values?.tags?.split(';').filter((tag) => !!tag)
+        const tmp = formik?.values?.tags?.split(';').filter((tag: string) => !!tag)
         if (Array.isArray(tmp)) {
             setTagsList(tmp)
         } else {

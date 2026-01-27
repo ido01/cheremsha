@@ -19,7 +19,6 @@ import React, { useState } from 'react'
 import { useSelector } from 'react-redux'
 import { TMenuItem } from 'types/TMenuItem'
 
-import { Garland } from './Garland'
 import { MenuItem } from './MenuItem'
 
 export const LeftMenu: React.FC = () => {
@@ -127,8 +126,6 @@ export const LeftMenu: React.FC = () => {
                         position: 'relative',
                     }}
                 >
-                    <Garland />
-
                     <IconButton onClick={() => setLage(!isLage)}>
                         <MenuIcon />
                     </IconButton>
