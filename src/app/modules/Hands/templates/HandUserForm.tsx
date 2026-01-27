@@ -10,25 +10,21 @@ import {
     DialogTitle,
     TextField,
 } from '@mui/material'
-import useDebounce from 'hooks/useDebounce'
+import { selectRoles } from 'app/modules/Role/selectors'
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { EStatus } from 'types'
 import { IHand } from 'types/IHand'
 
-import { handsActions } from '../slice'
-import { selectHands } from '../slice/selectors'
 import { handUserActions } from '../user'
 import { selectForm } from '../user/selectors'
 
 export const HandUserForm: React.FC = () => {
     const dispatch = useDispatch()
     const { open, data, status } = useSelector(selectForm)
-    const hands = useSelector(selectHands)
+    const roles = useSelector(selectRoles)
 
     const [value, setValue] = useState<IHand | undefined>(data.hand.id ? data.hand : undefined)
-    const [tmpSearch, setTmpSearch] = useState('')
-    const search = useDebounce(tmpSearch, 1000)
 
     const handleCloseFind = () => {
         dispatch(handUserActions.hideEditModal())
@@ -44,18 +40,6 @@ export const HandUserForm: React.FC = () => {
             )
         }
     }
-
-    useEffect(() => {
-        if (!search && data.hand && data.hand.id) {
-            dispatch(
-                handsActions.handsLoaded({
-                    data: [data.hand],
-                })
-            )
-        } else {
-            dispatch(handsActions.searchHands(search))
-        }
-    }, [search])
 
     useEffect(() => {
         if (data.hand.id) {
@@ -82,13 +66,18 @@ export const HandUserForm: React.FC = () => {
                             }
                         }}
                         filterOptions={(options, params) => {
-                            setTmpSearch(params.inputValue)
-                            return hands
+                            return roles.filter((role) => {
+                                return (
+                                    role.key_name.includes(params.inputValue) ||
+                                    role.description.includes(params.inputValue) ||
+                                    role.role.includes(params.inputValue)
+                                )
+                            })
                         }}
                         selectOnFocus
                         clearOnBlur
                         handleHomeEndKeys
-                        options={hands}
+                        options={roles}
                         getOptionLabel={(option) => {
                             if (typeof option === 'string') {
                                 return option

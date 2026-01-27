@@ -37,7 +37,6 @@ import { ERole, EStatus } from 'types'
 import { IUser } from 'types/IUser'
 import { convertGenderName, convertRoleName } from 'utils/convertUtils'
 import { getNoun } from 'utils/getNoun'
-import { checkAdminAccess } from 'utils/roles'
 
 import { usersActions } from '../slice'
 import { selectForm, selectUrl } from '../slice/selectors'
@@ -48,7 +47,7 @@ interface UserModalContentProps {
     handleClose?: () => void
 }
 
-export const UserModalContent: React.FC<UserModalContentProps> = ({ profileRole, user, handleClose }) => {
+export const UserModalContent: React.FC<UserModalContentProps> = ({ user, handleClose }) => {
     const history = useNavigate()
     const dispatch = useDispatch()
 
@@ -147,7 +146,7 @@ export const UserModalContent: React.FC<UserModalContentProps> = ({ profileRole,
         <>
             <Grid container sx={{ mt: 2.5 }} spacing={2.5}>
                 {user && <UserAchieveList id={user?.id} />}
-                {checkAdminAccess(profileRole) && (
+                {checkStatickRole('user_update') && (
                     <Grid item xs={12}>
                         <Box mb={1}>
                             <Typography variant="caption" fontWeight={500}>
@@ -284,7 +283,7 @@ export const UserModalContent: React.FC<UserModalContentProps> = ({ profileRole,
                     }}
                 >
                     <Box display={'flex'} gap={1}>
-                        {checkAdminAccess(profileRole) && (
+                        {checkStatickRole('user_update') && (
                             <>
                                 {!user?.ban && (
                                     <IconButton color="error" onClick={handleOpenDelete} sx={{ bgcolor: '#FDFDFD90' }}>
@@ -307,7 +306,7 @@ export const UserModalContent: React.FC<UserModalContentProps> = ({ profileRole,
                 </Box>
             )}
 
-            {checkStatickRole('sudo') && (!user?.active || user?.ban) && (
+            {checkStatickRole('user_update') && (!user?.active || user?.ban) && (
                 <Box
                     sx={{
                         position: 'absolute',
@@ -333,7 +332,7 @@ export const UserModalContent: React.FC<UserModalContentProps> = ({ profileRole,
                 </Box>
             )}
 
-            {checkStatickRole('sudo') && user?.active && !user?.ban && (
+            {checkStatickRole('user_update') && user?.active && !user?.ban && (
                 <Box
                     sx={{
                         position: 'absolute',

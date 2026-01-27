@@ -9,6 +9,8 @@ const selectDomain = (state: RootState) => state.hands
 
 export const selectStatus = createSelector([selectDomain], (state) => state.status)
 
+export const selectUserList = createSelector([selectDomain], (state) => state.users)
+
 export const selectForm = createSelector([selectDomain], (state) => state.form)
 
 export const selectDeleteModal = createSelector([selectDomain], (state) => state.deleteModal)

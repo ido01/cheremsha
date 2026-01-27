@@ -10,5 +10,6 @@ export const initHand: IHandUser = {
         key_name: '',
         description: '',
         role: ERole.USER,
+        user_count: 0,
     },
 }

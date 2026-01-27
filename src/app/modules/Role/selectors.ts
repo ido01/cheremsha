@@ -11,6 +11,8 @@ const selectProfile = (state: RootState) => state.profile
 
 export const selectStatus = createSelector([selectDomain], (state) => state.status)
 
+export const selectRoles = createSelector([selectDomain], (state) => selectAll(state))
+
 export const selectCheckAccess = createSelector(
     [selectDomain, selectProfile],
     (state, profileState) => (key: string) => {

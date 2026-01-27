@@ -1,7 +1,7 @@
 import { PayloadAction } from '@reduxjs/toolkit'
 import { toast } from 'react-toastify'
 import { call, put, takeLeading } from 'redux-saga/effects'
-import { IHand, IHandItemResponse, IHandsCollectionResponse } from 'types/IHand'
+import { IHand, IHandItemResponse, IHandsCollectionResponse, IHandUserCollectionResponse } from 'types/IHand'
 import { request } from 'utils/request'
 
 import { handsActions } from '.'
@@ -71,10 +71,21 @@ export function* deleteHand(action: PayloadAction<string>) {
     }
 }
 
+export function* loadUsers(action: PayloadAction<string>) {
+    try {
+        const response: IHandUserCollectionResponse = yield call(request, `hands/users/${action.payload}`)
+
+        yield put(handsActions.usersLoaded(response.data))
+    } catch (error: any) {
+        yield put(handsActions.statusError())
+    }
+}
+
 export function* handsWatcher() {
     yield takeLeading(handsActions.loadHands.type, loadHands)
     yield takeLeading(handsActions.updateHand.type, updateHand)
     yield takeLeading(handsActions.createHand.type, createHand)
     yield takeLeading(handsActions.deleteHand.type, deleteHand)
     yield takeLeading(handsActions.searchHands.type, searchHands)
+    yield takeLeading(handsActions.loadUsers.type, loadUsers)
 }

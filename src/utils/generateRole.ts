@@ -7,6 +7,7 @@ export const generateRole = (name: string, prefix: string, postfix: string, role
         key_name: `${prefix}_${translit(name)}_${postfix}`,
         role,
         description: `Role: ${role}; type: ${prefix}; action: ${postfix}`,
+        user_count: 0,
     }
 }
 

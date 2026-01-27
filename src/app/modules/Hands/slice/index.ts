@@ -1,6 +1,6 @@
 import { createEntityAdapter, createSlice, PayloadAction } from '@reduxjs/toolkit'
 import { EStatus } from 'types'
-import { IHand, IHandsCollectionResponse } from 'types/IHand'
+import { IHand, IHandsCollectionResponse, IHandUser } from 'types/IHand'
 
 import { initHand } from './constants'
 import { IHandsState } from './types'
@@ -13,6 +13,11 @@ const slice = createSlice({
         ids: [],
         entities: {},
         status: EStatus.INITIAL,
+        users: {
+            activeId: '',
+            open: false,
+            users: [],
+        },
         modal: {
             isOpen: false,
             activeId: '',
@@ -96,6 +101,22 @@ const slice = createSlice({
         },
         closeDeleteModal(state) {
             state.deleteModal.open = false
+        },
+        openUserList(state, action: PayloadAction<string>) {
+            state.users.activeId = action.payload
+            state.users.users = []
+            state.users.open = true
+        },
+        hideUserList(state) {
+            state.users.open = false
+            state.users.activeId = ''
+        },
+        loadUsers(state, action: PayloadAction<string>) {
+            state
+            action
+        },
+        usersLoaded(state, action: PayloadAction<IHandUser[]>) {
+            state.users.users = action.payload
         },
     },
 })

@@ -8,6 +8,7 @@ import { LogList } from 'app/modules/Log/templates/LogList'
 import { AvatarImage } from 'app/modules/Profile/components/AvatarImage'
 import { selectProfileRole } from 'app/modules/Profile/slice/selectors'
 import { ResultUserList } from 'app/modules/Results/templates/ResultUserList'
+import { selectCheckAccess } from 'app/modules/Role/selectors'
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { checkAdminAccess } from 'utils/roles'
@@ -26,6 +27,7 @@ export const UserModal: React.FC = () => {
     const { isOpen, activeId } = useSelector(selectModal)
     const getUser = useSelector(selectUserById)
     const user = getUser(activeId)
+    const checkStatickRole = useSelector(selectCheckAccess)
 
     const handleClose = () => {
         dispatch(usersActions.hideModal())
@@ -76,7 +78,7 @@ export const UserModal: React.FC = () => {
                             {`${user?.last_name} ${user?.name}`}
                         </Typography>
 
-                        {checkAdminAccess(profileRole) && (
+                        {checkStatickRole('update_user_favorite') && (
                             <>
                                 {!!user?.favorite && (
                                     <IconButton onClick={handleDeleteFavorite}>
@@ -92,7 +94,7 @@ export const UserModal: React.FC = () => {
                             </>
                         )}
 
-                        {!checkAdminAccess(profileRole) && (
+                        {!checkStatickRole('update_user_favorite') && (
                             <>
                                 {!!user?.favorite && <StarRateIcon color="warning" />}
 
@@ -115,12 +117,18 @@ export const UserModal: React.FC = () => {
                 >
                     <Container>
                         <TabContext value={value}>
-                            {checkAdminAccess(profileRole) && (
+                            {checkStatickRole('show_user_tab') && (
                                 <TabList onChange={handleChange}>
                                     <Tab label="Профиль" value="user" sx={{ px: 3 }} />
-                                    <Tab label="Тестирование" value="test" sx={{ px: 3 }} />
-                                    <Tab label="Изменения" value="history" sx={{ px: 3 }} />
-                                    <Tab label="Доступы" value="access" sx={{ px: 3 }} />
+                                    {checkStatickRole('show_user_test_tab') && (
+                                        <Tab label="Тестирование" value="test" sx={{ px: 3 }} />
+                                    )}
+                                    {checkStatickRole('show_user_history_tab') && (
+                                        <Tab label="Изменения" value="history" sx={{ px: 3 }} />
+                                    )}
+                                    {checkStatickRole('update_hands') && (
+                                        <Tab label="Доступы" value="access" sx={{ px: 3 }} />
+                                    )}
                                 </TabList>
                             )}
                             <TabPanel value="user" sx={{ p: 0 }}>

@@ -123,7 +123,6 @@ export const IssueFolderForm: React.FC = () => {
     }, [formik?.values?.tags])
 
     useEffect(() => {
-        console.log('PDDTF data', data)
         setEndDate(data.deadtimeFormAt ? dayjs(data.deadtimeFormAt.split('.').reverse().join('-')) : null)
     }, [data])
 

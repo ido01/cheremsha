@@ -1,9 +1,14 @@
 import { EntityState } from '@reduxjs/toolkit'
 import { EStatus } from 'types'
-import { IHand } from 'types/IHand'
+import { IHand, IHandUser } from 'types/IHand'
 
 export interface IHandsState extends EntityState<IHand> {
     status: EStatus
+    users: {
+        activeId: string
+        open: boolean
+        users: IHandUser[]
+    }
     modal: {
         isOpen: boolean
         activeId: string

@@ -7,11 +7,10 @@ import { selectCategoryById } from 'app/modules/Categories/slice/selectors'
 import { CategoriesList } from 'app/modules/Categories/templates/CategoriesList'
 import { DocumentModal } from 'app/modules/Documents/templates/DocumentModal'
 import { Main } from 'app/modules/Layout/templates/Main'
-import { selectProfileRole } from 'app/modules/Profile/slice/selectors'
 import { QuizModal } from 'app/modules/Quiz/templates/QuizModal'
+import { selectCheckAccess } from 'app/modules/Role/selectors'
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { checkAdminAccess } from 'utils/roles'
 
 interface Props {
     id: string
@@ -25,10 +24,10 @@ export const DocumentsCategoriesList: React.FC<Props> = ({ id, did, qid }) => {
     const [open, setOpen] = useState<boolean>(false)
     const [search, setSearch] = useState<string>('')
 
-    const profileRole = useSelector(selectProfileRole)
     const getCategory = useSelector(selectCategoryById)
     const category = getCategory(id || '0')
     const parentCategory = getCategory(category?.parentId || '0')
+    const checkStatickRole = useSelector(selectCheckAccess)
 
     const breadcrumbsItems: BreadcrumbItem[] = [
         {
@@ -81,7 +80,7 @@ export const DocumentsCategoriesList: React.FC<Props> = ({ id, did, qid }) => {
             breadcrumbs={breadcrumbsItems}
             breadcrumbsItemsMobile={breadcrumbsItemsMobile}
             endNode={
-                checkAdminAccess(profileRole) ? (
+                checkStatickRole('update_document') ? (
                     <IconButton
                         sx={{ bgcolor: '#FDFDFD90' }}
                         aria-label="more"
@@ -102,7 +101,7 @@ export const DocumentsCategoriesList: React.FC<Props> = ({ id, did, qid }) => {
 
             <QuizModal />
 
-            {checkAdminAccess(profileRole) && (
+            {checkStatickRole('update_document') && (
                 <CategoryAdminSettings open={open} id={id} category={category} handleClose={handleClose} />
             )}
         </Main>

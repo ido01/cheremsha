@@ -1,10 +1,13 @@
 import { ERole } from 'types'
 
+import { IUser } from './IUser'
+
 export interface IHand {
     id: string
     key_name: string
     description: string
     role: ERole
+    user_count: number
 }
 
 export type IHandsCollectionResponse = {
@@ -20,6 +23,7 @@ export interface IHandUser {
     uid: string
     hid: string
     hand: IHand
+    user?: IUser
 }
 
 export type IHandUserCollectionResponse = {

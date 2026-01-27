@@ -23,7 +23,6 @@ export const FolderList: React.FC<Props> = ({ id }) => {
     const lists = getLists(id || '')
 
     const handleAdd = () => {
-        console.log('PDDTF cat', cat)
         dispatch(
             issuesActions.openEditModal({
                 ...issueInit,

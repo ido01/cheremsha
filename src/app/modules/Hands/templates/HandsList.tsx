@@ -1,5 +1,10 @@
-import { Delete as DeleteIcon, Edit as EditIcon, MoreVert as MoreVertIcon } from '@mui/icons-material'
-import { Box, IconButton, Typography } from '@mui/material'
+import {
+    Delete as DeleteIcon,
+    Edit as EditIcon,
+    Group as GroupIcon,
+    MoreVert as MoreVertIcon,
+} from '@mui/icons-material'
+import { Badge, Box, IconButton, Typography } from '@mui/material'
 import Table from 'app/components/Table'
 import { Main } from 'app/modules/Layout/templates/Main'
 import { selectCheckAccess } from 'app/modules/Role/selectors'
@@ -14,6 +19,7 @@ import { HandForm } from '../components/HandForm'
 import { MobileView } from '../components/MobileView'
 import { handsActions } from '../slice'
 import { selectHands, selectStatus } from '../slice/selectors'
+import { HandUserListForm } from './HandUserListForm'
 import { Settings } from './Settings'
 
 export const HandsList: React.FC = () => {
@@ -39,6 +45,10 @@ export const HandsList: React.FC = () => {
 
     const handleUpdateOpen = (hand: IHand) => {
         dispatch(handsActions.openEditModal(hand))
+    }
+
+    const handleUserListOpen = (hand: IHand) => {
+        dispatch(handsActions.openUserList(hand.id))
     }
 
     const tableRows: TTableRowData[] = [
@@ -77,6 +87,15 @@ export const HandsList: React.FC = () => {
                 >
                     {checkStatickRole('update_hands') && (
                         <>
+                            <IconButton color="success" aria-haspopup="true" onClick={() => handleUserListOpen(hand)}>
+                                {hand.user_count ? (
+                                    <Badge badgeContent={hand.user_count} color="primary">
+                                        <GroupIcon />
+                                    </Badge>
+                                ) : (
+                                    <GroupIcon />
+                                )}
+                            </IconButton>
                             <IconButton color="info" aria-haspopup="true" onClick={() => handleUpdateOpen(hand)}>
                                 <EditIcon />
                             </IconButton>
@@ -132,6 +151,7 @@ export const HandsList: React.FC = () => {
                     <Settings open={open} handleClose={handleClose} />
                     <DeleteModal />
                     <HandForm />
+                    <HandUserListForm />
                 </>
             )}
         </Main>

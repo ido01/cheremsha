@@ -5,6 +5,7 @@ import {
     Pagination,
     ToggleButton,
     ToggleButtonGroup,
+    Typography,
     useMediaQuery,
     useTheme,
 } from '@mui/material'
@@ -27,6 +28,7 @@ interface TableProps {
     nocolumn?: boolean
     isMobile?: boolean
     noPadding?: boolean
+    emptyText?: boolean
     mobileView?: (data: any) => React.ReactNode
     handleOrderChange?: (order: TTableOrder) => void
     handleLimitChange?: (limit: TLimit) => void
@@ -47,6 +49,7 @@ export const Table: React.FC<TableProps> = ({
     nocolumn,
     isMobile,
     noPadding,
+    emptyText,
     mobileView,
     handleOrderChange,
     handleLimitChange,
@@ -125,6 +128,12 @@ export const Table: React.FC<TableProps> = ({
                 <Box mt={4.25} display={'flex'} justifyContent={'center'}>
                     <CircularProgress />
                 </Box>
+            )}
+
+            {emptyText && !isLoading && !items.length && (
+                <Typography variant="caption" p={2} sx={{ color: '#eee', fontSize: 26 }}>
+                    Список Пуст
+                </Typography>
             )}
 
             {!!pagination && (
