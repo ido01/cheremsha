@@ -4,6 +4,7 @@ import {
     Delete as DeleteIcon,
     Download as DownloadIcon,
     Edit as EditIcon,
+    Payment as PaymentIcon,
 } from '@mui/icons-material'
 import { LoadingButton } from '@mui/lab'
 import {
@@ -27,6 +28,8 @@ import { LabelText } from 'app/components/LabelText'
 import { achieveUserActions } from 'app/modules/AchieveUser/slice'
 import { UserAchieveList } from 'app/modules/AchieveUser/templates/UserAchieveList'
 import { selectLocation } from 'app/modules/Locations/slice/selectors'
+import { selectProfile } from 'app/modules/Profile/slice/selectors'
+import { selectCheckAccess } from 'app/modules/Role/selectors'
 import dayjs from 'dayjs'
 import React, { useMemo, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
@@ -36,19 +39,18 @@ import { ERole, EStatus } from 'types'
 import { IUser } from 'types/IUser'
 import { convertGenderName, convertRoleName } from 'utils/convertUtils'
 import { getNoun } from 'utils/getNoun'
-import { checkAdminAccess, checkSudoAccess } from 'utils/roles'
 
 import { usersActions } from '../slice'
 import { selectForm, selectUrl } from '../slice/selectors'
+import { ContractModal } from '../templates/ContractModal'
 
 interface UserModalContentProps {
     profileRole: ERole
     user: IUser
-    profile: IUser
     handleClose?: () => void
 }
 
-export const UserModalContent: React.FC<UserModalContentProps> = ({ profileRole, user, profile, handleClose }) => {
+export const UserModalContent: React.FC<UserModalContentProps> = ({ user, handleClose }) => {
     const history = useNavigate()
     const dispatch = useDispatch()
 
@@ -60,7 +62,9 @@ export const UserModalContent: React.FC<UserModalContentProps> = ({ profileRole,
 
     const { status } = useSelector(selectForm)
     const copyUrl = useSelector(selectUrl)
+    const profile = useSelector(selectProfile)
     const getLocation = useSelector(selectLocation)
+    const checkStatickRole = useSelector(selectCheckAccess)
 
     const workday = useMemo(() => {
         if (!user) return ''
@@ -135,6 +139,10 @@ export const UserModalContent: React.FC<UserModalContentProps> = ({ profileRole,
         )
     }
 
+    const handleClickContract = () => {
+        dispatch(usersActions.openContractModal())
+    }
+
     const handleBanUser = () => {
         if (user) {
             dispatch(usersActions.banUser(user.id))
@@ -146,7 +154,27 @@ export const UserModalContent: React.FC<UserModalContentProps> = ({ profileRole,
         <>
             <Grid container sx={{ mt: 2.5 }} spacing={2.5}>
                 {user && <UserAchieveList id={user?.id} />}
-                {checkAdminAccess(profileRole) && (
+                {(checkStatickRole('contract_view') || profile.id === user.id) && (
+                    <Grid item xs={12}>
+                        <Box mb={1}>
+                            <Typography variant="caption" fontWeight={500}>
+                                Персональный договор
+                            </Typography>
+                        </Box>
+
+                        <Box>
+                            <Button
+                                color="info"
+                                variant="contained"
+                                startIcon={<PaymentIcon />}
+                                onClick={handleClickContract}
+                            >
+                                Договор
+                            </Button>
+                        </Box>
+                    </Grid>
+                )}
+                {checkStatickRole('user_update') && (
                     <Grid item xs={12}>
                         <Box mb={1}>
                             <Typography variant="caption" fontWeight={500}>
@@ -268,7 +296,7 @@ export const UserModalContent: React.FC<UserModalContentProps> = ({ profileRole,
                 </Grid>
             </Grid>
 
-            {checkAdminAccess(profileRole, { key: 'user_control', access: profile.access }) && (
+            {checkStatickRole('user_control') && (
                 <Box
                     sx={{
                         position: 'absolute',
@@ -283,7 +311,7 @@ export const UserModalContent: React.FC<UserModalContentProps> = ({ profileRole,
                     }}
                 >
                     <Box display={'flex'} gap={1}>
-                        {checkAdminAccess(profileRole) && (
+                        {checkStatickRole('user_update') && (
                             <>
                                 {!user?.ban && (
                                     <IconButton color="error" onClick={handleOpenDelete} sx={{ bgcolor: '#FDFDFD90' }}>
@@ -297,7 +325,7 @@ export const UserModalContent: React.FC<UserModalContentProps> = ({ profileRole,
                             </>
                         )}
 
-                        {checkSudoAccess(profileRole, { key: 'user_control_achive', access: profile.access }) && (
+                        {checkStatickRole('user_control_achive') && (
                             <IconButton color="success" onClick={handleAddAchive} sx={{ bgcolor: '#FDFDFD90' }}>
                                 <AddCircleIcon />
                             </IconButton>
@@ -306,7 +334,7 @@ export const UserModalContent: React.FC<UserModalContentProps> = ({ profileRole,
                 </Box>
             )}
 
-            {checkAdminAccess(profileRole) && (!user?.active || user?.ban) && (
+            {checkStatickRole('user_update') && (!user?.active || user?.ban) && (
                 <Box
                     sx={{
                         position: 'absolute',
@@ -332,7 +360,7 @@ export const UserModalContent: React.FC<UserModalContentProps> = ({ profileRole,
                 </Box>
             )}
 
-            {checkAdminAccess(profileRole) && user?.active && !user?.ban && (
+            {checkStatickRole('user_update') && user?.active && !user?.ban && (
                 <Box
                     sx={{
                         position: 'absolute',
@@ -405,6 +433,8 @@ export const UserModalContent: React.FC<UserModalContentProps> = ({ profileRole,
                     </Button>
                 </DialogActions>
             </Dialog>
+
+            <ContractModal />
         </>
     )
 }

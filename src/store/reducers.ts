@@ -3,12 +3,16 @@ import { achieveReducer } from 'app/modules/Achieve/slice'
 import { achieveUserReducer } from 'app/modules/AchieveUser/slice'
 import { authReducer } from 'app/modules/Auth/slice'
 import { categoriesReducer } from 'app/modules/Categories/slice'
+import { commentsReducer } from 'app/modules/Comments/slice'
 import { documentsReducer } from 'app/modules/Documents/slice'
 import { eventsReducer } from 'app/modules/Events/slice/events'
 import { birthdaysReducer } from 'app/modules/Events/slice/users'
 import { workdaysReducer } from 'app/modules/Events/slice/workday'
 import { favoritesReducer } from 'app/modules/Favorites/slice'
 import { fileReducer } from 'app/modules/File/slice'
+import { handsReducer } from 'app/modules/Hands/slice'
+import { handUserReducer } from 'app/modules/Hands/user'
+import { issuesReducer } from 'app/modules/Issue/slice'
 import { locationsReducer } from 'app/modules/Locations/slice'
 import { logReducer } from 'app/modules/Log/slice'
 import { positionsReducer } from 'app/modules/Positions/slice'
@@ -16,6 +20,7 @@ import { profileReducer } from 'app/modules/Profile/slice'
 import { quizReducer } from 'app/modules/Quiz/slice'
 import { resultsReducer } from 'app/modules/Results/slice'
 import { reviewsReducer } from 'app/modules/Reviews/slice'
+import { rolesReducer } from 'app/modules/Role'
 import { settingsReducer } from 'app/modules/Settings/slice'
 import { statsReducer } from 'app/modules/Stat/slice'
 import { tablesReducer } from 'app/modules/Tables/slice'
@@ -48,5 +53,10 @@ export function createReducer(injectedReducers: InjectedReducersType = {}): Redu
         workdays: workdaysReducer,
         reviews: reviewsReducer,
         stats: statsReducer,
+        issues: issuesReducer,
+        comments: commentsReducer,
+        hands: handsReducer,
+        handUser: handUserReducer,
+        roles: rolesReducer,
     })
 }

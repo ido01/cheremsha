@@ -5,12 +5,13 @@ import React from 'react'
 interface ModalProps {
     children: React.ReactNode
     open: boolean
+    small?: boolean
     title: string | React.ReactNode
     pl?: number
     handleClose: () => void
 }
 
-export const Modal: React.FC<ModalProps> = ({ pl = 3, children, open, title, handleClose }) => {
+export const Modal: React.FC<ModalProps> = ({ pl = 3, small, children, open, title, handleClose }) => {
     const theme = useTheme()
     const isMobile = useMediaQuery(theme.breakpoints.between('xs', 'md'))
 
@@ -20,8 +21,8 @@ export const Modal: React.FC<ModalProps> = ({ pl = 3, children, open, title, han
             anchor={'bottom'}
             PaperProps={{
                 sx: {
-                    width: { xs: '100%', md: '90%' },
-                    height: 'calc(100% - 40px)', //{ xs: 'calc(100% - 40px)', md: '100%' },
+                    width: { xs: '100%', md: small ? '70%' : '90%' },
+                    height: small ? 'calc(100% - 140px)' : 'calc(100% - 40px)', //{ xs: 'calc(100% - 40px)', md: '100%' },
                     margin: '0 auto',
                     borderTopLeftRadius: '32px', //{ xs: '10px', md: '0px' },
                     borderTopRightRadius: '32px', //{ xs: '10px', md: '0px' },

@@ -3,7 +3,7 @@ import { ERole, EStatus } from 'types'
 import { TLimit, TTableOrder } from 'types/ITableDisplay'
 import { IUser, IUsersCollectionResponse } from 'types/IUser'
 
-import { IUserFilter, IUsersState } from './types'
+import { IUserFilter, IUsersState, TContractUpdate } from './types'
 
 export const usersAdapter = createEntityAdapter<IUser>()
 
@@ -33,7 +33,9 @@ const slice = createSlice({
         },
         modal: {
             isOpen: false,
+            isOpenContract: false,
             activeId: '',
+            status: EStatus.INITIAL,
         },
         form: {
             status: EStatus.INITIAL,
@@ -88,6 +90,10 @@ const slice = createSlice({
         loadContacts(state) {
             state.status = EStatus.PENDING
         },
+        searchUsers(state, action: PayloadAction<string>) {
+            state
+            action
+        },
         usersLoaded(state, action: PayloadAction<IUsersCollectionResponse>) {
             usersAdapter.setAll(state, action.payload.data)
             state.pagination.total_pages = action.payload.meta.totalPages
@@ -133,8 +139,13 @@ const slice = createSlice({
             state.form.status = EStatus.PENDING
             action.payload
         },
+        updateContract(state, action: PayloadAction<TContractUpdate>) {
+            state.modal.status = EStatus.PENDING
+            action
+        },
         userUpdated(state, action: PayloadAction<IUser>) {
             state.form.status = EStatus.FINISHED
+            state.modal.status = EStatus.FINISHED
             usersAdapter.setOne(state, action.payload)
         },
         setForm(state, action: PayloadAction<IUser>) {
@@ -151,6 +162,12 @@ const slice = createSlice({
         },
         hideModal(state) {
             state.modal.isOpen = false
+        },
+        openContractModal(state) {
+            state.modal.isOpenContract = true
+        },
+        hideContractModal(state) {
+            state.modal.isOpenContract = false
         },
         statusError(state) {
             state.status = EStatus.ERROR

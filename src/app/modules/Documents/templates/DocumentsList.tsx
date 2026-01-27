@@ -7,6 +7,7 @@ import { categoriesActions } from 'app/modules/Categories/slice'
 import { selectCategories } from 'app/modules/Categories/slice/selectors'
 import { Main } from 'app/modules/Layout/templates/Main'
 import { selectProfileRole } from 'app/modules/Profile/slice/selectors'
+import { selectCheckAccess } from 'app/modules/Role/selectors'
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
@@ -22,6 +23,7 @@ export const DocumentsList: React.FC = () => {
     const [open, setOpen] = useState<boolean>(false)
     const profileRole = useSelector(selectProfileRole)
     const getCategories = useSelector(selectCategories)
+    const checkStatickRole = useSelector(selectCheckAccess)
 
     const categories = getCategories('0')
 
@@ -49,7 +51,7 @@ export const DocumentsList: React.FC = () => {
             title={'Документы'}
             searchDisabled
             endNode={
-                checkAdminAccess(profileRole) ? (
+                checkStatickRole('update_main_document') ? (
                     <IconButton
                         sx={{ ml: 2 }}
                         aria-label="more"

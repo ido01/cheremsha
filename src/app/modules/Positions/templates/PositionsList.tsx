@@ -2,13 +2,12 @@ import { Delete as DeleteIcon, Edit as EditIcon, MoreVert as MoreVertIcon } from
 import { Box, IconButton, Typography } from '@mui/material'
 import Table from 'app/components/Table'
 import { Main } from 'app/modules/Layout/templates/Main'
-import { selectProfileRole } from 'app/modules/Profile/slice/selectors'
+import { selectCheckAccess } from 'app/modules/Role/selectors'
 import React, { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { EStatus } from 'types'
 import { IPosition } from 'types/IPosition'
 import { TTableRowData } from 'types/ITableDisplay'
-import { checkSudoAccess } from 'utils/roles'
 
 import { DeleteModal } from '../components/DeleteModal'
 import { FormModal } from '../components/FormModal'
@@ -22,9 +21,9 @@ export const PositionsList: React.FC = () => {
 
     const [open, setOpen] = useState<boolean>(false)
 
-    const profileRole = useSelector(selectProfileRole)
     const status = useSelector(selectStatus)
     const positions = useSelector(selectPositions)
+    const checkStatickRole = useSelector(selectCheckAccess)
 
     const handleSettingOpen = () => {
         setOpen(true)
@@ -66,7 +65,7 @@ export const PositionsList: React.FC = () => {
                         gap: 1,
                     }}
                 >
-                    {checkSudoAccess(profileRole) && (
+                    {checkStatickRole('update_positions') && (
                         <>
                             <IconButton color="info" aria-haspopup="true" onClick={() => handleUpdateOpen(position)}>
                                 <EditIcon />
@@ -83,13 +82,17 @@ export const PositionsList: React.FC = () => {
 
     const mobileView = (position: IPosition) => <MobileView position={position} />
 
+    if (!checkStatickRole('show_positions')) {
+        return null
+    }
+
     return (
         <Main
             title={'Должности'}
             count={positions.length}
             searchDisabled
             endNode={
-                checkSudoAccess(profileRole) ? (
+                checkStatickRole('update_positions') ? (
                     <IconButton
                         sx={{ ml: 2 }}
                         aria-label="more"
@@ -110,7 +113,7 @@ export const PositionsList: React.FC = () => {
                 // handleClickRow={handleClickRow}
             />
 
-            {checkSudoAccess(profileRole) && (
+            {checkStatickRole('update_positions') && (
                 <>
                     <Settings open={open} handleClose={handleClose} />
                     <DeleteModal />

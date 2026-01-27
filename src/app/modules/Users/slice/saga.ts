@@ -7,7 +7,7 @@ import { request } from 'utils/request'
 
 import { usersActions } from '.'
 import { selectFilter, selectOrder, selectPagination, selectUserById } from './selectors'
-import { IUserFilter } from './types'
+import { IUserFilter, TContractUpdate } from './types'
 
 export function* loadUsers() {
     try {
@@ -25,6 +25,20 @@ export function* loadUsers() {
                 place_id: filter.place_id,
                 position_id: filter.position_id,
                 query: filter.query,
+            },
+        })
+
+        yield put(usersActions.usersLoaded(response))
+    } catch (error: any) {
+        yield put(usersActions.statusError())
+    }
+}
+
+export function* searchUsers(action: PayloadAction<string>) {
+    try {
+        const response: IUsersCollectionResponse = yield call(request, `users/search`, {
+            params: {
+                query: action.payload,
             },
         })
 
@@ -75,6 +89,22 @@ export function* loadUser(action: PayloadAction<string>) {
 export function* updateUser(action: PayloadAction<IUser>) {
     try {
         const response: IUserItemResponse = yield call(request, `users/${action.payload.id}`, {
+            method: 'PATCH',
+            data: action.payload,
+        })
+
+        yield put(usersActions.userUpdated(response.data))
+        toast.success('Данные успешно сохранены', {
+            type: 'success',
+        })
+    } catch (error: any) {
+        yield put(usersActions.statusError())
+    }
+}
+
+export function* updateContract(action: PayloadAction<TContractUpdate>) {
+    try {
+        const response: IUserItemResponse = yield call(request, `users/contract/${action.payload.id}`, {
             method: 'PATCH',
             data: action.payload,
         })
@@ -158,4 +188,6 @@ export function* usersWatcher() {
     yield takeLeading(usersActions.banUser.type, banUser)
     yield takeLeading(usersActions.addFavorite.type, addFavorite)
     yield takeLeading(usersActions.deleteFavorite.type, deleteFavorite)
+    yield takeLeading(usersActions.searchUsers.type, searchUsers)
+    yield takeLeading(usersActions.updateContract.type, updateContract)
 }

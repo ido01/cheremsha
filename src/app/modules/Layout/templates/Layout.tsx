@@ -1,6 +1,7 @@
 import { MantineProvider } from '@mantine/core'
 import { Box, CircularProgress, useMediaQuery, useTheme } from '@mui/material'
 import { Auth } from 'app/modules/Auth/templates/Auth'
+import { CommentModalForm } from 'app/modules/Comments/templates/CommentModalForm'
 import { FavoriteModal } from 'app/modules/Favorites/templates/FavoriteModal'
 import { selectStatus } from 'app/modules/Profile/slice/selectors'
 import { selectStatus as selectSettingsStatus } from 'app/modules/Settings/slice/selectors'
@@ -59,6 +60,7 @@ export const Layout: React.FC<LayoutProps> = ({ children }) => {
                             <FavoriteModal />
 
                             {isMobile && <MobileNavigation />}
+                            <CommentModalForm />
                         </Box>
                     )}
                 </Auth>

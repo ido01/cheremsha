@@ -1,6 +1,7 @@
 import { EGender, ERole } from '.'
 import { IAchieve } from './IAchieve'
 import { IFile } from './IFile'
+import { IHand } from './IHand'
 import { IQuizState } from './IQuizState'
 
 export interface TelegramAuth {
@@ -81,6 +82,8 @@ export interface IUser {
     quiz?: IQuizState
     achieve?: IAchieve
     access: string[]
+    hands?: string[]
+    contract?: string
 }
 
 export interface ITinyUser {

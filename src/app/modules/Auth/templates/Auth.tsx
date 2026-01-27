@@ -1,6 +1,7 @@
 import { positionsActions } from 'app/modules/Positions/slice'
 import { profileActions } from 'app/modules/Profile/slice'
 import { selectProfile } from 'app/modules/Profile/slice/selectors'
+import { rolesActions } from 'app/modules/Role'
 import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { useLocation, useNavigate } from 'react-router-dom'
@@ -50,6 +51,7 @@ export const Auth: React.FC<AuthProps> = ({ children }) => {
 
     useEffect(() => {
         dispatch(positionsActions.loadPositions())
+        dispatch(rolesActions.loadRoles())
     }, [])
 
     return <React.Fragment>{children}</React.Fragment>

@@ -2,16 +2,17 @@ import { StarBorder as StarBorderIcon, StarRate as StarRateIcon } from '@mui/ico
 import { TabContext, TabList, TabPanel } from '@mui/lab'
 import { Box, Container, IconButton, Modal as ModalComponent, Tab, Typography } from '@mui/material'
 import { Modal } from 'app/components/Modal'
+import { UserList } from 'app/modules/Hands/templates/UserList'
 import { logActions } from 'app/modules/Log/slice'
 import { LogList } from 'app/modules/Log/templates/LogList'
 import { AvatarImage } from 'app/modules/Profile/components/AvatarImage'
-import { selectProfile, selectProfileRole } from 'app/modules/Profile/slice/selectors'
+import { selectProfileRole } from 'app/modules/Profile/slice/selectors'
 import { ResultUserList } from 'app/modules/Results/templates/ResultUserList'
+import { selectCheckAccess } from 'app/modules/Role/selectors'
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { checkAdminAccess } from 'utils/roles'
 
-import { AccessList } from '../components/AccessList'
 import { UserModalContent } from '../components/UserModalContent'
 import { usersActions } from '../slice'
 import { selectModal, selectUserById } from '../slice/selectors'
@@ -23,10 +24,10 @@ export const UserModal: React.FC = () => {
     const [value, setValue] = useState<string>('user')
 
     const profileRole = useSelector(selectProfileRole)
-    const profile = useSelector(selectProfile)
     const { isOpen, activeId } = useSelector(selectModal)
     const getUser = useSelector(selectUserById)
     const user = getUser(activeId)
+    const checkStatickRole = useSelector(selectCheckAccess)
 
     const handleClose = () => {
         dispatch(usersActions.hideModal())
@@ -77,7 +78,7 @@ export const UserModal: React.FC = () => {
                             {`${user?.last_name} ${user?.name}`}
                         </Typography>
 
-                        {checkAdminAccess(profileRole) && (
+                        {checkStatickRole('update_user_favorite') && (
                             <>
                                 {!!user?.favorite && (
                                     <IconButton onClick={handleDeleteFavorite}>
@@ -93,7 +94,7 @@ export const UserModal: React.FC = () => {
                             </>
                         )}
 
-                        {!checkAdminAccess(profileRole) && (
+                        {!checkStatickRole('update_user_favorite') && (
                             <>
                                 {!!user?.favorite && <StarRateIcon color="warning" />}
 
@@ -116,22 +117,23 @@ export const UserModal: React.FC = () => {
                 >
                     <Container>
                         <TabContext value={value}>
-                            {checkAdminAccess(profileRole) && (
+                            {checkStatickRole('show_user_tab') && (
                                 <TabList onChange={handleChange}>
                                     <Tab label="Профиль" value="user" sx={{ px: 3 }} />
-                                    <Tab label="Тестирование" value="test" sx={{ px: 3 }} />
-                                    <Tab label="Изменения" value="history" sx={{ px: 3 }} />
-                                    {user?.access.length && <Tab label="Доступы" value="access" sx={{ px: 3 }} />}
+                                    {checkStatickRole('show_user_test_tab') && (
+                                        <Tab label="Тестирование" value="test" sx={{ px: 3 }} />
+                                    )}
+                                    {checkStatickRole('show_user_history_tab') && (
+                                        <Tab label="Изменения" value="history" sx={{ px: 3 }} />
+                                    )}
+                                    {checkStatickRole('update_hands') && (
+                                        <Tab label="Доступы" value="access" sx={{ px: 3 }} />
+                                    )}
                                 </TabList>
                             )}
                             <TabPanel value="user" sx={{ p: 0 }}>
                                 {user && (
-                                    <UserModalContent
-                                        handleClose={handleClose}
-                                        profileRole={profileRole}
-                                        user={user}
-                                        profile={profile}
-                                    />
+                                    <UserModalContent handleClose={handleClose} profileRole={profileRole} user={user} />
                                 )}
                             </TabPanel>
                             <TabPanel value="test" sx={{ p: 0 }}>
@@ -141,7 +143,7 @@ export const UserModal: React.FC = () => {
                                 <LogList />
                             </TabPanel>
                             <TabPanel value="access" sx={{ p: 0 }}>
-                                {user && <AccessList uid={user.id} access={user.access} />}
+                                {user && <UserList user={user} />}
                             </TabPanel>
                         </TabContext>
                     </Container>
