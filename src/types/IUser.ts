@@ -1,7 +1,6 @@
 import { EGender, ERole } from '.'
 import { IAchieve } from './IAchieve'
 import { IFile } from './IFile'
-import { IHand } from './IHand'
 import { IQuizState } from './IQuizState'
 
 export interface TelegramAuth {
