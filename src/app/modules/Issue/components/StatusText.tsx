@@ -1,8 +1,3 @@
-// import { IncompleteCircle as IncompleteCircleIcon } from '@mui/icons-material'
-import CheckIcon from '@mui/icons-material/Check'
-import CloseIcon from '@mui/icons-material/Close'
-import FiberManualRecordIcon from '@mui/icons-material/FiberManualRecord'
-import PriorityHighIcon from '@mui/icons-material/PriorityHigh'
 import { Box, Typography } from '@mui/material'
 import React from 'react'
 import { TIssueStatus } from 'types/IIssue'
@@ -12,7 +7,7 @@ interface Props {
     size?: number
 }
 
-export const StatusText: React.FC<Props> = ({ status, size = 50 }) => {
+export const StatusText: React.FC<Props> = ({ status }) => {
     if (status === 'progress') {
         return (
             <Box

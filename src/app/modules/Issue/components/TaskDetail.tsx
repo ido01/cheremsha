@@ -61,7 +61,7 @@ export const TaskDetail: React.FC<Props> = ({ open, issue, onCollapse }) => {
     }
 
     const handleTagClick = (tag: string) => {
-        //
+        tag
     }
 
     if (!issue) {

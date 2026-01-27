@@ -83,6 +83,7 @@ export interface IUser {
     achieve?: IAchieve
     access: string[]
     hands?: string[]
+    contract?: string
 }
 
 export interface ITinyUser {

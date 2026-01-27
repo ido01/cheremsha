@@ -4,6 +4,7 @@ import {
     Delete as DeleteIcon,
     Download as DownloadIcon,
     Edit as EditIcon,
+    Payment as PaymentIcon,
 } from '@mui/icons-material'
 import { LoadingButton } from '@mui/lab'
 import {
@@ -27,6 +28,7 @@ import { LabelText } from 'app/components/LabelText'
 import { achieveUserActions } from 'app/modules/AchieveUser/slice'
 import { UserAchieveList } from 'app/modules/AchieveUser/templates/UserAchieveList'
 import { selectLocation } from 'app/modules/Locations/slice/selectors'
+import { selectProfile } from 'app/modules/Profile/slice/selectors'
 import { selectCheckAccess } from 'app/modules/Role/selectors'
 import dayjs from 'dayjs'
 import React, { useMemo, useState } from 'react'
@@ -40,6 +42,7 @@ import { getNoun } from 'utils/getNoun'
 
 import { usersActions } from '../slice'
 import { selectForm, selectUrl } from '../slice/selectors'
+import { ContractModal } from '../templates/ContractModal'
 
 interface UserModalContentProps {
     profileRole: ERole
@@ -59,6 +62,7 @@ export const UserModalContent: React.FC<UserModalContentProps> = ({ user, handle
 
     const { status } = useSelector(selectForm)
     const copyUrl = useSelector(selectUrl)
+    const profile = useSelector(selectProfile)
     const getLocation = useSelector(selectLocation)
     const checkStatickRole = useSelector(selectCheckAccess)
 
@@ -135,6 +139,10 @@ export const UserModalContent: React.FC<UserModalContentProps> = ({ user, handle
         )
     }
 
+    const handleClickContract = () => {
+        dispatch(usersActions.openContractModal())
+    }
+
     const handleBanUser = () => {
         if (user) {
             dispatch(usersActions.banUser(user.id))
@@ -146,6 +154,26 @@ export const UserModalContent: React.FC<UserModalContentProps> = ({ user, handle
         <>
             <Grid container sx={{ mt: 2.5 }} spacing={2.5}>
                 {user && <UserAchieveList id={user?.id} />}
+                {(checkStatickRole('contract_view') || profile.id === user.id) && (
+                    <Grid item xs={12}>
+                        <Box mb={1}>
+                            <Typography variant="caption" fontWeight={500}>
+                                Персональный договор
+                            </Typography>
+                        </Box>
+
+                        <Box>
+                            <Button
+                                color="info"
+                                variant="contained"
+                                startIcon={<PaymentIcon />}
+                                onClick={handleClickContract}
+                            >
+                                Договор
+                            </Button>
+                        </Box>
+                    </Grid>
+                )}
                 {checkStatickRole('user_update') && (
                     <Grid item xs={12}>
                         <Box mb={1}>
@@ -405,6 +433,8 @@ export const UserModalContent: React.FC<UserModalContentProps> = ({ user, handle
                     </Button>
                 </DialogActions>
             </Dialog>
+
+            <ContractModal />
         </>
     )
 }

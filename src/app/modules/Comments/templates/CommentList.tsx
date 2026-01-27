@@ -1,5 +1,4 @@
-import { Box, Typography } from '@mui/material'
-import { AvatarImage } from 'app/modules/Profile/components/AvatarImage'
+import { Box } from '@mui/material'
 import React from 'react'
 import { useSelector } from 'react-redux'
 

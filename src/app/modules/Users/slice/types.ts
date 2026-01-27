@@ -5,6 +5,11 @@ import { IUser } from 'types/IUser'
 
 export type TUserStatus = 'all' | 'new' | 'active' | 'blocked'
 
+export type TContractUpdate = {
+    id: string
+    contract: string
+}
+
 export type AccessProps = {
     key: string
     uid: string
@@ -27,6 +32,8 @@ export interface IUsersState extends EntityState<IUser> {
     url: string
     modal: {
         isOpen: boolean
+        isOpenContract: boolean
+        status: EStatus
         activeId: string
     }
     form: {
