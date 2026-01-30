@@ -7,6 +7,7 @@ import { documentsWatcher } from 'app/modules/Documents/slice/saga'
 import { eventsWatcher } from 'app/modules/Events/slice/events/saga'
 import { birthdaysWatcher } from 'app/modules/Events/slice/users/saga'
 import { workdaysWatcher } from 'app/modules/Events/slice/workday/saga'
+import { excelWatcher } from 'app/modules/Excel/slice/saga'
 import { favoritesWatcher } from 'app/modules/Favorites/slice/saga'
 import { fileWatcher } from 'app/modules/File/slice/saga'
 import { handsWatcher } from 'app/modules/Hands/slice/saga'
@@ -56,5 +57,6 @@ export default function* rootSaga() {
         handsWatcher(),
         handUserWatcher(),
         rolesWatcher(),
+        excelWatcher(),
     ])
 }

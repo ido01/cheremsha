@@ -6,6 +6,7 @@ import { categoriesActions } from 'app/modules/Categories/slice'
 import { selectCategoryById } from 'app/modules/Categories/slice/selectors'
 import { CategoriesList } from 'app/modules/Categories/templates/CategoriesList'
 import { DocumentModal } from 'app/modules/Documents/templates/DocumentModal'
+import { ExcelModal } from 'app/modules/Excel/templates/ExcelModal'
 import { Main } from 'app/modules/Layout/templates/Main'
 import { QuizModal } from 'app/modules/Quiz/templates/QuizModal'
 import { selectCheckAccess } from 'app/modules/Role/selectors'
@@ -16,9 +17,10 @@ interface Props {
     id: string
     did?: string
     qid?: string
+    eid?: string
 }
 
-export const DocumentsCategoriesList: React.FC<Props> = ({ id, did, qid }) => {
+export const DocumentsCategoriesList: React.FC<Props> = ({ id, did, qid, eid }) => {
     const dispatch = useDispatch()
 
     const [open, setOpen] = useState<boolean>(false)
@@ -95,11 +97,13 @@ export const DocumentsCategoriesList: React.FC<Props> = ({ id, did, qid }) => {
             value={search}
             onSearch={handleSearchChange}
         >
-            <CategoriesList id={id} search={search} did={did} qid={qid} />
+            <CategoriesList id={id} search={search} did={did} qid={qid} eid={eid} />
 
             <DocumentModal />
 
             <QuizModal />
+
+            <ExcelModal />
 
             {checkStatickRole('update_document') && (
                 <CategoryAdminSettings open={open} id={id} category={category} handleClose={handleClose} />

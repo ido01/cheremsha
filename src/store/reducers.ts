@@ -8,6 +8,7 @@ import { documentsReducer } from 'app/modules/Documents/slice'
 import { eventsReducer } from 'app/modules/Events/slice/events'
 import { birthdaysReducer } from 'app/modules/Events/slice/users'
 import { workdaysReducer } from 'app/modules/Events/slice/workday'
+import { excelReducer } from 'app/modules/Excel/slice'
 import { favoritesReducer } from 'app/modules/Favorites/slice'
 import { fileReducer } from 'app/modules/File/slice'
 import { handsReducer } from 'app/modules/Hands/slice'
@@ -58,5 +59,6 @@ export function createReducer(injectedReducers: InjectedReducersType = {}): Redu
         hands: handsReducer,
         handUser: handUserReducer,
         roles: rolesReducer,
+        excel: excelReducer,
     })
 }

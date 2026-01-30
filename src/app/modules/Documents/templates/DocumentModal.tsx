@@ -20,18 +20,13 @@ import {
 } from '@mui/material'
 import { LabelText } from 'app/components/LabelText'
 import { Modal } from 'app/components/Modal'
-import { AvatarImage } from 'app/modules/Profile/components/AvatarImage'
-import { selectProfile, selectProfileRole } from 'app/modules/Profile/slice/selectors'
+import { selectCheckAccess } from 'app/modules/Role/selectors'
 import React, { useMemo, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 import { toast } from 'react-toastify'
-import { EState, EStatus } from 'types'
-import { IDocumentPoint } from 'types/IDocumentPoint'
-import { IDocumentTaskUser } from 'types/IDocumentTaskUser'
-import { checkAdminAccess } from 'utils/roles'
+import { EState } from 'types'
 
-import { DocumentBigStatusRow } from '../components/DocumentBigStatusRow'
 import { documentsActions } from '../slice'
 import { selectDocumentById, selectModal } from '../slice/selectors'
 
@@ -40,17 +35,11 @@ export const DocumentModal: React.FC = () => {
     const history = useNavigate()
 
     const [openDelete, setOpenDelete] = useState<boolean>(false)
-    const [openDeletePoint, setOpenDeletePoint] = useState<string>('0')
-    const [deletePointName, setDeletePointName] = useState<string>('')
-    const [openDeleteUser, setOpenDeleteUser] = useState<string>('0')
-    const [deleteUserName, setDeleteUserName] = useState<string>('')
-    const [loadingTasks, setLoadingTasks] = useState<string[]>([])
 
-    const profile = useSelector(selectProfile)
-    const profileRole = useSelector(selectProfileRole)
     const { isOpen, activeId } = useSelector(selectModal)
     const getDocument = useSelector(selectDocumentById)
     const document = getDocument(activeId)
+    const checkStatickRole = useSelector(selectCheckAccess)
 
     const content = useMemo(() => {
         return (
@@ -118,26 +107,8 @@ export const DocumentModal: React.FC = () => {
         setOpenDelete(true)
     }
 
-    const handleOpenDeletePoint = (point: IDocumentPoint) => {
-        setOpenDeletePoint(point.id)
-        setDeletePointName(point.name)
-    }
-
-    const handleOpenDeleteUser = (user: IDocumentTaskUser) => {
-        setOpenDeleteUser(user.id)
-        setDeleteUserName(user.name || '')
-    }
-
     const handleCloseDelete = () => {
         setOpenDelete(false)
-    }
-
-    const handleCloseDeletePoint = () => {
-        setOpenDeletePoint('0')
-    }
-
-    const handleCloseDeleteUser = () => {
-        setOpenDeleteUser('0')
     }
 
     const handleDeleteDocument = () => {
@@ -148,16 +119,6 @@ export const DocumentModal: React.FC = () => {
         setOpenDelete(false)
     }
 
-    const handleDeleteTaskUser = () => {
-        dispatch(documentsActions.deleteTaskUser(openDeleteUser))
-        setOpenDeleteUser('0')
-    }
-
-    const handleDeleteTaskPoint = () => {
-        dispatch(documentsActions.deleteTaskPoint(openDeletePoint))
-        setOpenDeletePoint('0')
-    }
-
     const handleSetComplete = () => {
         if (document) {
             dispatch(
@@ -166,48 +127,6 @@ export const DocumentModal: React.FC = () => {
                     id: document.state.id,
                 })
             )
-        }
-    }
-
-    const handleGetUserTask = (taskUser: IDocumentTaskUser) => {
-        if (document) {
-            setLoadingTasks((value) => [...value, `${taskUser.id}u${taskUser.status}`])
-            dispatch(documentsActions.getUserTask(document.id))
-        }
-    }
-
-    const handleGetPoint = (point: IDocumentPoint) => {
-        if (document) {
-            setLoadingTasks((value) => [...value, `${point.id}p${point.status}`])
-            dispatch(documentsActions.getPoint(document.id))
-        }
-    }
-
-    const handleCompleteUserTask = (taskUser: IDocumentTaskUser) => {
-        if (document) {
-            setLoadingTasks((value) => [...value, `${taskUser.id}u${taskUser.status}`])
-            dispatch(documentsActions.completeUserTask(document.id))
-        }
-    }
-
-    const handleCompletePoint = (point: IDocumentPoint) => {
-        if (document) {
-            setLoadingTasks((value) => [...value, `${point.id}p${point.status}`])
-            dispatch(documentsActions.completePoint(document.id))
-        }
-    }
-
-    const handleRejectUserTask = (taskUser: IDocumentTaskUser) => {
-        if (document) {
-            setLoadingTasks((value) => [...value, `${taskUser.id}u${taskUser.status}`])
-            dispatch(documentsActions.rejectUserTask(taskUser.id))
-        }
-    }
-
-    const handleRejectPoint = (point: IDocumentPoint) => {
-        if (document) {
-            setLoadingTasks((value) => [...value, `${point.id}p${point.status}`])
-            dispatch(documentsActions.rejectPoint(point.id))
         }
     }
 
@@ -243,234 +162,12 @@ export const DocumentModal: React.FC = () => {
                                 <LabelText label="Дата окончания акции" text={document.end_date} variant="body2" />
                             </Box>
                         )}
-                        {/* {document?.path === 'task' && (
-                            <Box mb={4} sx={{ display: 'flex', gap: 4 }}>
-                                {document?.author && (
-                                    <Box>
-                                        <LabelText
-                                            label="Задачу поставил"
-                                            node={
-                                                document.author && (
-                                                    <Box sx={{ display: 'flex', alignItems: 'center' }}>
-                                                        <AvatarImage
-                                                            name={`${document.author.last_name} ${document.author.name}`}
-                                                            image={document.author.avatar?.thumb}
-                                                            size={'24px'}
-                                                        />
 
-                                                        <Typography variant="body1" color="grey.900" sx={{ ml: 1 }}>
-                                                            {document.author.last_name} {document.author.name}
-                                                        </Typography>
-                                                    </Box>
-                                                )
-                                            }
-                                        />
-                                    </Box>
-                                )}
-                                {document?.deadTime && (
-                                    <Box>
-                                        <LabelText label="Сроки выполнения" text={document.deadTime} variant="body2" />
-                                    </Box>
-                                )}
-                            </Box>
-                        )} */}
                         {content}
-
-                        {document?.users && document?.users.length > 0 && (
-                            <Box mt={4}>
-                                <Typography variant="h6" mb={2}>
-                                    Задача назначена персоналу:
-                                </Typography>
-                                {document?.users.map((taskUser, index) => (
-                                    <Box
-                                        key={`${index}u${taskUser.id}`}
-                                        sx={{
-                                            pl: 4,
-                                            pr: 2,
-                                            py: 2,
-                                            width: '100%',
-                                            border: '1px solid #eee',
-                                            boxShadow: '0 1px 4px #eee',
-                                            borderRadius: '8px',
-                                            mb: 4,
-                                        }}
-                                    >
-                                        <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
-                                            <Box>
-                                                {taskUser.user && (
-                                                    <LabelText
-                                                        label="Исполнитель"
-                                                        node={
-                                                            <Box sx={{ display: 'flex', alignItems: 'center' }}>
-                                                                <AvatarImage
-                                                                    name={`${taskUser.user.last_name} ${taskUser.user.name}`}
-                                                                    image={taskUser.user.avatar?.thumb}
-                                                                    size={24}
-                                                                />
-
-                                                                <Typography
-                                                                    variant="body1"
-                                                                    color="grey.900"
-                                                                    sx={{ ml: 1 }}
-                                                                >
-                                                                    {taskUser.user.last_name} {taskUser.user.name}
-                                                                </Typography>
-                                                            </Box>
-                                                        }
-                                                    />
-                                                )}
-                                            </Box>
-                                            <Box sx={{ display: 'flex', alignItems: 'center' }}>
-                                                {profile.id === taskUser.user_id &&
-                                                    (taskUser.status === EStatus.INITIAL ||
-                                                        taskUser.status === EStatus.ERROR) && (
-                                                        <LoadingButton
-                                                            loading={loadingTasks.includes(
-                                                                `${taskUser.id}u${taskUser.status}`
-                                                            )}
-                                                            color="warning"
-                                                            variant="contained"
-                                                            size="small"
-                                                            sx={{
-                                                                height: 24,
-                                                            }}
-                                                            onClick={() => handleGetUserTask(taskUser)}
-                                                        >
-                                                            Взять в работу
-                                                        </LoadingButton>
-                                                    )}
-                                                {profile.id === taskUser.user_id &&
-                                                    taskUser.status === EStatus.PENDING && (
-                                                        <LoadingButton
-                                                            color="success"
-                                                            variant="contained"
-                                                            size="small"
-                                                            sx={{
-                                                                height: 24,
-                                                            }}
-                                                            onClick={() => handleCompleteUserTask(taskUser)}
-                                                        >
-                                                            Выполнить задачу
-                                                        </LoadingButton>
-                                                    )}
-                                                {checkAdminAccess(profileRole) && taskUser.status === EStatus.FINISHED && (
-                                                    <LoadingButton
-                                                        color="error"
-                                                        variant="contained"
-                                                        size="small"
-                                                        sx={{
-                                                            height: 24,
-                                                        }}
-                                                        onClick={() => handleRejectUserTask(taskUser)}
-                                                    >
-                                                        Вернуть в работу
-                                                    </LoadingButton>
-                                                )}
-
-                                                {checkAdminAccess(profileRole) && (
-                                                    <IconButton
-                                                        color="error"
-                                                        onClick={() => handleOpenDeleteUser(taskUser)}
-                                                        sx={{ ml: 1 }}
-                                                    >
-                                                        <DeleteIcon />
-                                                    </IconButton>
-                                                )}
-                                            </Box>
-                                        </Box>
-
-                                        <DocumentBigStatusRow status={taskUser.status} />
-                                    </Box>
-                                ))}
-                            </Box>
-                        )}
-
-                        {document?.points && document?.points.length > 0 && (
-                            <Box mt={4}>
-                                <Typography variant="h6" mb={2}>
-                                    Задача назначена на точку:
-                                </Typography>
-                                {document?.points.map((point, index) => (
-                                    <Box
-                                        key={`${index}p${point.id}`}
-                                        sx={{
-                                            px: 4,
-                                            py: 2,
-                                            width: '100%',
-                                            border: '1px solid #eee',
-                                            boxShadow: '0 1px 4px #eee',
-                                            borderRadius: '8px',
-                                            mb: 4,
-                                        }}
-                                    >
-                                        <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
-                                            <Box>{point.name && <LabelText label="Точка" text={point.name} />}</Box>
-
-                                            <Box sx={{ display: 'flex', alignItems: 'center' }}>
-                                                {profile.place_id === point.place_id &&
-                                                    (point.status === EStatus.INITIAL ||
-                                                        point.status === EStatus.ERROR) && (
-                                                        <LoadingButton
-                                                            color="warning"
-                                                            variant="contained"
-                                                            size="small"
-                                                            sx={{
-                                                                height: 24,
-                                                            }}
-                                                            onClick={() => handleGetPoint(point)}
-                                                        >
-                                                            Взять в работу
-                                                        </LoadingButton>
-                                                    )}
-                                                {profile.place_id === point.place_id &&
-                                                    point.status === EStatus.PENDING && (
-                                                        <LoadingButton
-                                                            color="success"
-                                                            variant="contained"
-                                                            size="small"
-                                                            sx={{
-                                                                height: 24,
-                                                            }}
-                                                            onClick={() => handleCompletePoint(point)}
-                                                        >
-                                                            Выполнить задачу
-                                                        </LoadingButton>
-                                                    )}
-                                                {checkAdminAccess(profileRole) && point.status === EStatus.FINISHED && (
-                                                    <LoadingButton
-                                                        color="error"
-                                                        variant="contained"
-                                                        size="small"
-                                                        sx={{
-                                                            height: 24,
-                                                        }}
-                                                        onClick={() => handleRejectPoint(point)}
-                                                    >
-                                                        Вернуть в работу
-                                                    </LoadingButton>
-                                                )}
-
-                                                {checkAdminAccess(profileRole) && (
-                                                    <IconButton
-                                                        color="error"
-                                                        onClick={() => handleOpenDeletePoint(point)}
-                                                        sx={{ ml: 1 }}
-                                                    >
-                                                        <DeleteIcon />
-                                                    </IconButton>
-                                                )}
-                                            </Box>
-                                        </Box>
-
-                                        <DocumentBigStatusRow status={point.status} />
-                                    </Box>
-                                ))}
-                            </Box>
-                        )}
                     </Container>
                 </Box>
 
-                {checkAdminAccess(profileRole) ? (
+                {checkStatickRole('update_document') ? (
                     <Box
                         sx={{
                             position: 'absolute',
@@ -566,46 +263,6 @@ export const DocumentModal: React.FC = () => {
                     </Button>
 
                     <LoadingButton onClick={handleDeleteDocument} autoFocus color="error">
-                        Удалить
-                    </LoadingButton>
-                </DialogActions>
-            </Dialog>
-
-            <Dialog
-                open={openDeletePoint !== '0'}
-                onClose={handleCloseDeletePoint}
-                aria-labelledby="alert-dialog-title"
-            >
-                <DialogTitle id="alert-dialog-title">Внимание!</DialogTitle>
-
-                <DialogContent>
-                    <DialogContentText>{`Вы уверены, что хотите удалить задачу для "${deletePointName}"?`}</DialogContentText>
-                </DialogContent>
-
-                <DialogActions>
-                    <Button onClick={handleCloseDeletePoint} color="primary">
-                        Отмена
-                    </Button>
-
-                    <LoadingButton onClick={handleDeleteTaskPoint} autoFocus color="error">
-                        Удалить
-                    </LoadingButton>
-                </DialogActions>
-            </Dialog>
-
-            <Dialog open={openDeleteUser !== '0'} onClose={handleCloseDeleteUser} aria-labelledby="alert-dialog-title">
-                <DialogTitle id="alert-dialog-title">Внимание!</DialogTitle>
-
-                <DialogContent>
-                    <DialogContentText>{`Вы уверены, что хотите удалить задачу для "${deleteUserName}"?`}</DialogContentText>
-                </DialogContent>
-
-                <DialogActions>
-                    <Button onClick={handleCloseDeleteUser} color="primary">
-                        Отмена
-                    </Button>
-
-                    <LoadingButton onClick={handleDeleteTaskUser} autoFocus color="error">
                         Удалить
                     </LoadingButton>
                 </DialogActions>

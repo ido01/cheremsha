@@ -1,6 +1,7 @@
 import { PayloadAction } from '@reduxjs/toolkit'
 import { documentsActions } from 'app/modules/Documents/slice'
 import { IPasteDocument } from 'app/modules/Documents/slice/types'
+import { excelActions } from 'app/modules/Excel/slice'
 import { quizActions } from 'app/modules/Quiz/slice'
 import { call, put, takeLatest, takeLeading } from 'redux-saga/effects'
 import { ICategoriesResponse, ICategory, ICategoryResponse } from 'types/ICategory'
@@ -15,6 +16,7 @@ export function* loadCategories(action: PayloadAction<string>) {
         yield put(categoriesActions.categoriesLoaded(response))
         yield put(documentsActions.documentsLoaded(response.documents))
         yield put(quizActions.quizLoaded(response.quiz))
+        yield put(excelActions.excelLoaded(response.excel))
     } catch (error: any) {
         yield put(categoriesActions.statusError())
     }

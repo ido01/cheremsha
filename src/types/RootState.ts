@@ -7,6 +7,7 @@ import { IDocumentsState } from 'app/modules/Documents/slice/types'
 import { IEventsState } from 'app/modules/Events/slice/events/types'
 import { IBirthdayState } from 'app/modules/Events/slice/users/types'
 import { IWorkdayState } from 'app/modules/Events/slice/workday/types'
+import { IExcelState } from 'app/modules/Excel/slice/types'
 import { IFavoritesState } from 'app/modules/Favorites/slice/types'
 import { IFileState } from 'app/modules/File/slice/types'
 import { IHandsState } from 'app/modules/Hands/slice/types'
@@ -54,4 +55,5 @@ export interface RootState {
     hands: IHandsState
     handUser: IHandUserState
     roles: IRoleState
+    excel: IExcelState
 }

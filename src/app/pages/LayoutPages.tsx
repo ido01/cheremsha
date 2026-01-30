@@ -3,6 +3,7 @@ import { AdminList } from 'app/modules/Admin/templates/AdminList'
 import { CategoriesView } from 'app/modules/Documents/templates/CategoriesView'
 import { DocumentsList } from 'app/modules/Documents/templates/DocumentsList'
 import { DocumentView } from 'app/modules/Documents/templates/DocumentView'
+import { ExcelView } from 'app/modules/Documents/templates/ExcelView'
 import { QuizView } from 'app/modules/Documents/templates/QuizView'
 import { GameList } from 'app/modules/Game/templates/GameList'
 import { HandsList } from 'app/modules/Hands/templates/HandsList'
@@ -48,6 +49,10 @@ export const LayoutPages: React.FC = () => (
             <Route path={'/doc/:id'} element={<CategoriesView />} />
             <Route path={'/doc/:id/document/:did'} element={<DocumentView />} />
             <Route path={'/doc/:id/quiz/:qid'} element={<QuizView />} />
+            <Route path={'/doc/:id/doc/:eid'} element={<ExcelView />} />
+            <Route path={'/doc/:id/xls/:eid'} element={<ExcelView />} />
+            <Route path={'/doc/:id/ppt/:eid'} element={<ExcelView />} />
+            <Route path={'/doc/:id/pdf/:eid'} element={<ExcelView />} />
             <Route path={'/peoples'} element={<PeoplesList />} />
             <Route path={'/games'} element={<GameList />} />
             <Route path={'/stats'} element={<StatList />} />

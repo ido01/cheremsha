@@ -27,9 +27,13 @@ import { CategoryForm } from 'app/modules/Categories/templates/CategoryForm'
 import { documentsActions } from 'app/modules/Documents/slice'
 import { selectCopyId, selectForm, selectMoveId } from 'app/modules/Documents/slice/selectors'
 import { DocumentForm } from 'app/modules/Documents/templates/DocumentForm'
+import { excelActions } from 'app/modules/Excel/slice'
+import { selectCopyExcelId, selectForm as selectExcelForm, selectMoveExcelId } from 'app/modules/Excel/slice/selectors'
+import { ExcelForm } from 'app/modules/Excel/templates/ExcelForm'
 import { quizActions } from 'app/modules/Quiz/slice'
 import { selectMoveQuizId } from 'app/modules/Quiz/slice/selectors'
 import { QuizForm } from 'app/modules/Quiz/templates/QuizForm'
+import { selectCheckAccess } from 'app/modules/Role/selectors'
 import React, { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
@@ -51,11 +55,15 @@ export const CategoryAdminSettings: React.FC<CategoryAdminSettingsProps> = ({ id
     const history = useNavigate()
 
     const { open: openDocumentForm, copy } = useSelector(selectForm)
+    const { copy: excelCopy } = useSelector(selectExcelForm)
     const moveCategoryId = useSelector(selectmoveCategoryId)
     const moveId = useSelector(selectMoveId)
     const copyId = useSelector(selectCopyId)
     const quizMoveId = useSelector(selectMoveQuizId)
+    const excelMoveId = useSelector(selectMoveExcelId)
+    const excelCopyId = useSelector(selectCopyExcelId)
     const [openDelete, setOpenDelete] = useState<boolean>(false)
+    const checkStatickRole = useSelector(selectCheckAccess)
 
     const handlePasteCategory = () => {
         dispatch(
@@ -71,6 +79,15 @@ export const CategoryAdminSettings: React.FC<CategoryAdminSettingsProps> = ({ id
             documentsActions.moveDocument({
                 id: moveId,
                 parentId: id || '0',
+            })
+        )
+    }
+
+    const handlePasteExcel = () => {
+        dispatch(
+            excelActions.moveExcel({
+                id: excelMoveId,
+                parent_id: id || '0',
             })
         )
     }
@@ -91,6 +108,17 @@ export const CategoryAdminSettings: React.FC<CategoryAdminSettingsProps> = ({ id
                 id: '',
                 parentId: id || '0',
                 name: `Копия ${copy.name}`,
+            })
+        )
+    }
+
+    const handleCopyExcel = () => {
+        dispatch(
+            excelActions.reCreateExcel({
+                ...excelCopy,
+                id: '',
+                parent_id: id || '0',
+                name: `Копия ${excelCopy.name}`,
             })
         )
     }
@@ -228,6 +256,8 @@ export const CategoryAdminSettings: React.FC<CategoryAdminSettingsProps> = ({ id
                             <ListItemText primary={'Добавить тестирование'} />
                         </ListItemButton>
                     </ListItem>
+
+                    {checkStatickRole('update_excel') && <ExcelForm parent_id={id} onClose={handleClose} />}
                 </List>
 
                 <Divider />
@@ -330,6 +360,48 @@ export const CategoryAdminSettings: React.FC<CategoryAdminSettingsProps> = ({ id
                                     </ListItemIcon>
 
                                     <ListItemText primary={'Вставить cкопированный документ'} />
+                                </ListItemButton>
+                            </ListItem>
+                        </List>
+                    </>
+                )}
+
+                {!!excelMoveId && (
+                    <>
+                        <Divider />
+                        <List>
+                            <ListItem
+                                // disabled={!id || id === '0'}
+                                disablePadding
+                                onClick={handlePasteExcel}
+                            >
+                                <ListItemButton>
+                                    <ListItemIcon>
+                                        <ContentPasteGoIcon />
+                                    </ListItemIcon>
+
+                                    <ListItemText primary={'Вставить вырезанный файл'} />
+                                </ListItemButton>
+                            </ListItem>
+                        </List>
+                    </>
+                )}
+
+                {!!excelCopyId && (
+                    <>
+                        <Divider />
+                        <List>
+                            <ListItem
+                                // disabled={!id || id === '0'}
+                                disablePadding
+                                onClick={handleCopyExcel}
+                            >
+                                <ListItemButton>
+                                    <ListItemIcon>
+                                        <ContentPasteGoIcon />
+                                    </ListItemIcon>
+
+                                    <ListItemText primary={'Вставить cкопированный файл'} />
                                 </ListItemButton>
                             </ListItem>
                         </List>

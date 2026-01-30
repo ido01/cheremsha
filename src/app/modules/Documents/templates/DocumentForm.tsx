@@ -30,35 +30,11 @@ export const DocumentForm: React.FC = () => {
     const dispatch = useDispatch()
 
     const { data, status, open } = useSelector(selectForm)
-    // const locations = useSelector(selectLocationsFilter)
     const statusUsers = useSelector(selectStatus)
-    // const users = useSelector(selectUsers)
 
     const [endDate, setEndDate] = useState<Dayjs | null>(dayjs(data.end_date.split('.').reverse().join('-')))
     const [deadTime, setDeadTime] = useState<Dayjs | null>(dayjs(data.deadTime.split('.').reverse().join('-')))
     setDeadTime
-
-    // const places = useMemo(() => {
-    //     return locations.map((location) => ({
-    //         id: '',
-    //         place_id: location.id,
-    //         document_id: data.id,
-    //         status: EStatus.INITIAL,
-    //         endAt: '',
-    //         name: location.name,
-    //     }))
-    // }, [locations])
-
-    // const usersList = useMemo<IDocumentTaskUser[]>(() => {
-    //     return users.map((user) => ({
-    //         id: '',
-    //         user_id: user.id,
-    //         document_id: data.id,
-    //         status: EStatus.INITIAL,
-    //         endAt: '',
-    //         name: user.label,
-    //     }))
-    // }, [users])
 
     const validationSchema = yup.object({
         name: yup.string().required(),
@@ -219,95 +195,13 @@ export const DocumentForm: React.FC = () => {
                         onChange={formik.handleChange}
                     />
 
-                    {/* {formik.values.path === 'task' && (
-                        <>
-                            <Box mt={2}>
-                                <DatePicker
-                                    label="Срок выполнения задачи"
-                                    // inputFormat="dd.MM.yyyy"
-                                    // mask="__.__.____"
-                                    value={deadTime}
-                                    onChange={(val) => {
-                                        setDeadTime(dayjs(val))
-                                    }}
-                                    // renderInput={(params) => <TextField fullWidth variant="outlined" {...params} />}
-                                />
-                            </Box>
-
-                            <Box mt={2}>
-                                <Autocomplete
-                                    multiple
-                                    id="tags-outlined"
-                                    options={places}
-                                    getOptionLabel={(option) => option.name}
-                                    value={formik.values.points}
-                                    filterSelectedOptions
-                                    onChange={(event, val) => {
-                                        formik.setFieldValue('points', val)
-                                    }}
-                                    renderTags={(tagValue, getTagProps) =>
-                                        tagValue.map((option, index) => (
-                                            <Chip
-                                                label={option.name}
-                                                {...getTagProps({ index })}
-                                                disabled={!!option.id}
-                                                key={option.place_id}
-                                            />
-                                        ))
-                                    }
-                                    renderInput={(params) => (
-                                        <TextField
-                                            {...params}
-                                            label="На какие точки назначена задача"
-                                            placeholder="Точки"
-                                        />
-                                    )}
-                                />
-                            </Box>
-
-                            <Box mt={2}>
-                                <Autocomplete
-                                    multiple
-                                    id="tags-outlined"
-                                    options={usersList}
-                                    value={formik.values.users}
-                                    getOptionLabel={(option) => option.name || option.user_id}
-                                    filterSelectedOptions
-                                    onChange={(event, val) => {
-                                        formik.setFieldValue('users', val)
-                                    }}
-                                    renderTags={(tagValue, getTagProps) =>
-                                        tagValue.map((option, index) => (
-                                            <Chip
-                                                label={option.name}
-                                                {...getTagProps({ index })}
-                                                disabled={!!option.id}
-                                                key={option.user_id}
-                                            />
-                                        ))
-                                    }
-                                    renderInput={(params) => (
-                                        <TextField
-                                            {...params}
-                                            label="Назначить выполнение задачи сотруднику"
-                                            placeholder="Сотрудники"
-                                        />
-                                    )}
-                                />
-                            </Box>
-                        </>
-                    )} */}
-
                     <Box mt={2}>
                         <DatePicker
                             label={'Дата удаления документа'}
-                            // inputFormat="dd.MM.yyyy"
-                            // mask="__.__.____"
                             value={endDate}
                             onChange={(val) => {
                                 setEndDate(val)
                             }}
-                            // renderInput={(params) => <TextField fullWidth variant="outlined" {...params} />}
                         />
                     </Box>
 

@@ -14,6 +14,11 @@ import { DocumentStatusRow } from 'app/modules/Documents/components/DocumentStat
 import { MobileDocumentView } from 'app/modules/Documents/components/MobileDocumentView'
 import { documentsActions } from 'app/modules/Documents/slice'
 import { selectDocuments, selectSearchDocuments, selectStatus } from 'app/modules/Documents/slice/selectors'
+import { ExcelDateRow } from 'app/modules/Excel/components/ExcelDateRow'
+import { ExcelNameRow } from 'app/modules/Excel/components/ExcelNameRow'
+import { ExcelSizeRow } from 'app/modules/Excel/components/ExcelSize'
+import { excelActions } from 'app/modules/Excel/slice'
+import { selectExcels, selectSearchExcel } from 'app/modules/Excel/slice/selectors'
 import { MobileQuizView } from 'app/modules/Quiz/components/MobileQuizView'
 import { QuizDateRow } from 'app/modules/Quiz/components/QuizDateRow'
 import { QuizNameRow } from 'app/modules/Quiz/components/QuizNameRow'
@@ -27,6 +32,7 @@ import { useNavigate } from 'react-router-dom'
 import { EState, EStatus } from 'types'
 import { ICategory } from 'types/ICategory'
 import { IDocument } from 'types/IDocument'
+import { IExcel } from 'types/IExcel'
 import { IQuiz } from 'types/IQuiz'
 import { EQuizState } from 'types/IQuizState'
 import { TTableOrder, TTableRowData } from 'types/ITableDisplay'
@@ -37,10 +43,11 @@ interface CategoriesListProps {
     id: string
     did?: string
     qid?: string
+    eid?: string
     search?: string
 }
 
-export const CategoriesList: React.FC<CategoriesListProps> = ({ id, search, did, qid }) => {
+export const CategoriesList: React.FC<CategoriesListProps> = ({ id, search, did, qid, eid }) => {
     const dispatch = useDispatch()
     const history = useNavigate()
 
@@ -52,11 +59,14 @@ export const CategoriesList: React.FC<CategoriesListProps> = ({ id, search, did,
     const searchDocuments = useSelector(selectSearchDocuments)
     const getQuiz = useSelector(selectQuiz)
     const searchQuiz = useSelector(selectSearchQuiz)
+    const getExcel = useSelector(selectExcels)
+    const searchExcel = useSelector(selectSearchExcel)
     const order = useSelector(selectOrder)
 
     const categories = !search ? getCategories(id || '0') : searchCategories(search, id)
     const documents = !search ? getDocuments(id || '0') : searchDocuments(search, id)
     const quiz = !search ? getQuiz(id || '0') : searchQuiz(search, id || '0')
+    const excel = !search ? getExcel(id) : searchExcel(search, id)
 
     useEffect(() => {
         if (did && status === EStatus.FINISHED && categoryStatus === EStatus.FINISHED) {
@@ -75,6 +85,15 @@ export const CategoriesList: React.FC<CategoriesListProps> = ({ id, search, did,
             dispatch(quizActions.hideModal())
         }
     }, [qid, status, categoryStatus])
+
+    useEffect(() => {
+        if (eid && status === EStatus.FINISHED && categoryStatus === EStatus.FINISHED) {
+            dispatch(excelActions.setActiveId(eid))
+            dispatch(excelActions.showModal())
+        } else if (!eid) {
+            dispatch(excelActions.hideModal())
+        }
+    }, [eid, status, categoryStatus])
 
     const stateSort: (EState | EQuizState)[] = [
         EState.REJECTED,
@@ -130,20 +149,39 @@ export const CategoriesList: React.FC<CategoriesListProps> = ({ id, search, did,
         return 1
     })
 
-    const items = [...categories, ...documentsSort, ...quizSort]
+    const excelSort = [...excel].sort((a, b) => {
+        if (order.order === 'desc') {
+            if (moment(a.createdAt).unix() > moment(b.createdAt).unix()) return -1
+            return 1
+        } else {
+            if (moment(a.createdAt).unix() < moment(b.createdAt).unix()) return -1
+            return 1
+        }
+        return 1
+    })
+
+    const items = [...categories, ...excelSort, ...documentsSort, ...quizSort]
 
     const tableRows: TTableRowData[] = [
         {
             title: 'Название',
             name: 'name',
             xs: 6,
-            element: (item: ICategory | IDocument | IQuiz) => (
+            element: (item: ICategory | IDocument | IQuiz | IExcel) => (
                 <>
                     {item.type === 'category' && <CategoryNameRow item={item} />}
 
                     {item.type === 'document' && <DocumentNameRow item={item} />}
 
                     {item.type === 'quiz' && <QuizNameRow item={item} />}
+
+                    {(item.type === 'doc' ||
+                        item.type === 'docx' ||
+                        item.type === 'pdf' ||
+                        item.type === 'ppt' ||
+                        item.type === 'pptx' ||
+                        item.type === 'xls' ||
+                        item.type === 'xlsx') && <ExcelNameRow item={item} />}
                 </>
             ),
         },
@@ -152,13 +190,21 @@ export const CategoriesList: React.FC<CategoriesListProps> = ({ id, search, did,
             name: 'createdAt',
             isSort: true,
             xs: 3,
-            element: (item: ICategory | IDocument | IQuiz) => (
+            element: (item: ICategory | IDocument | IQuiz | IExcel) => (
                 <>
                     {item.type === 'document' && <DocumentDateRow item={item} />}
 
                     {item.type === 'category' && <CategoryDateRow item={item} />}
 
                     {item.type === 'quiz' && <QuizDateRow item={item} />}
+
+                    {(item.type === 'doc' ||
+                        item.type === 'docx' ||
+                        item.type === 'pdf' ||
+                        item.type === 'ppt' ||
+                        item.type === 'pptx' ||
+                        item.type === 'xls' ||
+                        item.type === 'xlsx') && <ExcelDateRow item={item} />}
                 </>
             ),
         },
@@ -167,11 +213,19 @@ export const CategoriesList: React.FC<CategoriesListProps> = ({ id, search, did,
             name: 'status',
             isSort: true,
             xs: 3,
-            element: (item: ICategory | IDocument | IQuiz) => (
+            element: (item: ICategory | IDocument | IQuiz | IExcel) => (
                 <>
                     {item.type === 'document' && <DocumentStatusRow item={item} />}
 
                     {item.type === 'quiz' && <QuizStatusRow item={item} />}
+
+                    {(item.type === 'doc' ||
+                        item.type === 'docx' ||
+                        item.type === 'pdf' ||
+                        item.type === 'ppt' ||
+                        item.type === 'pptx' ||
+                        item.type === 'xls' ||
+                        item.type === 'xlsx') && <ExcelSizeRow item={item} />}
                 </>
             ),
         },
@@ -191,7 +245,7 @@ export const CategoriesList: React.FC<CategoriesListProps> = ({ id, search, did,
         dispatch(categoriesActions.setOrder(order))
     }
 
-    const handleClickRow = (item: ICategory | IDocument | IQuiz) => {
+    const handleClickRow = (item: ICategory | IDocument | IQuiz | IExcel) => {
         item.type === 'category' && history(`/doc/${item.id}`)
 
         if (item.type === 'document') {
@@ -200,6 +254,19 @@ export const CategoriesList: React.FC<CategoriesListProps> = ({ id, search, did,
 
         if (item.type === 'quiz') {
             history(`/doc/${id}/quiz/${item.id}`)
+        }
+
+        if (item.type === 'doc' || item.type === 'docx') {
+            history(`/doc/${id}/doc/${item.id}`)
+        }
+        if (item.type === 'xls' || item.type === 'xlsx') {
+            history(`/doc/${id}/xls/${item.id}`)
+        }
+        if (item.type === 'ppt' || item.type === 'pptx') {
+            history(`/doc/${id}/ppt/${item.id}`)
+        }
+        if (item.type === 'pdf') {
+            history(`/doc/${id}/pdf/${item.id}`)
         }
     }
 
