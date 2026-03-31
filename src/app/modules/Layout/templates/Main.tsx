@@ -19,7 +19,7 @@ export const Main: React.FC<MainProps> = ({ children, ...props }) => {
                 sx={{
                     px: 1,
                     overflow: 'auto',
-                    maxHeight: 'calc( 100vh - 18px )',
+                    minHeight: { xs: '100vh', md: 'calc( 100vh - 18px )' },
                 }}
             >
                 {children}

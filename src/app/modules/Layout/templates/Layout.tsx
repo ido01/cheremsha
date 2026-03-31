@@ -47,14 +47,20 @@ export const Layout: React.FC<LayoutProps> = ({ children }) => {
                                     bgcolor: '#FFF',
                                     backgroundImage:
                                         'radial-gradient(farthest-corner at 30% 30%, #fff 0%, #fff 60%, #ECEFF1 100%)',
-                                    borderRadius: 8,
+                                    borderRadius: { xs: 0, md: 8 },
                                     m: { sm: 0, md: 1 },
                                     boxSizing: 'border-box',
                                     border: !isMobile ? '1px solid #EEEEEE' : undefined,
-                                    height: { sm: 'calc( 100vh - 2px )', md: 'calc( 100vh - 18px )' },
+                                    height: { xs: 'calc( 100vh - 2px )', md: 'calc( 100vh - 18px )' },
                                 }}
                             >
-                                <Box display="flex" flexDirection="column" minHeight="calc( 100vh - 18px )">
+                                <Box
+                                    display="flex"
+                                    flexDirection="column"
+                                    sx={{
+                                        minHeight: { xs: '100vh', md: 'calc( 100vh - 18px )' },
+                                    }}
+                                >
                                     {children}
                                 </Box>
                             </Box>
