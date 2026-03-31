@@ -15,6 +15,7 @@ import { IHandUserState } from 'app/modules/Hands/user/types'
 import { IIssuesState } from 'app/modules/Issue/slice/types'
 import { ILocationsState } from 'app/modules/Locations/slice/types'
 import { ILogState } from 'app/modules/Log/slice/types'
+import { IMatrixState } from 'app/modules/Matrix/slice/types'
 import { IPositionsState } from 'app/modules/Positions/slice/types'
 import { IProfileState } from 'app/modules/Profile/slice/types'
 import { IQuizState } from 'app/modules/Quiz/slice/types'
@@ -56,4 +57,5 @@ export interface RootState {
     handUser: IHandUserState
     roles: IRoleState
     excel: IExcelState
+    matrix: IMatrixState
 }

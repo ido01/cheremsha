@@ -15,6 +15,7 @@ export const ROLE_NAME: { [key in ERole]: string } = {
     moder: 'Модератор',
     admin: 'Администратор',
     sudo: 'Полный доступ',
+    super: 'Никто',
 }
 
 export const DOCUMENT_STATE: { [key in EState]: string } = {

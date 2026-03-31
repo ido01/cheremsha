@@ -1,5 +1,6 @@
 import {
     AssistWalker as AssistWalkerIcon,
+    Ballot as BallotIcon,
     CalendarMonth as CalendarMonthIcon,
     Contacts as ContactsIcon,
     ListAlt as ListAltIcon,
@@ -70,6 +71,14 @@ export const HomeList: React.FC = () => {
             icon: <SsidChartIcon fontSize="large" />,
             title: 'Статистика',
             path: '/stats',
+        })
+    }
+
+    if (checkStatickRole('show_matrix')) {
+        links.push({
+            icon: <BallotIcon fontSize="large" />,
+            title: 'Матрица',
+            path: '/matrix',
         })
     }
 

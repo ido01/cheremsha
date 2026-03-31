@@ -16,6 +16,7 @@ import { handUserReducer } from 'app/modules/Hands/user'
 import { issuesReducer } from 'app/modules/Issue/slice'
 import { locationsReducer } from 'app/modules/Locations/slice'
 import { logReducer } from 'app/modules/Log/slice'
+import { matrixReducer } from 'app/modules/Matrix/slice'
 import { positionsReducer } from 'app/modules/Positions/slice'
 import { profileReducer } from 'app/modules/Profile/slice'
 import { quizReducer } from 'app/modules/Quiz/slice'
@@ -60,5 +61,6 @@ export function createReducer(injectedReducers: InjectedReducersType = {}): Redu
         handUser: handUserReducer,
         roles: rolesReducer,
         excel: excelReducer,
+        matrix: matrixReducer,
     })
 }

@@ -45,6 +45,8 @@ export const Layout: React.FC<LayoutProps> = ({ children }) => {
                                 sx={{
                                     position: 'relative',
                                     bgcolor: '#FFF',
+                                    backgroundImage:
+                                        'radial-gradient(farthest-corner at 30% 30%, #fff 0%, #fff 60%, #ECEFF1 100%)',
                                     borderRadius: 8,
                                     m: { sm: 0, md: 1 },
                                     boxSizing: 'border-box',

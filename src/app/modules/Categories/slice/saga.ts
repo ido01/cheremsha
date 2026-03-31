@@ -2,21 +2,26 @@ import { PayloadAction } from '@reduxjs/toolkit'
 import { documentsActions } from 'app/modules/Documents/slice'
 import { IPasteDocument } from 'app/modules/Documents/slice/types'
 import { excelActions } from 'app/modules/Excel/slice'
+import { matrixActions } from 'app/modules/Matrix/slice'
 import { quizActions } from 'app/modules/Quiz/slice'
 import { call, put, takeLatest, takeLeading } from 'redux-saga/effects'
-import { ICategoriesResponse, ICategory, ICategoryResponse } from 'types/ICategory'
+import { ICategoriesRequest, ICategoriesResponse, ICategory, ICategoryResponse } from 'types/ICategory'
 import { request } from 'utils/request'
 
 import { categoriesActions } from '.'
 
-export function* loadCategories(action: PayloadAction<string>) {
+export function* loadCategories(action: PayloadAction<ICategoriesRequest>) {
     try {
-        const response: ICategoriesResponse = yield call(request, `categories/${action.payload}`)
+        const response: ICategoriesResponse = yield call(
+            request,
+            `categories/${action.payload.id}${action.payload.path ? `?path=${action.payload.path}` : ''}`
+        )
 
         yield put(categoriesActions.categoriesLoaded(response))
         yield put(documentsActions.documentsLoaded(response.documents))
         yield put(quizActions.quizLoaded(response.quiz))
         yield put(excelActions.excelLoaded(response.excel))
+        yield put(matrixActions.matrixLoaded(response.matrix))
     } catch (error: any) {
         yield put(categoriesActions.statusError())
     }

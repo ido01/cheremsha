@@ -17,6 +17,7 @@ import { selectDocuments, selectSearchDocuments, selectStatus } from 'app/module
 import { ExcelDateRow } from 'app/modules/Excel/components/ExcelDateRow'
 import { ExcelNameRow } from 'app/modules/Excel/components/ExcelNameRow'
 import { ExcelSizeRow } from 'app/modules/Excel/components/ExcelSize'
+import { MobileExcelView } from 'app/modules/Excel/components/MobileExcelView'
 import { excelActions } from 'app/modules/Excel/slice'
 import { selectExcels, selectSearchExcel } from 'app/modules/Excel/slice/selectors'
 import { MobileQuizView } from 'app/modules/Quiz/components/MobileQuizView'
@@ -63,7 +64,7 @@ export const CategoriesList: React.FC<CategoriesListProps> = ({ id, search, did,
     const searchExcel = useSelector(selectSearchExcel)
     const order = useSelector(selectOrder)
 
-    const categories = !search ? getCategories(id || '0') : searchCategories(search, id)
+    const categories = !search ? getCategories(id || '0', 'doc') : searchCategories(search, id)
     const documents = !search ? getDocuments(id || '0') : searchDocuments(search, id)
     const quiz = !search ? getQuiz(id || '0') : searchQuiz(search, id || '0')
     const excel = !search ? getExcel(id) : searchExcel(search, id)
@@ -231,13 +232,21 @@ export const CategoriesList: React.FC<CategoriesListProps> = ({ id, search, did,
         },
     ]
 
-    const mobileView = (item: ICategory | IDocument | IQuiz) => (
+    const mobileView = (item: ICategory | IDocument | IQuiz | IExcel) => (
         <>
             {item.type === 'category' && <MobileCategoryView item={item} />}
 
             {item.type === 'document' && <MobileDocumentView item={item} />}
 
             {item.type === 'quiz' && <MobileQuizView item={item} />}
+
+            {(item.type === 'doc' ||
+                item.type === 'docx' ||
+                item.type === 'pdf' ||
+                item.type === 'ppt' ||
+                item.type === 'pptx' ||
+                item.type === 'xls' ||
+                item.type === 'xlsx') && <MobileExcelView item={item} />}
         </>
     )
 

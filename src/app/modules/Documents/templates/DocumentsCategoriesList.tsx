@@ -61,7 +61,11 @@ export const DocumentsCategoriesList: React.FC<Props> = ({ id, did, qid, eid }) 
     }
 
     useEffect(() => {
-        dispatch(categoriesActions.loadCategories(id))
+        dispatch(
+            categoriesActions.loadCategories({
+                id,
+            })
+        )
     }, [id])
 
     const handleSettingOpen = () => {

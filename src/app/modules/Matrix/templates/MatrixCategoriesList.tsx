@@ -11,7 +11,7 @@ import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 
-export const DocumentsList: React.FC = () => {
+export const MatrixCategoriesList: React.FC = () => {
     const dispatch = useDispatch()
 
     const history = useNavigate()
@@ -22,7 +22,7 @@ export const DocumentsList: React.FC = () => {
     const getCategories = useSelector(selectCategories)
     const checkStatickRole = useSelector(selectCheckAccess)
 
-    const categories = getCategories('0', 'doc')
+    const categories = getCategories('0', 'matrix')
 
     const handleSettingOpen = () => {
         setOpen(true)
@@ -36,7 +36,7 @@ export const DocumentsList: React.FC = () => {
         dispatch(
             categoriesActions.loadCategories({
                 id: '0',
-                path: 'doc',
+                path: 'matrix',
             })
         )
     }, [])
@@ -50,10 +50,10 @@ export const DocumentsList: React.FC = () => {
 
     return (
         <Main
-            title={'Документы'}
+            title={'Матрицы'}
             searchDisabled
             endNode={
-                checkStatickRole('update_main_document') ? (
+                checkStatickRole('update_main_matrix') ? (
                     <IconButton
                         sx={{ ml: 2 }}
                         aria-label="more"
@@ -82,7 +82,7 @@ export const DocumentsList: React.FC = () => {
                                     data={{
                                         title: category.name,
                                         icon: Icon ? <Icon fontSize="large" /> : <></>,
-                                        path: `/doc/${category.id}`,
+                                        path: `/matrix/${category.id}`,
                                     }}
                                     onClick={handleClickRow}
                                 />
@@ -92,8 +92,8 @@ export const DocumentsList: React.FC = () => {
                 </Grid>
             </Box>
 
-            {checkStatickRole('update_main_document') && (
-                <CategoryMainAdminSettings open={open} handleClose={handleClose} />
+            {checkStatickRole('update_main_matrix') && (
+                <CategoryMainAdminSettings path="matrix" open={open} handleClose={handleClose} />
             )}
         </Main>
     )

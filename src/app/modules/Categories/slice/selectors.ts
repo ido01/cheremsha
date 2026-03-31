@@ -17,7 +17,8 @@ export const selectmoveCategoryId = createSelector([selectDomain], (state) => st
 
 export const selectCategories = createSelector(
     [selectDomain],
-    (state) => (id: string) => selectAll(state).filter((category) => category.parentId === id)
+    (state) => (id: string, path: string) =>
+        selectAll(state).filter((category) => category.parentId === id && category.path === path)
 )
 
 export const selectSearchCategories = createSelector(

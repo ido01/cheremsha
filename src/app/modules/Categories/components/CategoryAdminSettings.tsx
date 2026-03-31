@@ -129,9 +129,11 @@ export const CategoryAdminSettings: React.FC<CategoryAdminSettingsProps> = ({ id
                 id: '',
                 type: 'category',
                 name: '',
+                path: 'doc',
                 parentId: id || '0',
                 createdAt: '',
                 icon: '',
+                observers: [],
             })
         )
     }

@@ -1,5 +1,6 @@
 import {
     AssistWalker as AssistWalkerIcon,
+    Ballot as BallotIcon,
     CalendarMonth as CalendarMonthIcon,
     Contacts as ContactsIcon,
     Group as GroupIcon,
@@ -79,6 +80,14 @@ export const LeftMenu: React.FC = () => {
             icon: <TaskAltIcon />,
             title: 'Задачи',
             path: '/issues',
+        })
+    }
+
+    if (checkStatickRole('show_matrix')) {
+        menuItems.push({
+            icon: <BallotIcon />,
+            title: 'Матрица',
+            path: '/matrix',
         })
     }
 

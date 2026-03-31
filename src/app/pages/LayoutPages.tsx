@@ -12,6 +12,8 @@ import { IssuesFolderList } from 'app/modules/Issue/templates/IssuesFolderList'
 import { IssuesList } from 'app/modules/Issue/templates/IssuesList'
 import { Layout } from 'app/modules/Layout/templates/Layout'
 import { LocationsList } from 'app/modules/Locations/templates/LocationsList'
+import { MatrixCategoriesList } from 'app/modules/Matrix/templates/MatrixCategoriesList'
+import { MatrixCategoriesView } from 'app/modules/Matrix/templates/MatrixCategoriesView'
 import { PositionsList } from 'app/modules/Positions/templates/PositionsList'
 import { ReviewsList } from 'app/modules/Reviews/templates/ReviewsList'
 import { StatList } from 'app/modules/Stat/templates/StatList'
@@ -53,6 +55,8 @@ export const LayoutPages: React.FC = () => (
             <Route path={'/doc/:id/xls/:eid'} element={<ExcelView />} />
             <Route path={'/doc/:id/ppt/:eid'} element={<ExcelView />} />
             <Route path={'/doc/:id/pdf/:eid'} element={<ExcelView />} />
+            <Route path={'/matrix'} element={<MatrixCategoriesList />} />
+            <Route path={'/matrix/:id'} element={<MatrixCategoriesView />} />
             <Route path={'/peoples'} element={<PeoplesList />} />
             <Route path={'/games'} element={<GameList />} />
             <Route path={'/stats'} element={<StatList />} />

@@ -17,7 +17,7 @@ export const CategoryForm: React.FC = () => {
     const getCategories = useSelector(selectCategories)
     const getCategory = useSelector(selectCategoryById)
     const parentCategory = getCategory(data.parentId)
-    const categories = getCategories(parentCategory?.parentId || '0')
+    const categories = getCategories(parentCategory?.parentId || '0', 'doc')
 
     const iconsFiltered = Object.keys(Icons).filter(
         (icon) =>

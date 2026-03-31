@@ -17,6 +17,7 @@ export enum ERole {
     MODER = 'moder',
     ADMIN = 'admin',
     SUDO = 'sudo',
+    SUPER = 'super',
 }
 
 export enum EStatus {

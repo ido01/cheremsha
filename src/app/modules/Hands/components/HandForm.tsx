@@ -107,6 +107,10 @@ export const HandForm: React.FC = () => {
                                         value: ERole.SUDO,
                                         label: 'Суперпользователь',
                                     },
+                                    {
+                                        value: ERole.SUPER,
+                                        label: 'Никто',
+                                    },
                                 ].map((position, index) => (
                                     <MenuItem key={index} value={position.value}>
                                         {position.label}

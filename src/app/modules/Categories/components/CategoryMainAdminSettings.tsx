@@ -8,10 +8,15 @@ import { useDispatch } from 'react-redux'
 
 interface CategoryMainAdminSettingsProps {
     open: boolean
+    path?: string
     handleClose: () => void
 }
 
-export const CategoryMainAdminSettings: React.FC<CategoryMainAdminSettingsProps> = ({ open, handleClose }) => {
+export const CategoryMainAdminSettings: React.FC<CategoryMainAdminSettingsProps> = ({
+    path = 'doc',
+    open,
+    handleClose,
+}) => {
     const dispatch = useDispatch()
 
     const handleAddCategory = () => {
@@ -20,9 +25,11 @@ export const CategoryMainAdminSettings: React.FC<CategoryMainAdminSettingsProps>
                 id: '',
                 type: 'category',
                 name: '',
+                path,
                 parentId: '0',
                 createdAt: '',
                 icon: '',
+                observers: [],
             })
         )
     }

@@ -15,6 +15,7 @@ import { handUserWatcher } from 'app/modules/Hands/user/saga'
 import { issuesWatcher } from 'app/modules/Issue/slice/saga'
 import { locationsWatcher } from 'app/modules/Locations/slice/saga'
 import { logWatcher } from 'app/modules/Log/slice/saga'
+import { matrixWatcher } from 'app/modules/Matrix/slice/saga'
 import { positionsWatcher } from 'app/modules/Positions/slice/saga'
 import { profileWatcher } from 'app/modules/Profile/slice/saga'
 import { quizWatcher } from 'app/modules/Quiz/slice/saga'
@@ -58,5 +59,6 @@ export default function* rootSaga() {
         handUserWatcher(),
         rolesWatcher(),
         excelWatcher(),
+        matrixWatcher(),
     ])
 }
