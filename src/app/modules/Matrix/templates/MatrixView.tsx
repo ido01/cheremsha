@@ -1,9 +1,21 @@
+import { Delete as DeleteIcon, Edit as EditIcon } from '@mui/icons-material'
 import { LoadingButton } from '@mui/lab'
-import { Box, Container, Typography } from '@mui/material'
+import {
+    Box,
+    Button,
+    Container,
+    Dialog,
+    DialogActions,
+    DialogContent,
+    DialogContentText,
+    DialogTitle,
+    IconButton,
+    Typography,
+} from '@mui/material'
 import { Modal } from 'app/components/Modal'
 import { AvatarImage } from 'app/modules/Profile/components/AvatarImage'
 import { selectCheckAccess } from 'app/modules/Role/selectors'
-import React from 'react'
+import React, { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { EStatus } from 'types'
 
@@ -12,6 +24,8 @@ import { selectMatrixById, selectModal, selectStatus } from '../slice/selectors'
 
 export const MatrixView: React.FC = () => {
     const dispatch = useDispatch()
+
+    const [openDelete, setOpenDelete] = useState(false)
 
     const { stock, empty } = useSelector(selectStatus)
     const { activeId, isOpen } = useSelector(selectModal)
@@ -29,6 +43,28 @@ export const MatrixView: React.FC = () => {
 
     const handleStock = () => {
         dispatch(matrixActions.stock(activeId))
+    }
+
+    const handleOpenDelete = () => {
+        setOpenDelete(true)
+    }
+
+    const handleCloseDelete = () => {
+        setOpenDelete(false)
+    }
+
+    const handleDeleteDocument = () => {
+        if (matrix) {
+            dispatch(matrixActions.deleteMatrix(matrix.id))
+            handleClose()
+        }
+        setOpenDelete(false)
+    }
+
+    const handleEditDocument = () => {
+        if (matrix) {
+            dispatch(matrixActions.openEditModal(matrix))
+        }
     }
 
     return (
@@ -115,6 +151,32 @@ export const MatrixView: React.FC = () => {
                 </Container>
             </Box>
 
+            {checkStatickRole('update_matrix') && (
+                <Box
+                    sx={{
+                        position: 'absolute',
+                        bottom: '4px',
+                        left: 0,
+                        m: 1,
+                        p: 1,
+                        borderRadius: 8,
+                        backdropFilter: 'blur(4px)',
+                        bgcolor: '#FDFDFD30',
+                        border: '1px solid #F5F5F5',
+                    }}
+                >
+                    <Box display={'flex'} gap={1}>
+                        <IconButton color="error" onClick={handleOpenDelete} sx={{ bgcolor: '#FDFDFD90' }}>
+                            <DeleteIcon />
+                        </IconButton>
+
+                        <IconButton color="info" onClick={handleEditDocument} sx={{ bgcolor: '#FDFDFD90' }}>
+                            <EditIcon />
+                        </IconButton>
+                    </Box>
+                </Box>
+            )}
+
             <Box
                 sx={{
                     position: 'absolute',
@@ -153,6 +215,24 @@ export const MatrixView: React.FC = () => {
                     В заказ
                 </LoadingButton>
             </Box>
+
+            <Dialog open={openDelete} onClose={handleCloseDelete} aria-labelledby="alert-dialog-title">
+                <DialogTitle id="alert-dialog-title">Внимание!</DialogTitle>
+
+                <DialogContent>
+                    <DialogContentText>{`Вы уверены, что хотите удалить Матрицу "${matrix?.name}"?`}</DialogContentText>
+                </DialogContent>
+
+                <DialogActions>
+                    <Button onClick={handleCloseDelete} color="primary">
+                        Отмена
+                    </Button>
+
+                    <LoadingButton onClick={handleDeleteDocument} autoFocus color="error">
+                        Удалить
+                    </LoadingButton>
+                </DialogActions>
+            </Dialog>
         </Modal>
     )
 }

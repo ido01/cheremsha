@@ -147,7 +147,7 @@ export function* searchMatrix(action: PayloadAction<string>) {
 
 export function* deleteMatrix(action: PayloadAction<string>) {
     try {
-        yield call(request, `hands/${action.payload}`, {
+        yield call(request, `matrix/${action.payload}`, {
             method: 'DELETE',
         })
 
