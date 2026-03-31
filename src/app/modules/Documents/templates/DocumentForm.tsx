@@ -206,25 +206,29 @@ export const DocumentForm: React.FC = () => {
                     </Box>
 
                     {formik.values.info
+                        .map((info, index) => ({
+                            ...info,
+                            index,
+                        }))
                         .filter((info) => info.type !== 'delete')
-                        .map((info, index) => (
-                            <Box key={index} display={'flex'} mt={2} alignItems={'flex-start'}>
+                        .map((info) => (
+                            <Box key={`${info.id}_${info.index}`} display={'flex'} mt={2} alignItems={'flex-start'}>
                                 {info.type === 'title' && (
                                     <TextField
                                         fullWidth
                                         variant="outlined"
                                         label="Подзаголовок"
-                                        name={`info.${index}.text`}
-                                        value={formik.values.info[index].text || ''}
+                                        name={`info.${info.index}.text`}
+                                        value={formik.values.info[info.index].text || ''}
                                         onChange={formik.handleChange}
                                     />
                                 )}
 
                                 {info.type === 'text' && (
                                     <TextAreaEdit
-                                        value={data.info[index]?.text || ''}
+                                        value={data.info[info.index]?.text || ''}
                                         onChange={(value: string) => {
-                                            formik.setFieldValue(`info.${index}.text`, value)
+                                            formik.setFieldValue(`info.${info.index}.text`, value)
                                         }}
                                     />
                                 )}
@@ -236,8 +240,8 @@ export const DocumentForm: React.FC = () => {
                                         minRows={3}
                                         variant="outlined"
                                         label="Код видео"
-                                        name={`info.${index}.text`}
-                                        value={formik.values.info[index].text || ''}
+                                        name={`info.${info.index}.text`}
+                                        value={formik.values.info[info.index].text || ''}
                                         onChange={formik.handleChange}
                                     />
                                 )}
@@ -245,7 +249,7 @@ export const DocumentForm: React.FC = () => {
                                 {info.type === 'image' && (
                                     <Box flex="1 0 0%">
                                         {!info.image ? (
-                                            <ImageUploadForm index={index} />
+                                            <ImageUploadForm index={info.index} />
                                         ) : (
                                             <Box component={'img'} src={info.image.url} maxWidth="100%" />
                                         )}
@@ -253,21 +257,21 @@ export const DocumentForm: React.FC = () => {
                                 )}
 
                                 <Box display={'flex'} flexDirection={'column'} sx={{ ml: 2 }}>
-                                    <IconButton disabled={index === 0} onClick={() => handleUpInfo(index)}>
+                                    <IconButton disabled={info.index === 0} onClick={() => handleUpInfo(info.index)}>
                                         <KeyboardArrowUpIcon />
                                     </IconButton>
 
                                     <IconButton
                                         disabled={
                                             formik.values.info.filter((info) => info.type !== 'delete').length ===
-                                            index + 1
+                                            info.index + 1
                                         }
-                                        onClick={() => handleDownInfo(index)}
+                                        onClick={() => handleDownInfo(info.index)}
                                     >
                                         <KeyboardArrowDownIcon />
                                     </IconButton>
-                                    {info.type === 'image' && <ImageUploadForm isEdit index={index} />}
-                                    <IconButton color="error" onClick={() => handleRemoveInfo(index, info.id)}>
+                                    {info.type === 'image' && <ImageUploadForm isEdit index={info.index} />}
+                                    <IconButton color="error" onClick={() => handleRemoveInfo(info.index, info.id)}>
                                         <DeleteIcon />
                                     </IconButton>
                                 </Box>

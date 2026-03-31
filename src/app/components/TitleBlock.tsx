@@ -116,12 +116,14 @@ export const TitleBlock: React.FC<TitleBlockProps> = ({
                             sx={{
                                 borderRadius: 8,
                                 overflow: 'hidden',
+                                border: '1px solid #B0BEC5',
                             }}
                             InputProps={{
                                 disableUnderline: true,
                                 startAdornment: <SearchIcon style={{ color: '#c7c7cc' }} />,
                                 sx: {
                                     borderRadius: '32px',
+                                    backgroundColor: '#fff',
                                 },
                             }}
                         />
