@@ -1,5 +1,6 @@
 import { IAchieveState } from 'app/modules/Achieve/slice/types'
 import { IAchieveUserState } from 'app/modules/AchieveUser/slice/types'
+import { IActionsState } from 'app/modules/Actions/slice/types'
 import { IAuthState } from 'app/modules/Auth/slice/types'
 import { ICategoriesState } from 'app/modules/Categories/slice/types'
 import { ICommentsState } from 'app/modules/Comments/slice/types'
@@ -32,6 +33,7 @@ import { IUsersState } from 'app/modules/Users/slice/types'
 export interface RootState {
     achieve: IAchieveState
     achieve_user: IAchieveUserState
+    actions: IActionsState
     auth: IAuthState
     birthdays: IBirthdayState
     categories: ICategoriesState

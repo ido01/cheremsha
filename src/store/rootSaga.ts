@@ -1,5 +1,6 @@
 import { achieveWatcher } from 'app/modules/Achieve/slice/saga'
 import { achieveUserWatcher } from 'app/modules/AchieveUser/slice/saga'
+import { actionsWatcher } from 'app/modules/Actions/slice/saga'
 import { authWatcher } from 'app/modules/Auth/slice/saga'
 import { categoriesWatcher } from 'app/modules/Categories/slice/saga'
 import { commentsWatcher } from 'app/modules/Comments/slice/saga'
@@ -35,6 +36,7 @@ export default function* rootSaga() {
         achieveWatcher(),
         achieveUserWatcher(),
         authWatcher(),
+        actionsWatcher(),
         birthdaysWatcher(),
         categoriesWatcher(),
         documentsWatcher(),

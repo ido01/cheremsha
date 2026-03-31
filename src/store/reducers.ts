@@ -1,6 +1,7 @@
 import { combineReducers, Reducer } from '@reduxjs/toolkit'
 import { achieveReducer } from 'app/modules/Achieve/slice'
 import { achieveUserReducer } from 'app/modules/AchieveUser/slice'
+import { actionsReducer } from 'app/modules/Actions/slice'
 import { authReducer } from 'app/modules/Auth/slice'
 import { categoriesReducer } from 'app/modules/Categories/slice'
 import { commentsReducer } from 'app/modules/Comments/slice'
@@ -36,6 +37,7 @@ export function createReducer(injectedReducers: InjectedReducersType = {}): Redu
         ...injectedReducers,
         achieve: achieveReducer,
         achieve_user: achieveUserReducer,
+        actions: actionsReducer,
         auth: authReducer,
         birthdays: birthdaysReducer,
         categories: categoriesReducer,

@@ -3,6 +3,7 @@ import {
     Apartment as ApartmentIcon,
     Grade as GradeIcon,
     Key as KeyIcon,
+    Report as ReportIcon,
     TableRestaurant as TableRestaurantIcon,
 } from '@mui/icons-material'
 import { Box, Grid, useMediaQuery, useTheme } from '@mui/material'
@@ -65,6 +66,14 @@ export const AdminList: React.FC = () => {
                 icon: <TableRestaurantIcon fontSize="large" />,
                 title: 'Столы',
                 path: '/tables',
+            })
+        }
+
+        if (checkStatickRole('actions_view')) {
+            links.push({
+                icon: <ReportIcon fontSize="large" />,
+                title: 'Логи',
+                path: '/actions',
             })
         }
     }

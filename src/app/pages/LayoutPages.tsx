@@ -1,4 +1,5 @@
 import { AchieveList } from 'app/modules/Achieve/templates/AchieveList'
+import { ActionsList } from 'app/modules/Actions/templates/ActionsList'
 import { AdminList } from 'app/modules/Admin/templates/AdminList'
 import { DocumentResultList } from 'app/modules/DocumentResults/templates/DocumentResultList'
 import { CategoriesView } from 'app/modules/Documents/templates/CategoriesView'
@@ -64,6 +65,7 @@ export const LayoutPages: React.FC = () => (
             <Route path={'/stats'} element={<StatList />} />
             <Route path={'/issues'} element={<IssuesList />} />
             <Route path={'/issues/:id'} element={<IssuesFolderList />} />
+            <Route path={'/actions'} element={<ActionsList />} />
 
             <Route path={'/*'} element={<MainPage />} />
         </Routes>
