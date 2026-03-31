@@ -1,5 +1,6 @@
 import { AchieveList } from 'app/modules/Achieve/templates/AchieveList'
 import { AdminList } from 'app/modules/Admin/templates/AdminList'
+import { DocumentResultList } from 'app/modules/DocumentResults/templates/DocumentResultList'
 import { CategoriesView } from 'app/modules/Documents/templates/CategoriesView'
 import { DocumentsList } from 'app/modules/Documents/templates/DocumentsList'
 import { DocumentView } from 'app/modules/Documents/templates/DocumentView'
@@ -55,6 +56,7 @@ export const LayoutPages: React.FC = () => (
             <Route path={'/doc/:id/xls/:eid'} element={<ExcelView />} />
             <Route path={'/doc/:id/ppt/:eid'} element={<ExcelView />} />
             <Route path={'/doc/:id/pdf/:eid'} element={<ExcelView />} />
+            <Route path="/doc/:id/result" element={<DocumentResultList />} />
             <Route path={'/matrix'} element={<MatrixCategoriesList />} />
             <Route path={'/matrix/:id'} element={<MatrixCategoriesView />} />
             <Route path={'/peoples'} element={<PeoplesList />} />

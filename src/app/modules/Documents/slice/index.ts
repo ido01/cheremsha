@@ -1,6 +1,6 @@
 import { createEntityAdapter, createSlice, PayloadAction } from '@reduxjs/toolkit'
 import { EState, EStatus } from 'types'
-import { IDocument } from 'types/IDocument'
+import { IDocument, IDocumentResponse } from 'types/IDocument'
 import { IDocumentStateRequest } from 'types/IDocumentState'
 import { IFile } from 'types/IFile'
 import { TTableOrder } from 'types/ITableDisplay'
@@ -87,6 +87,14 @@ const slice = createSlice({
         documentsLoaded(state, action: PayloadAction<IDocument[]>) {
             documentsAdapter.setMany(state, action.payload)
             state.status = EStatus.FINISHED
+        },
+        loadDocumentById(state, action: PayloadAction<string>) {
+            state.status = EStatus.PENDING
+            action.payload
+        },
+        documentByIdLoaded(state, action: PayloadAction<IDocumentResponse>) {
+            state.status = EStatus.FINISHED
+            documentsAdapter.setOne(state, action.payload.data)
         },
         openEditModal(state, action: PayloadAction<IDocument>) {
             state.form.status = EStatus.INITIAL

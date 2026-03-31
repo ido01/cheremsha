@@ -237,8 +237,19 @@ export function* deleteDocument(action: PayloadAction<string>) {
     }
 }
 
+export function* loadDocumentById(action: PayloadAction<string>) {
+    try {
+        const response: IDocumentResponse = yield call(request, `documents/${action.payload}`)
+
+        yield put(documentsActions.documentByIdLoaded(response))
+    } catch (error: any) {
+        yield put(documentsActions.statusError())
+    }
+}
+
 export function* documentsWatcher() {
     yield takeLeading(documentsActions.loadDocuments.type, loadDocuments)
+    yield takeLeading(documentsActions.loadDocumentById.type, loadDocumentById)
     yield takeLeading(documentsActions.getUserTask.type, getUserTask)
     yield takeLeading(documentsActions.completeUserTask.type, completeUserTask)
     yield takeLeading(documentsActions.rejectUserTask.type, rejectUserTask)

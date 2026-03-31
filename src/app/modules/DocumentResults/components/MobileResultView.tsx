@@ -4,9 +4,9 @@ import { selectLocation } from 'app/modules/Locations/slice/selectors'
 import { AvatarImage } from 'app/modules/Profile/components/AvatarImage'
 import React from 'react'
 import { useSelector } from 'react-redux'
-import { EQuizState } from 'types/IQuizState'
+import { EState } from 'types'
 import { IUser } from 'types/IUser'
-import { convertResultState } from 'utils/convertUtils'
+import { convertDocumentResultState } from 'utils/convertUtils'
 
 interface MobileUserViewProps {
     user: IUser
@@ -55,19 +55,16 @@ export const MobileResultView: React.FC<MobileUserViewProps> = ({ user }) => {
                         variant="body2"
                         sx={(theme) => ({
                             color:
-                                !user.quiz ||
-                                user.quiz.state === EQuizState.INITIAL ||
-                                user.quiz.state === EQuizState.REJECTED ||
-                                user.quiz.state === EQuizState.PENDING
-                                    ? theme.palette.primary.main
-                                    : user.quiz.state === EQuizState.DONE
+                                !user.document || user.document.state === EState.INITIAL
+                                    ? theme.palette.error.main
+                                    : user.document.state === EState.PENDING
                                     ? theme.palette.warning.main
-                                    : user.quiz.state === EQuizState.COMPLETED
+                                    : user.document.state === EState.COMPLETED
                                     ? theme.palette.success.main
-                                    : theme.palette.error.main,
+                                    : theme.palette.success.main,
                         })}
                     >
-                        {convertResultState(user.quiz?.state || EQuizState.INITIAL)}
+                        {convertDocumentResultState(user.document?.state || EState.INITIAL)}
                     </Typography>
                 </Box>
             </Box>

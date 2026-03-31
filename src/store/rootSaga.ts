@@ -3,6 +3,7 @@ import { achieveUserWatcher } from 'app/modules/AchieveUser/slice/saga'
 import { authWatcher } from 'app/modules/Auth/slice/saga'
 import { categoriesWatcher } from 'app/modules/Categories/slice/saga'
 import { commentsWatcher } from 'app/modules/Comments/slice/saga'
+import { documentResultsWatcher } from 'app/modules/DocumentResults/slice/saga'
 import { documentsWatcher } from 'app/modules/Documents/slice/saga'
 import { eventsWatcher } from 'app/modules/Events/slice/events/saga'
 import { birthdaysWatcher } from 'app/modules/Events/slice/users/saga'
@@ -37,6 +38,7 @@ export default function* rootSaga() {
         birthdaysWatcher(),
         categoriesWatcher(),
         documentsWatcher(),
+        documentResultsWatcher(),
         eventsWatcher(),
         favoritesWatcher(),
         fileWatcher(),

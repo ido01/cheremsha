@@ -1,4 +1,5 @@
 import {
+    BarChart as BarChartIcon,
     ContentCopy as ContentCopyIcon,
     ContentCut as ContentCutIcon,
     Delete as DeleteIcon,
@@ -23,7 +24,7 @@ import { Modal } from 'app/components/Modal'
 import { selectCheckAccess } from 'app/modules/Role/selectors'
 import React, { useMemo, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { useNavigate } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { toast } from 'react-toastify'
 import { EState } from 'types'
 
@@ -201,6 +202,20 @@ export const DocumentModal: React.FC = () => {
                             <IconButton color="success" onClick={handleShareDocument} sx={{ bgcolor: '#FDFDFD90' }}>
                                 <IosShareIcon />
                             </IconButton>
+
+                            <LoadingButton
+                                component={Link}
+                                onClick={handleClose}
+                                to={`/doc/${document?.id}/result`}
+                                color="warning"
+                                sx={{
+                                    minWidth: 0,
+                                    borderRadius: 8,
+                                    bgcolor: '#FDFDFD90',
+                                }}
+                            >
+                                <BarChartIcon />
+                            </LoadingButton>
                         </Box>
                     </Box>
                 ) : (

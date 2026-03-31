@@ -3,6 +3,7 @@ import { IAchieveUserState } from 'app/modules/AchieveUser/slice/types'
 import { IAuthState } from 'app/modules/Auth/slice/types'
 import { ICategoriesState } from 'app/modules/Categories/slice/types'
 import { ICommentsState } from 'app/modules/Comments/slice/types'
+import { IDocumentResultsState } from 'app/modules/DocumentResults/slice/types'
 import { IDocumentsState } from 'app/modules/Documents/slice/types'
 import { IEventsState } from 'app/modules/Events/slice/events/types'
 import { IBirthdayState } from 'app/modules/Events/slice/users/types'
@@ -35,6 +36,7 @@ export interface RootState {
     birthdays: IBirthdayState
     categories: ICategoriesState
     documents: IDocumentsState
+    documentResults: IDocumentResultsState
     events: IEventsState
     favorites: IFavoritesState
     file: IFileState

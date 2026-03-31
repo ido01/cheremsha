@@ -3,20 +3,17 @@ import { IconButton } from '@mui/material'
 import { BreadcrumbItem } from 'app/components/Breadcrumbs'
 import { CategoryAdminSettings } from 'app/modules/Categories/components/CategoryAdminSettings'
 import { CategoriesBigList } from 'app/modules/Categories/templates/CategoriesBigList'
-import { documentsActions } from 'app/modules/Documents/slice'
 import { DocumentModal } from 'app/modules/Documents/templates/DocumentModal'
 import { Main } from 'app/modules/Layout/templates/Main'
 import { selectProfileRole } from 'app/modules/Profile/slice/selectors'
-import React, { useEffect, useState } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
+import React, { useState } from 'react'
+import { useSelector } from 'react-redux'
 import { useParams } from 'react-router-dom'
 import { checkAdminAccess } from 'utils/roles'
 
 import { FilterBlock } from '../components/FilterBlock'
 
 export const TasksList: React.FC = () => {
-    const dispatch = useDispatch()
-
     const { id } = useParams<{ id?: string }>()
 
     const [open, setOpen] = useState<boolean>(false)
@@ -29,10 +26,6 @@ export const TasksList: React.FC = () => {
             link: '/tasks',
         },
     ]
-
-    useEffect(() => {
-        dispatch(documentsActions.loadDocuments('task'))
-    }, [])
 
     const handleSettingOpen = () => {
         setOpen(true)

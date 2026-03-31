@@ -31,6 +31,10 @@ export const convertResultState = (state: EQuizState) => {
     return RESULT_STATE[state as EQuizState]
 }
 
+export const convertDocumentResultState = (state: EState) => {
+    return DOCUMENT_STATE[state as EState]
+}
+
 export const convertQuestionType = (state: EQuestionType) => {
     return QUESTION_TYPE[state as EQuestionType]
 }

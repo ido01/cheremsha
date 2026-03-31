@@ -2,6 +2,7 @@ import { EGender, ERole } from '.'
 import { IAchieve } from './IAchieve'
 import { IFile } from './IFile'
 import { IQuizState } from './IQuizState'
+import { IState } from './IState'
 
 export interface TelegramAuth {
     auth_date: number
@@ -79,6 +80,7 @@ export interface IUser {
     createdAt: string
     state?: IQuizState
     quiz?: IQuizState
+    document?: IState
     achieve?: IAchieve
     access: string[]
     hands?: string[]

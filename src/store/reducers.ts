@@ -4,6 +4,7 @@ import { achieveUserReducer } from 'app/modules/AchieveUser/slice'
 import { authReducer } from 'app/modules/Auth/slice'
 import { categoriesReducer } from 'app/modules/Categories/slice'
 import { commentsReducer } from 'app/modules/Comments/slice'
+import { documentResultsReducer } from 'app/modules/DocumentResults/slice'
 import { documentsReducer } from 'app/modules/Documents/slice'
 import { eventsReducer } from 'app/modules/Events/slice/events'
 import { birthdaysReducer } from 'app/modules/Events/slice/users'
@@ -39,6 +40,7 @@ export function createReducer(injectedReducers: InjectedReducersType = {}): Redu
         birthdays: birthdaysReducer,
         categories: categoriesReducer,
         documents: documentsReducer,
+        documentResults: documentResultsReducer,
         events: eventsReducer,
         favorites: favoritesReducer,
         file: fileReducer,

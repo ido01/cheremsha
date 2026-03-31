@@ -211,7 +211,7 @@ export const DocumentForm: React.FC = () => {
                             index,
                         }))
                         .filter((info) => info.type !== 'delete')
-                        .map((info) => (
+                        .map((info, index) => (
                             <Box key={`${info.id}_${info.index}`} display={'flex'} mt={2} alignItems={'flex-start'}>
                                 {info.type === 'title' && (
                                     <TextField
@@ -257,15 +257,12 @@ export const DocumentForm: React.FC = () => {
                                 )}
 
                                 <Box display={'flex'} flexDirection={'column'} sx={{ ml: 2 }}>
-                                    <IconButton disabled={info.index === 0} onClick={() => handleUpInfo(info.index)}>
+                                    <IconButton disabled={index === 0} onClick={() => handleUpInfo(info.index)}>
                                         <KeyboardArrowUpIcon />
                                     </IconButton>
 
                                     <IconButton
-                                        disabled={
-                                            formik.values.info.filter((info) => info.type !== 'delete').length ===
-                                            info.index + 1
-                                        }
+                                        disabled={formik.values.info.length === info.index + 1}
                                         onClick={() => handleDownInfo(info.index)}
                                     >
                                         <KeyboardArrowDownIcon />
