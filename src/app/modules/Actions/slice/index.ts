@@ -13,6 +13,7 @@ const slice = createSlice({
         ids: [],
         entities: {},
         status: EStatus.INITIAL,
+        statusUser: EStatus.INITIAL,
         total_count: 0,
         order: {
             row: 'createdAt',
@@ -27,6 +28,16 @@ const slice = createSlice({
             method: '',
             query: '',
         },
+        paginationUser: {
+            limit: 25,
+            page: 1,
+            total_pages: 0,
+        },
+        filterUser: {
+            method: '',
+            query: '',
+        },
+        userActions: [],
     }),
     reducers: {
         cleanActions(state) {
@@ -35,17 +46,32 @@ const slice = createSlice({
             state.pagination.total_pages = 1
             state.total_count = 0
         },
+        cleanActionsUser(state) {
+            state.userActions = []
+        },
         setFilter(state, action: PayloadAction<IActionFilter>) {
             state.filter = action.payload
         },
+        setFilterUser(state, action: PayloadAction<IActionFilter>) {
+            state.filterUser = action.payload
+        },
         loadActions(state) {
             state.status = EStatus.PENDING
+        },
+        loadUserActions(state, action: PayloadAction<string>) {
+            state.statusUser = EStatus.PENDING
+            action
         },
         actionsLoaded(state, action: PayloadAction<IActionResponse>) {
             actionsAdapter.setAll(state, action.payload.data)
             state.pagination.total_pages = action.payload.meta.totalPages
             state.total_count = action.payload.meta.total
             state.status = EStatus.FINISHED
+        },
+        userActionsLoaded(state, action: PayloadAction<IActionResponse>) {
+            state.userActions = action.payload.data
+            state.paginationUser.total_pages = action.payload.meta.totalPages
+            state.statusUser = EStatus.FINISHED
         },
         setOrder(state, action: PayloadAction<TTableOrder>) {
             state.order = action.payload
@@ -56,6 +82,13 @@ const slice = createSlice({
         },
         setPage(state, action: PayloadAction<number>) {
             state.pagination.page = action.payload
+        },
+        setLimitUser(state, action: PayloadAction<TLimit>) {
+            state.paginationUser.page = 1
+            state.paginationUser.limit = action.payload
+        },
+        setPageUser(state, action: PayloadAction<number>) {
+            state.paginationUser.page = action.payload
         },
         statusError(state) {
             state.status = EStatus.ERROR

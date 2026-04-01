@@ -10,8 +10,12 @@ export interface IActionFilter {
 
 export interface IActionsState extends EntityState<IAction> {
     status: EStatus
+    statusUser: EStatus
     order: TTableOrder
     total_count: number
     pagination: TTablePagination
     filter: IActionFilter
+    paginationUser: TTablePagination
+    filterUser: IActionFilter
+    userActions: IAction[]
 }

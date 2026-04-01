@@ -2,6 +2,7 @@ import { StarBorder as StarBorderIcon, StarRate as StarRateIcon } from '@mui/ico
 import { TabContext, TabList, TabPanel } from '@mui/lab'
 import { Box, Container, IconButton, Modal as ModalComponent, Tab, Typography } from '@mui/material'
 import { Modal } from 'app/components/Modal'
+import { UserActionsList } from 'app/modules/Actions/templates/UserActionList'
 import { UserList } from 'app/modules/Hands/templates/UserList'
 import { logActions } from 'app/modules/Log/slice'
 import { LogList } from 'app/modules/Log/templates/LogList'
@@ -123,6 +124,9 @@ export const UserModal: React.FC = () => {
                                     {checkStatickRole('show_user_test_tab') && (
                                         <Tab label="Тестирование" value="test" sx={{ px: 3 }} />
                                     )}
+                                    {checkStatickRole('actions_view') && (
+                                        <Tab label="Логи" value="log" sx={{ px: 3 }} />
+                                    )}
                                     {checkStatickRole('show_user_history_tab') && (
                                         <Tab label="Изменения" value="history" sx={{ px: 3 }} />
                                     )}
@@ -138,6 +142,9 @@ export const UserModal: React.FC = () => {
                             </TabPanel>
                             <TabPanel value="test" sx={{ p: 0 }}>
                                 {user && <ResultUserList user={user} />}
+                            </TabPanel>
+                            <TabPanel value="log" sx={{ p: 0 }}>
+                                <UserActionsList />
                             </TabPanel>
                             <TabPanel value="history" sx={{ p: 0 }}>
                                 <LogList />

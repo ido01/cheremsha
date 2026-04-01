@@ -3,6 +3,8 @@ import { Box, IconButton, Typography, useMediaQuery, useTheme } from '@mui/mater
 import Table from 'app/components/Table'
 import { Main } from 'app/modules/Layout/templates/Main'
 import { AvatarImage } from 'app/modules/Profile/components/AvatarImage'
+import { usersActions } from 'app/modules/Users/slice'
+import { UserModal } from 'app/modules/Users/templates/UserModal'
 import dayjs from 'dayjs'
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
@@ -35,7 +37,7 @@ export const ActionsList: React.FC = () => {
             name: 'method',
             xs: 6,
             element: (action: IAction) => (
-                <Box display={'flex'} gap={2} alignItems={'center'}>
+                <Box display={'flex'} gap={2} alignItems={'center'} sx={{ overflow: 'hidden' }}>
                     <Box
                         sx={{
                             px: 1,
@@ -79,7 +81,16 @@ export const ActionsList: React.FC = () => {
                         {action.method}
                     </Box>
 
-                    <Typography variant="body1" color="grey.900">
+                    <Typography
+                        variant="body1"
+                        color="grey.900"
+                        sx={{
+                            overflow: 'hidden',
+                            whiteSpace: 'nowrap',
+                            textOverflow: 'ellipsis',
+                            width: '100%',
+                        }}
+                    >
                         {action.url}
                     </Typography>
                 </Box>
@@ -88,7 +99,6 @@ export const ActionsList: React.FC = () => {
         {
             title: 'Дата создания',
             name: 'createdAt',
-            isSort: true,
             xs: 2,
             element: (action: IAction) => (
                 <Typography variant="body2" color="grey.600">
@@ -139,6 +149,12 @@ export const ActionsList: React.FC = () => {
         dispatch(actionsActions.loadActions())
     }
 
+    const handleClickRow = (action: IAction) => {
+        dispatch(usersActions.userLoaded(action.user))
+        dispatch(usersActions.setActiveId(action.uid))
+        dispatch(usersActions.showModal())
+    }
+
     return (
         <Main
             title={'Логи'}
@@ -178,7 +194,10 @@ export const ActionsList: React.FC = () => {
                     handleOrderChange={handleOrderChange}
                     handleLimitChange={handleLimitChange}
                     handlePageChange={handlePageChange}
+                    handleClickRow={handleClickRow}
                 />
+
+                <UserModal />
             </Box>
         </Main>
     )
