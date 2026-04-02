@@ -8,7 +8,7 @@ import { EStatus } from 'types'
 import { IAction } from 'types/IAction'
 import { TLimit, TTableRowData } from 'types/ITableDisplay'
 
-import { MobileActionView } from '../components/MobileActionView'
+import { MobileAction } from '../components/MobileAction'
 import { actionsActions } from '../slice'
 import {
     selectActionsUser,
@@ -34,7 +34,7 @@ export const UserActionsList: React.FC = () => {
             name: 'method',
             xs: 8,
             element: (action: IAction) => (
-                <Box display={'flex'} gap={2} alignItems={'center'}>
+                <Box display={'flex'} gap={2} alignItems={'center'} sx={{ overflow: 'hidden' }}>
                     <Box
                         sx={{
                             px: 1,
@@ -78,7 +78,16 @@ export const UserActionsList: React.FC = () => {
                         {action.method}
                     </Box>
 
-                    <Typography variant="body1" color="grey.900">
+                    <Typography
+                        variant="body1"
+                        color="grey.900"
+                        sx={{
+                            overflow: 'hidden',
+                            whiteSpace: 'nowrap',
+                            textOverflow: 'ellipsis',
+                            width: '100%',
+                        }}
+                    >
                         {action.url}
                     </Typography>
                 </Box>
@@ -90,13 +99,13 @@ export const UserActionsList: React.FC = () => {
             xs: 4,
             element: (action: IAction) => (
                 <Typography variant="body2" color="grey.600">
-                    {dayjs(action.createdAt).locale('ru').format('D MMM YYYY H:m')}
+                    {dayjs(action.createdAt).locale('ru').format('D MMM YYYY H:mm')}
                 </Typography>
             ),
         },
     ]
 
-    const mobileView = (item: IAction) => <MobileActionView action={item} disabledUser />
+    const mobileView = (item: IAction) => <MobileAction action={item} disabledUser />
 
     useEffect(() => {
         dispatch(actionsActions.cleanActionsUser())

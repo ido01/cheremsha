@@ -13,6 +13,39 @@ export const DesktopFilterBlock: React.FC = () => {
         <Box mb={4} px={4} display={'flex'} justifyContent={'flex-end'}>
             <Stack direction={'row'} spacing={2}>
                 <FormControl sx={{ width: '200px' }} variant="standard">
+                    <InputLabel>Список</InputLabel>
+                    <Select
+                        value={filter.type}
+                        label="Список"
+                        onChange={(e) => {
+                            const { value } = e.target
+
+                            dispatch(
+                                actionsActions.setFilter({
+                                    ...filter,
+                                    type: value as 'list' | 'group',
+                                })
+                            )
+                        }}
+                    >
+                        {[
+                            {
+                                label: 'Лист',
+                                value: 'list',
+                            },
+                            {
+                                label: 'Группа',
+                                value: 'group',
+                            },
+                        ].map((gender, index) => (
+                            <MenuItem key={index} value={gender.value}>
+                                {gender.label}
+                            </MenuItem>
+                        ))}
+                    </Select>
+                </FormControl>
+
+                <FormControl sx={{ width: '200px' }} variant="standard">
                     <InputLabel>Метод</InputLabel>
                     <Select
                         value={filter.method}

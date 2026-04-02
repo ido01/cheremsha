@@ -14,7 +14,7 @@ export function* loadActions() {
         const order: TTableOrder = yield select(selectOrder)
         const filter: IActionFilter = yield select(selectFilter)
 
-        const response: IActionResponse = yield call(request, `actions`, {
+        const response: IActionResponse = yield call(request, `actions${filter.type === 'group' ? '/group' : ''}`, {
             params: {
                 page: pagination.page,
                 limit: pagination.limit,

@@ -6,6 +6,7 @@ import { TTableOrder, TTablePagination } from 'types/ITableDisplay'
 export interface IActionFilter {
     method: string
     query: string
+    type: 'list' | 'group'
 }
 
 export interface IActionsState extends EntityState<IAction> {

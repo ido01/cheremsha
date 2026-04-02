@@ -42,6 +42,38 @@ export const MobileFilterBlock: React.FC<MobileFilterBlockProps> = ({ open, onCl
                 <Container>
                     <Stack spacing={5}>
                         <FormControl variant="standard">
+                            <InputLabel>Список</InputLabel>
+                            <Select
+                                value={filter.type}
+                                label="Список"
+                                onChange={(e) => {
+                                    const { value } = e.target
+
+                                    dispatch(
+                                        actionsActions.setFilter({
+                                            ...filter,
+                                            type: value as 'list' | 'group',
+                                        })
+                                    )
+                                }}
+                            >
+                                {[
+                                    {
+                                        label: 'Лист',
+                                        value: 'list',
+                                    },
+                                    {
+                                        label: 'Группа',
+                                        value: 'group',
+                                    },
+                                ].map((gender, index) => (
+                                    <MenuItem key={index} value={gender.value}>
+                                        {gender.label}
+                                    </MenuItem>
+                                ))}
+                            </Select>
+                        </FormControl>
+                        <FormControl variant="standard">
                             <InputLabel>Метод</InputLabel>
                             <Select
                                 value={filter.method}

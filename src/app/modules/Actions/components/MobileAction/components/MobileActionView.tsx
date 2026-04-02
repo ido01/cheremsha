@@ -1,7 +1,9 @@
 import { Box, Typography } from '@mui/material'
 import { AvatarImage } from 'app/modules/Profile/components/AvatarImage'
+import { usersActions } from 'app/modules/Users/slice'
 import dayjs from 'dayjs'
 import React from 'react'
+import { useDispatch } from 'react-redux'
 import { IAction } from 'types/IAction'
 
 interface Props {
@@ -11,8 +13,15 @@ interface Props {
 
 export const MobileActionView: React.FC<Props> = ({ action, disabledUser }) => {
     const user = action.user
+    const dispatch = useDispatch()
+
+    const handleClickRow = () => {
+        dispatch(usersActions.userLoaded(action.user))
+        dispatch(usersActions.setActiveId(action.uid))
+        dispatch(usersActions.showModal())
+    }
     return (
-        <Box px={2} py={1} width={'100%'}>
+        <Box px={2} py={1} width={'100%'} onClick={handleClickRow}>
             <Box display={'flex'} justifyContent={'space-between'}>
                 <Box
                     sx={{
@@ -80,18 +89,24 @@ export const MobileActionView: React.FC<Props> = ({ action, disabledUser }) => {
                         </Typography>
 
                         <Typography variant="caption" color="grey.600">
-                            {dayjs(action.createdAt).locale('ru').format('D MMM YYYY H:m')}
+                            {dayjs(action.createdAt).locale('ru').format('D MMM YYYY H:mm')}
                         </Typography>
                     </Box>
                 </Box>
 
                 {!disabledUser && (
-                    <AvatarImage
-                        name={`${user.last_name} ${user.name}`}
-                        image={user.avatar?.thumb}
-                        achieve={user.achieve}
-                        size={36}
-                    />
+                    <Box
+                        sx={{
+                            flexShrink: 0,
+                        }}
+                    >
+                        <AvatarImage
+                            name={`${user.last_name} ${user.name}`}
+                            image={user.avatar?.thumb}
+                            achieve={user.achieve}
+                            size={36}
+                        />
+                    </Box>
                 )}
             </Box>
         </Box>

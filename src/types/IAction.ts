@@ -8,6 +8,8 @@ export interface IAction {
     query: string
     createdAt: string
     user: IUser
+    group?: boolean
+    actions?: IAction[]
 }
 
 export interface IActionResponse {

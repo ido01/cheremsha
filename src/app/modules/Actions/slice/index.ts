@@ -27,6 +27,7 @@ const slice = createSlice({
         filter: {
             method: '',
             query: '',
+            type: 'list',
         },
         paginationUser: {
             limit: 25,
@@ -36,6 +37,7 @@ const slice = createSlice({
         filterUser: {
             method: '',
             query: '',
+            type: 'list',
         },
         userActions: [],
     }),
@@ -48,6 +50,8 @@ const slice = createSlice({
         },
         cleanActionsUser(state) {
             state.userActions = []
+            state.paginationUser.page = 1
+            state.paginationUser.total_pages = 1
         },
         setFilter(state, action: PayloadAction<IActionFilter>) {
             state.filter = action.payload
