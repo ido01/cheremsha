@@ -4,6 +4,10 @@ import { IFile } from './IFile'
 import { IQuizState } from './IQuizState'
 import { IState } from './IState'
 
+interface IActivity {
+    day: string
+    count: number
+}
 export interface TelegramAuth {
     auth_date: number
     first_name: string
@@ -85,6 +89,7 @@ export interface IUser {
     access: string[]
     hands?: string[]
     contract?: string
+    activities?: IActivity[]
 }
 
 export interface ITinyUser {

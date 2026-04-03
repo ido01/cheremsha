@@ -43,6 +43,7 @@ import { getNoun } from 'utils/getNoun'
 import { usersActions } from '../slice'
 import { selectForm, selectUrl } from '../slice/selectors'
 import { ContractModal } from '../templates/ContractModal'
+import { UserActivities } from './UserActivities'
 
 interface UserModalContentProps {
     profileRole: ERole
@@ -153,6 +154,8 @@ export const UserModalContent: React.FC<UserModalContentProps> = ({ user, handle
     return (
         <>
             <Grid container sx={{ mt: 2.5 }} spacing={2.5}>
+                {checkStatickRole('show_activities') && <UserActivities user={user} />}
+
                 {user && <UserAchieveList id={user?.id} />}
                 {(checkStatickRole('contract_view') || profile.id === user.id) && (
                     <Grid item xs={12}>
