@@ -59,6 +59,7 @@ export interface ITable {
     short_name: string
     full_name: string
     places: number
+    place: string
     free: boolean
     reservations: IReservation[]
 }

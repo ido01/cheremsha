@@ -39,7 +39,9 @@ export const MatrixCategoriesView: React.FC = () => {
     const checkStatickRole = useSelector(selectCheckAccess)
 
     const filteredMatrix = useMemo(() => {
-        return matrix.filter((m) => m.position.toString().includes(search))
+        return matrix.filter(
+            (m) => m.position.toString().includes(search) || m.name.toLowerCase().includes(search.toLowerCase())
+        )
     }, [search, matrix])
 
     const breadcrumbsItems: BreadcrumbItem[] = [
@@ -100,7 +102,9 @@ export const MatrixCategoriesView: React.FC = () => {
 
     const handleKeyDown = (event: React.KeyboardEvent) => {
         if (event.key === 'Enter') {
-            const m = matrix.find((m) => m.position.toString() === search)
+            const m = matrix.find(
+                (m) => m.position.toString() === search || m.name.toLowerCase().includes(search.toLowerCase())
+            )
             if (m) {
                 dispatch(matrixActions.showModal(m.id))
             }

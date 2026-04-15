@@ -16,6 +16,7 @@ import {
 import { DatePicker } from '@mui/x-date-pickers/DatePicker'
 import { Modal } from 'app/components/Modal'
 import { TextAreaEdit } from 'app/modules/Documents/components/TextAreaEdit'
+import { selectLocationsFilter } from 'app/modules/Locations/slice/selectors'
 import dayjs, { Dayjs } from 'dayjs'
 import { useFormik } from 'formik'
 import moment from 'moment'
@@ -35,6 +36,11 @@ export const IssueFolderForm: React.FC = () => {
     const history = useNavigate()
 
     const { open, status, data } = useSelector(selectForm)
+    const locations = useSelector(selectLocationsFilter)
+
+    const places = useMemo(() => {
+        return locations.map((location) => ({ label: location.name, value: location.id }))
+    }, [locations])
 
     const [tags, setTags] = useState('')
     const [tagsList, setTagsList] = useState<string[]>([])
@@ -238,6 +244,26 @@ export const IssueFolderForm: React.FC = () => {
                                 }}
                             />
                         </Box>
+
+                        <FormControl fullWidth variant="outlined">
+                            <InputLabel>Точка</InputLabel>
+
+                            <Select
+                                value={formik.values.place_id || '0'}
+                                label="Точка"
+                                onChange={(e) => {
+                                    const { value } = e.target
+
+                                    formik.setFieldValue('place_id', value)
+                                }}
+                            >
+                                {places.map((place, index) => (
+                                    <MenuItem key={index} value={place.value}>
+                                        {place.label}
+                                    </MenuItem>
+                                ))}
+                            </Select>
+                        </FormControl>
 
                         <Box
                             sx={{

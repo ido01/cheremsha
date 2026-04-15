@@ -2,15 +2,26 @@ import { Box, Typography } from '@mui/material'
 import React, { useState } from 'react'
 
 interface Props {
-    success: number
+    open: number
     progress: number
+    review: number
+    done: number
     error: number
+    closed: number
+    deleted: number
     tiny?: boolean
 }
 
-export const LinearProgress: React.FC<Props> = ({ tiny, success, progress, error }) => {
-    const pr = success + progress + error
-    const er = success + error
+export const LinearProgress: React.FC<Props> = ({ tiny, open, progress, review, done, error, closed, deleted }) => {
+    const all = open + progress + review + done + error + closed + deleted
+    const rv = (100 * review) / all
+    const rp = Math.floor((100 * review) / all)
+    const er = (100 * error) / all + rv
+    const ep = Math.floor((100 * error) / all)
+    const dn = (100 * done) / all + er
+    const dp = Math.floor((100 * done) / all)
+    const pr = (100 * progress) / all + dn
+    const pp = Math.floor((100 * progress) / all)
 
     const [isDetail, setDetail] = useState(false)
 
@@ -47,13 +58,31 @@ export const LinearProgress: React.FC<Props> = ({ tiny, success, progress, error
                 }}
             >
                 {isDetail && (
-                    <Typography
-                        variant="caption"
-                        fontWeight={600}
-                        sx={{ color: '#fff', mr: 1 }}
-                    >{`${progress}%`}</Typography>
+                    <Typography variant="caption" fontWeight={600} sx={{ color: '#fff', mr: 1 }}>{`${pp}%`}</Typography>
                 )}
             </Box>
+
+            <Box
+                sx={{
+                    position: 'absolute',
+                    top: 0,
+                    left: 0,
+                    backgroundColor: '#4CAF50',
+                    height: '100%',
+                    width: `${dn}%`,
+                    borderRadius: '6px',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'flex-end',
+                }}
+            >
+                {isDetail && (
+                    <Typography variant="caption" fontWeight={600} sx={{ color: '#fff', mr: 1 }}>
+                        {`${dp}%`}
+                    </Typography>
+                )}
+            </Box>
+
             <Box
                 sx={{
                     position: 'absolute',
@@ -69,21 +98,20 @@ export const LinearProgress: React.FC<Props> = ({ tiny, success, progress, error
                 }}
             >
                 {isDetail && (
-                    <Typography
-                        variant="caption"
-                        fontWeight={600}
-                        sx={{ color: '#fff', mr: 1 }}
-                    >{`${error}%`}</Typography>
+                    <Typography variant="caption" fontWeight={600} sx={{ color: '#fff', mr: 1 }}>
+                        {`${ep}%`}
+                    </Typography>
                 )}
             </Box>
+
             <Box
                 sx={{
                     position: 'absolute',
                     top: 0,
                     left: 0,
-                    backgroundColor: '#4CAF50',
+                    backgroundColor: '#F57C00',
                     height: '100%',
-                    width: `${success}%`,
+                    width: `${rv}%`,
                     borderRadius: '6px',
                     display: 'flex',
                     alignItems: 'center',
@@ -91,11 +119,9 @@ export const LinearProgress: React.FC<Props> = ({ tiny, success, progress, error
                 }}
             >
                 {isDetail && (
-                    <Typography
-                        variant="caption"
-                        fontWeight={600}
-                        sx={{ color: '#fff', mr: 1 }}
-                    >{`${success}%`}</Typography>
+                    <Typography variant="caption" fontWeight={600} sx={{ color: '#fff', mr: 1 }}>
+                        {`${rp}%`}
+                    </Typography>
                 )}
             </Box>
         </Box>

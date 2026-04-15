@@ -11,7 +11,7 @@ interface ILink {
     path: string
 }
 
-export const PeoplesList: React.FC = () => {
+export const Peoples: React.FC = () => {
     const history = useNavigate()
     const theme = useTheme()
     const isMobile = useMediaQuery(theme.breakpoints.between('xs', 'md'))

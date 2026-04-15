@@ -30,6 +30,7 @@ export interface IIssue extends IAcecssInterface {
     deadtimeFormAt?: string
     priority: number
     tags: string
+    place_id: string
     author?: IUser
     executor?: IUser
 }

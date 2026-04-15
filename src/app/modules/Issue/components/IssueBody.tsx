@@ -57,8 +57,9 @@ export const IssueBody: React.FC<Props> = ({ id, main, open, issue, isInit }) =>
             {issue?.type === 'task' && <ControlBlock issue={issue} />}
             <Box
                 sx={{
-                    display: 'grid',
-                    gridTemplateColumns: '2fr 1fr',
+                    display: { xs: 'flex', lg: 'grid' },
+                    flexDirection: 'column-reverse',
+                    gridTemplateColumns: { xs: '2fr 1fr' },
                     gap: 2,
                 }}
             >
@@ -70,7 +71,6 @@ export const IssueBody: React.FC<Props> = ({ id, main, open, issue, isInit }) =>
                     }}
                 >
                     <TaskDetail {...props} open={collapse.detail} />
-                    <DescriptionRow {...props} open={collapse.description} />
                 </Box>
                 <Box
                     sx={{
@@ -84,6 +84,8 @@ export const IssueBody: React.FC<Props> = ({ id, main, open, issue, isInit }) =>
                     <DateRow {...props} open={collapse.date} />
                 </Box>
             </Box>
+
+            <DescriptionRow {...props} open={collapse.description} />
 
             <CommentsRow {...props} open={collapse.comments} />
 

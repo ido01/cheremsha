@@ -46,6 +46,12 @@ export const SignIn: React.FC = () => {
         },
     })
 
+    const handleKeyDown = (event: React.KeyboardEvent) => {
+        if (event.key === 'Enter') {
+            formik.handleSubmit()
+        }
+    }
+
     return (
         <Auth>
             <Box
@@ -99,6 +105,7 @@ export const SignIn: React.FC = () => {
                             value={formik.values.password || ''}
                             error={!!formik.errors.password}
                             onChange={formik.handleChange}
+                            onKeyDown={handleKeyDown}
                         />
 
                         <LoadingButton

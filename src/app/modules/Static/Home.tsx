@@ -19,7 +19,7 @@ import { useNavigate } from 'react-router-dom'
 import { Main } from '../Layout/templates/Main'
 import { selectCheckAccess } from '../Role/selectors'
 
-export const HomeList: React.FC = () => {
+export const Home: React.FC = () => {
     const history = useNavigate()
     const theme = useTheme()
     const isMobile = useMediaQuery(theme.breakpoints.between('xs', 'md'))
@@ -59,13 +59,29 @@ export const HomeList: React.FC = () => {
         },
     ]
     if (checkStatickRole('show_tables_list')) {
-        links.push({
-            icon: <ListAltIcon fontSize="large" />,
-            title: 'Брони',
-            onClick: () => {
-                location.href = '/list'
-            },
-        })
+        if (checkStatickRole('hrzn_show_tables_list')) {
+            links.push({
+                icon: <ListAltIcon fontSize="large" />,
+                title: 'Брони',
+                onClick: () => {
+                    location.href = '/list/hrzn'
+                },
+            })
+        } else if (checkStatickRole('nsns_show_tables_list')) {
+            links.push({
+                icon: <ListAltIcon fontSize="large" />,
+                title: 'Брони',
+                onClick: () => {
+                    location.href = '/list/nsns'
+                },
+            })
+        } else {
+            links.push({
+                icon: <ListAltIcon fontSize="large" />,
+                title: 'Брони',
+                path: '/broni',
+            })
+        }
 
         links.push({
             icon: <SsidChartIcon fontSize="large" />,

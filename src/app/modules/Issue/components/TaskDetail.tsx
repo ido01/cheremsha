@@ -1,6 +1,7 @@
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown'
 import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight'
 import { Box, Button, Chip, Typography } from '@mui/material'
+import { selectLocation } from 'app/modules/Locations/slice/selectors'
 import React, { ReactNode, useMemo } from 'react'
 import { useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
@@ -49,6 +50,7 @@ export const TaskDetail: React.FC<Props> = ({ open, issue, onCollapse }) => {
 
     const getIssue = useSelector(selectIssueById)
     const parent = getIssue(issue?.parent_id || '')
+    const getLocation = useSelector(selectLocation)
 
     const handleClick = () => {
         onCollapse('detail')
@@ -62,6 +64,10 @@ export const TaskDetail: React.FC<Props> = ({ open, issue, onCollapse }) => {
 
     const handleTagClick = (tag: string) => {
         tag
+    }
+
+    const handlePlaceClick = () => {
+        //
     }
 
     if (!issue) {
@@ -131,6 +137,20 @@ export const TaskDetail: React.FC<Props> = ({ open, issue, onCollapse }) => {
                         {priorities[issue.priority].label}
                     </Box>
                 </Row>
+
+                {issue.place_id && (
+                    <Row label="Точка:">
+                        <Box
+                            sx={{
+                                display: 'flex',
+                                alignItems: 'center',
+                                gap: 1,
+                            }}
+                        >
+                            <Chip label={getLocation(issue.place_id)} onClick={handlePlaceClick} />
+                        </Box>
+                    </Row>
+                )}
 
                 {tags.length > 0 && (
                     <Row label="Метки:">

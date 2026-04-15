@@ -10,7 +10,7 @@ import { Main } from 'app/modules/Layout/templates/Main'
 import React from 'react'
 import { useNavigate } from 'react-router-dom'
 
-export const GameList: React.FC = () => {
+export const Game: React.FC = () => {
     const history = useNavigate()
 
     const theme = useTheme()

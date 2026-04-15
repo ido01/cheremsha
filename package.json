@@ -50,8 +50,9 @@
     "yup": "^0.32.11"
   },
   "scripts": {
-    "start": "react-scripts start",
+    "start": "cross-env REACT_APP_API_HOST=/ react-scripts start",
     "build": "react-scripts --max_old_space_size=4096 build",
+    "upload": "scp -r ./build/* u0749174@37.140.192.157:/var/www/u0749174/data/www/corp_build/",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "format": "prettier --write \"src/**/*.ts{,x}\"",
@@ -91,6 +92,7 @@
     "@types/react-router-dom": "^5.3.0",
     "@typescript-eslint/eslint-plugin": "^5.15.0",
     "@typescript-eslint/parser": "^5.15.0",
+    "cross-env": "^10.1.0",
     "eslint": "^7.32.0",
     "eslint-config-prettier": "^8.5.0",
     "eslint-plugin-import": "^2.25.4",

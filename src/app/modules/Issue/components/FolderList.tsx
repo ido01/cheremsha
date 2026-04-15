@@ -1,8 +1,9 @@
 import { Box, Button, Typography } from '@mui/material'
 import { LinearProgress } from 'app/components/LinearProgress'
 import { selectProfile } from 'app/modules/Profile/slice/selectors'
-import React, { useEffect } from 'react'
+import React, { useEffect, useMemo } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
+import { TIssueStatus } from 'types/IIssue'
 
 import { issuesActions } from '../slice'
 import { issueInit } from '../slice/constants'
@@ -21,6 +22,28 @@ export const FolderList: React.FC<Props> = ({ id }) => {
     const cat = getCat(id || '')
     const getLists = useSelector(selectIssuesFolder)
     const lists = getLists(id || '')
+
+    const status = useMemo(() => {
+        return lists.reduce<{ [key in TIssueStatus]: number }>(
+            (acc, item) => {
+                if (!acc[item.status]) {
+                    acc[item.status] = 1
+                } else {
+                    acc[item.status]++
+                }
+                return acc
+            },
+            {
+                open: 0,
+                progress: 0,
+                review: 0,
+                done: 0,
+                error: 0,
+                closed: 0,
+                deleted: 0,
+            }
+        )
+    }, [lists])
 
     const handleAdd = () => {
         dispatch(
@@ -60,7 +83,7 @@ export const FolderList: React.FC<Props> = ({ id }) => {
                 }}
             >
                 {lists.length > 0 ? (
-                    <LinearProgress success={20} error={5} progress={50} />
+                    <LinearProgress {...status} />
                 ) : (
                     <Typography variant="caption">Нет задач</Typography>
                 )}

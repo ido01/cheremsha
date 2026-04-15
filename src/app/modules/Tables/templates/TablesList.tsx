@@ -61,9 +61,25 @@ export const TablesList: React.FC = () => {
             ),
         },
         {
+            title: 'Тип стола',
+            name: 'place',
+            xs: 2,
+            element: (table: ITable) => (
+                <Box
+                    sx={{
+                        display: 'flex',
+                        flexDirection: 'column',
+                        gap: 1,
+                    }}
+                >
+                    <Typography variant="body2">{table.place}</Typography>
+                </Box>
+            ),
+        },
+        {
             title: 'Короткое название',
             name: 'name',
-            xs: 3,
+            xs: 2,
             element: (table: ITable) => (
                 <Box
                     sx={{
@@ -95,7 +111,7 @@ export const TablesList: React.FC = () => {
         {
             title: '',
             name: 'offices',
-            xs: 3,
+            xs: 2,
             element: (table: ITable) => (
                 <Box
                     sx={{

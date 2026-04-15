@@ -22,6 +22,7 @@ export const Settings: React.FC<SettingsProps> = ({ open, handleClose }) => {
                 short_name: '',
                 full_name: '',
                 places: 0,
+                place: '',
                 free: false,
                 reservations: [],
             })

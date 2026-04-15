@@ -1,15 +1,12 @@
 import { AchieveList } from 'app/modules/Achieve/templates/AchieveList'
 import { ActionsList } from 'app/modules/Actions/templates/ActionsList'
-import { AdminList } from 'app/modules/Admin/templates/AdminList'
 import { DocumentResultList } from 'app/modules/DocumentResults/templates/DocumentResultList'
 import { CategoriesView } from 'app/modules/Documents/templates/CategoriesView'
 import { DocumentsList } from 'app/modules/Documents/templates/DocumentsList'
 import { DocumentView } from 'app/modules/Documents/templates/DocumentView'
 import { ExcelView } from 'app/modules/Documents/templates/ExcelView'
 import { QuizView } from 'app/modules/Documents/templates/QuizView'
-import { GameList } from 'app/modules/Game/templates/GameList'
 import { HandsList } from 'app/modules/Hands/templates/HandsList'
-import { HomeList } from 'app/modules/Home/HomeList'
 import { IssuesFolderList } from 'app/modules/Issue/templates/IssuesFolderList'
 import { IssuesList } from 'app/modules/Issue/templates/IssuesList'
 import { Layout } from 'app/modules/Layout/templates/Layout'
@@ -19,8 +16,12 @@ import { MatrixCategoriesView } from 'app/modules/Matrix/templates/MatrixCategor
 import { PositionsList } from 'app/modules/Positions/templates/PositionsList'
 import { ReviewsList } from 'app/modules/Reviews/templates/ReviewsList'
 import { StatList } from 'app/modules/Stat/templates/StatList'
+import { Admin } from 'app/modules/Static/Admin'
+import { Broni } from 'app/modules/Static/Broni'
+import { Game } from 'app/modules/Static/Game'
+import { Home } from 'app/modules/Static/Home'
+import { Peoples } from 'app/modules/Static/Peoples'
 import { TablesList } from 'app/modules/Tables/templates/TablesList'
-import { PeoplesList } from 'app/modules/Users/templates/PeoplesList'
 import React from 'react'
 import { Route, Routes } from 'react-router-dom'
 
@@ -35,9 +36,10 @@ import { UsersPages } from './UsersPages'
 export const LayoutPages: React.FC = () => (
     <Layout>
         <Routes>
-            <Route path={'/'} element={<HomeList />} />
+            <Route path={'/'} element={<Home />} />
             <Route path={'/profile/*'} element={<ProfilePages />} />
-            <Route path={'/admin'} element={<AdminList />} />
+            <Route path={'/admin'} element={<Admin />} />
+            <Route path={'/broni'} element={<Broni />} />
             <Route path={'/positions'} element={<PositionsList />} />
             <Route path={'/hands'} element={<HandsList />} />
             <Route path={'/reviews'} element={<ReviewsList />} />
@@ -60,8 +62,8 @@ export const LayoutPages: React.FC = () => (
             <Route path="/doc/:id/result" element={<DocumentResultList />} />
             <Route path={'/matrix'} element={<MatrixCategoriesList />} />
             <Route path={'/matrix/:id'} element={<MatrixCategoriesView />} />
-            <Route path={'/peoples'} element={<PeoplesList />} />
-            <Route path={'/games'} element={<GameList />} />
+            <Route path={'/peoples'} element={<Peoples />} />
+            <Route path={'/games'} element={<Game />} />
             <Route path={'/stats'} element={<StatList />} />
             <Route path={'/issues'} element={<IssuesList />} />
             <Route path={'/issues/:id'} element={<IssuesFolderList />} />

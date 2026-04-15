@@ -106,6 +106,16 @@ export const FormModal: React.FC = () => {
                         <TextField
                             fullWidth
                             variant="outlined"
+                            label="Заведение"
+                            name="place"
+                            value={formik.values.place || ''}
+                            error={!!formik.errors.place}
+                            onChange={formik.handleChange}
+                        />
+
+                        <TextField
+                            fullWidth
+                            variant="outlined"
                             label="Количество Мест"
                             name="places"
                             value={formik.values.places || ''}

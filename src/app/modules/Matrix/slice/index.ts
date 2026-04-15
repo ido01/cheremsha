@@ -169,6 +169,7 @@ const slice = createSlice({
         },
         statusError(state) {
             state.status.main = EStatus.ERROR
+            state.form.status = EStatus.ERROR
         },
         showDeleteModal(state, action: PayloadAction<IMatrix>) {
             state.deleteModal.open = true

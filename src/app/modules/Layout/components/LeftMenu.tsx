@@ -66,13 +66,29 @@ export const LeftMenu: React.FC = () => {
     ]
 
     if (checkStatickRole('show_tables_list')) {
-        menuItems.push({
-            icon: <ListAltIcon />,
-            title: 'Брони',
-            onClick: () => {
-                location.href = '/list'
-            },
-        })
+        if (checkStatickRole('hrzn_show_tables_list')) {
+            menuItems.push({
+                icon: <ListAltIcon />,
+                title: 'Брони',
+                onClick: () => {
+                    location.href = '/list/hrzn'
+                },
+            })
+        } else if (checkStatickRole('nsns_show_tables_list')) {
+            menuItems.push({
+                icon: <ListAltIcon />,
+                title: 'Брони',
+                onClick: () => {
+                    location.href = '/list/nsns'
+                },
+            })
+        } else {
+            menuItems.push({
+                icon: <ListAltIcon />,
+                title: 'Брони',
+                path: '/broni',
+            })
+        }
     }
 
     if (checkStatickRole('show_issue_list')) {

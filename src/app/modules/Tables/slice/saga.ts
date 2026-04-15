@@ -8,7 +8,7 @@ import { tablesActions } from '.'
 
 export function* loadTables() {
     try {
-        const response: ITablesResponse = yield call(request, `tables`)
+        const response: ITablesResponse = yield call(request, `tables?place=all`)
         yield put(tablesActions.tablesLoaded(response))
     } catch (error: any) {
         yield put(tablesActions.statusError())

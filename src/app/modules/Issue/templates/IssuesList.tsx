@@ -2,6 +2,7 @@ import { MoreVert as MoreVertIcon } from '@mui/icons-material'
 import { Box, Container, IconButton } from '@mui/material'
 import { Main } from 'app/modules/Layout/templates/Main'
 import { selectProfileRole } from 'app/modules/Profile/slice/selectors'
+import { selectCheckAccess } from 'app/modules/Role/selectors'
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { checkSudoAccess } from 'utils/roles'
@@ -18,6 +19,7 @@ export const IssuesList: React.FC = () => {
 
     const profileRole = useSelector(selectProfileRole)
     const getLists = useSelector(selectIssuesFolder)
+    const checkStatickRole = useSelector(selectCheckAccess)
     const lists = getLists('0')
     const [open, setOpen] = useState<boolean>(false)
 
@@ -38,7 +40,7 @@ export const IssuesList: React.FC = () => {
             title={'Задачи'}
             searchDisabled
             endNode={
-                checkSudoAccess(profileRole) ? (
+                checkStatickRole('update_board_issue') ? (
                     <IconButton
                         sx={{ bgcolor: '#FDFDFD90' }}
                         aria-label="more"
@@ -71,7 +73,7 @@ export const IssuesList: React.FC = () => {
                 </Container>
             </Box>
 
-            {checkSudoAccess(profileRole) && <IssuesSettings open={open} handleClose={handleClose} />}
+            {checkStatickRole('update_board_issue') && <IssuesSettings open={open} handleClose={handleClose} />}
             <IssueForm />
             <DeleteModal />
         </Main>

@@ -1,13 +1,15 @@
 import { MoreVert as MoreVertIcon, Source as SourceIcon } from '@mui/icons-material'
 import { Box, Button, IconButton, Menu, MenuItem, Typography } from '@mui/material'
 import { AvatarImage } from 'app/modules/Profile/components/AvatarImage'
+import { selectProfile } from 'app/modules/Profile/slice/selectors'
+import { selectCheckAccess } from 'app/modules/Role/selectors'
 import React, { useState } from 'react'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 import { IIssue } from 'types/IIssue'
 
 import { issuesActions } from '../slice'
-import { idGenerate, urlGenerate } from '../slice/utils'
+import { idGenerate, issueRoleCheck, urlGenerate } from '../slice/utils'
 
 interface Props {
     issue: IIssue
@@ -16,6 +18,9 @@ interface Props {
 export const Folder: React.FC<Props> = ({ issue }) => {
     const dispatch = useDispatch()
     const history = useNavigate()
+
+    const checkStatickRole = useSelector(selectCheckAccess)
+    const profile = useSelector(selectProfile)
 
     const [fullView, setFullOpen] = useState(false)
     const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null)
@@ -135,29 +140,31 @@ export const Folder: React.FC<Props> = ({ issue }) => {
                     </Typography>
                 </Box>
 
-                <Box
-                    sx={{
-                        position: 'relative',
-                        display: 'flex',
-                        alignItems: 'center',
-                        zIndex: 3,
-                    }}
-                >
-                    <IconButton
-                        sx={{ bgcolor: '#FDFDFD90' }}
-                        aria-label="more"
-                        id="long-button"
-                        aria-haspopup="true"
-                        onClick={handleSettingOpen}
+                {issueRoleCheck(profile, issue.access_update, issue) && (
+                    <Box
+                        sx={{
+                            position: 'relative',
+                            display: 'flex',
+                            alignItems: 'center',
+                            zIndex: 3,
+                        }}
                     >
-                        <MoreVertIcon />
-                    </IconButton>
+                        <IconButton
+                            sx={{ bgcolor: '#FDFDFD90' }}
+                            aria-label="more"
+                            id="long-button"
+                            aria-haspopup="true"
+                            onClick={handleSettingOpen}
+                        >
+                            <MoreVertIcon />
+                        </IconButton>
 
-                    <Menu id="basic-menu" anchorEl={anchorEl} open={open} onClose={handleClose}>
-                        <MenuItem onClick={handleEdit}>Редактировать</MenuItem>
-                        <MenuItem onClick={handleDelete}>Удалить</MenuItem>
-                    </Menu>
-                </Box>
+                        <Menu id="basic-menu" anchorEl={anchorEl} open={open} onClose={handleClose}>
+                            <MenuItem onClick={handleEdit}>Редактировать</MenuItem>
+                            <MenuItem onClick={handleDelete}>Удалить</MenuItem>
+                        </Menu>
+                    </Box>
+                )}
             </Box>
 
             <Box

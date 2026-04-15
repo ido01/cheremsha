@@ -295,6 +295,18 @@ export const ControlBlock: React.FC<Props> = ({ issue }) => {
                                 </LoadingButton>
                             </>
                         )}
+                        {issue.status === 'closed' && (
+                            <>
+                                <LoadingButton
+                                    loading={steps.loading && steps.id === issue.id && steps.status === 'open'}
+                                    variant="contained"
+                                    color="grey"
+                                    onClick={handleOpen}
+                                >
+                                    Переоткрыть
+                                </LoadingButton>
+                            </>
+                        )}
                     </Box>
 
                     {checkStatickRole('sudo') && (

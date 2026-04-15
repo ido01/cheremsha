@@ -56,4 +56,5 @@ export const issueInit: IIssue = {
     closedAt: '',
     updatedAt: '',
     tags: '',
+    place_id: '',
 }
