@@ -7,6 +7,13 @@ export type TCollapse = { [key in TCollapseKey]: boolean }
 
 export type TIssueStatus = 'open' | 'progress' | 'review' | 'done' | 'error' | 'closed' | 'deleted'
 
+export interface IBreadcrumb {
+    id: string
+    type: 'folder' | 'task'
+    parent_id: string
+    title: string
+}
+
 export interface IIssue extends IAcecssInterface {
     id: string
     type: 'folder' | 'task'
@@ -33,6 +40,7 @@ export interface IIssue extends IAcecssInterface {
     place_id: string
     author?: IUser
     executor?: IUser
+    breadcrumbs?: IBreadcrumb[]
 }
 
 export interface IIssuesResponse {

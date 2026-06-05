@@ -1,5 +1,5 @@
 import { IHand } from 'types/IHand'
-import { IIssue } from 'types/IIssue'
+import { IBreadcrumb, IIssue } from 'types/IIssue'
 import { IUser } from 'types/IUser'
 import { checkAccess } from 'utils/access'
 
@@ -12,12 +12,12 @@ export const getId = (id: string) => {
     return `${parseFloat(id.replace(/[^\d.]/gi, ''))}`
 }
 
-export const idGenerate = (issue: IIssue) => {
+export const idGenerate = (issue: IIssue | IBreadcrumb) => {
     const zeroCount = 6 - `${issue.id}`.length
     const id = `${zeroCount > 0 ? new Array(zeroCount).fill('0').join('') : ''}${issue.id}`
     return `${issue.type === 'folder' ? 'BOARD-' : 'ISSUE-'}${id}`
 }
 
-export const urlGenerate = (issue: IIssue) => {
+export const urlGenerate = (issue: IIssue | IBreadcrumb) => {
     return `/issues/${idGenerate(issue)}`
 }

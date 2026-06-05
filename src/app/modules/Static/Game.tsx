@@ -1,5 +1,6 @@
 import {
     BorderStyle as BorderStyleIcon,
+    Key as KeyIcon,
     Rocket as RocketIcon,
     SportsEsports as SportsEsportsIcon,
     Widgets as WidgetsIcon,
@@ -17,6 +18,13 @@ export const Game: React.FC = () => {
     const isMobile = useMediaQuery(theme.breakpoints.between('xs', 'md'))
 
     const links: ITile[] = [
+        {
+            icon: <KeyIcon fontSize="large" />,
+            title: 'Взлом',
+            onClick: () => {
+                location.href = '/game/key'
+            },
+        },
         {
             icon: <BorderStyleIcon fontSize="large" />,
             title: 'Escape',

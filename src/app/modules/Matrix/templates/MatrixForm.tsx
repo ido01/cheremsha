@@ -128,6 +128,18 @@ export const MatrixForm: React.FC = () => {
                             error={!!formik.errors.name}
                             onChange={formik.handleChange}
                         />
+
+                        <TextField
+                            multiline
+                            rows={3}
+                            fullWidth
+                            variant="outlined"
+                            label="Описание"
+                            name="description"
+                            value={formik.values.description || ''}
+                            error={!!formik.errors.description}
+                            onChange={formik.handleChange}
+                        />
                     </Box>
                 </Container>
             </Box>

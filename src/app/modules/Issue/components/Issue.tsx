@@ -98,6 +98,11 @@ export const Issue: React.FC<Props> = ({ issue }) => {
                             fontWeight={600}
                             sx={{
                                 ml: 1,
+                                display: '-webkit-box',
+                                '-webkit-line-clamp': '2',
+                                '-webkit-box-orient': 'vertical',
+                                overflow: 'hidden',
+                                'text-overflow': 'ellipsis',
                             }}
                         >
                             {issue.title}

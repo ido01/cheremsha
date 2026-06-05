@@ -106,16 +106,6 @@ export const CategoriesBigList: React.FC<CategoriesListProps> = ({ search }) => 
         dispatch(categoriesActions.setOrder(order))
     }
 
-    // const handlePageChange = (page: number) => {
-    //     dispatch(officesActions.setPage(page))
-    //     dispatch(officesActions.loadOffices())
-    // }
-
-    // const handleLimitChange = (limit: TLimit) => {
-    //     dispatch(officesActions.setLimit(limit))
-    //     dispatch(officesActions.loadOffices())
-    // }
-
     const handleClickRow = (item: ICategory | IDocument) => {
         item.type === 'category' && history(`/doc/${item.id}`)
 
@@ -134,8 +124,6 @@ export const CategoriesBigList: React.FC<CategoriesListProps> = ({ search }) => 
             order={order}
             isLoading={status === EStatus.PENDING || categoryStatus === EStatus.PENDING}
             handleOrderChange={handleOrderChange}
-            // handleLimitChange={handleLimitChange}
-            // handlePageChange={handlePageChange}
             mobileView={mobileView}
             handleClickRow={handleClickRow}
         />

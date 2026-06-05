@@ -132,7 +132,7 @@ export const CategoryAdminSettings: React.FC<CategoryAdminSettingsProps> = ({ id
                 path: 'doc',
                 parentId: id || '0',
                 createdAt: '',
-                icon: '',
+                icon: 'FolderOpen',
                 observers: [],
             })
         )

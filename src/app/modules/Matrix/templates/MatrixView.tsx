@@ -113,6 +113,13 @@ export const MatrixView: React.FC = () => {
                             <Typography variant="h5">{matrix?.name}</Typography>
                         </Box>
 
+                        {matrix?.description && (
+                            <Box>
+                                <Typography variant="caption">Описание</Typography>
+                                <Typography variant="body1">{matrix?.description}</Typography>
+                            </Box>
+                        )}
+
                         {matrix && matrix?.blocks.length > 0 && (
                             <Box>
                                 <Typography variant="caption">Кто заказал</Typography>
@@ -193,7 +200,7 @@ export const MatrixView: React.FC = () => {
                     gap: 1,
                 }}
             >
-                {matrix && matrix?.blocks.length > 0 && checkStatickRole('update_matrix') && (
+                {matrix && matrix?.blocks.length > 0 && checkStatickRole('stock_matrix') && (
                     <LoadingButton
                         color="success"
                         variant="contained"

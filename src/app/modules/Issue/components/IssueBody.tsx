@@ -2,6 +2,7 @@ import { Box } from '@mui/material'
 import React, { useState } from 'react'
 import { IIssue, TCollapse, TCollapseKey } from 'types/IIssue'
 
+import { Breadcrumbs } from './Breadcrumbs'
 import { CommentsRow } from './CommentsRow'
 import { ControlBlock } from './ControlBlock'
 import { DateRow } from './DateRow'
@@ -54,6 +55,7 @@ export const IssueBody: React.FC<Props> = ({ id, main, open, issue, isInit }) =>
                 width: '100%',
             }}
         >
+            {issue?.breadcrumbs && issue?.breadcrumbs.length > 1 && <Breadcrumbs breadcrumbs={issue?.breadcrumbs} />}
             {issue?.type === 'task' && <ControlBlock issue={issue} />}
             <Box
                 sx={{
@@ -84,11 +86,8 @@ export const IssueBody: React.FC<Props> = ({ id, main, open, issue, isInit }) =>
                     <DateRow {...props} open={collapse.date} />
                 </Box>
             </Box>
-
             <DescriptionRow {...props} open={collapse.description} />
-
             <CommentsRow {...props} open={collapse.comments} />
-
             <SubtaskRow id={id} onCollapse={handleCollapse} isInit={isInit} open={collapse.subTasks} />
         </Box>
     )

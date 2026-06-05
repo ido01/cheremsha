@@ -52,7 +52,8 @@
   "scripts": {
     "start": "cross-env REACT_APP_API_HOST=/ react-scripts start",
     "build": "react-scripts --max_old_space_size=4096 build",
-    "upload": "scp -r ./build/* u0749174@37.140.192.157:/var/www/u0749174/data/www/corp_build/",
+    "upload": "sshpass -p $SCP_PASSWORD scp -r ./build/* u0749174@37.140.192.157:/var/www/u0749174/data/www/corp_build/",
+    "prod": "yarn build && yarn upload",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "format": "prettier --write \"src/**/*.ts{,x}\"",

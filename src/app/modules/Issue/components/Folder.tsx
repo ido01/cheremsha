@@ -2,7 +2,6 @@ import { MoreVert as MoreVertIcon, Source as SourceIcon } from '@mui/icons-mater
 import { Box, Button, IconButton, Menu, MenuItem, Typography } from '@mui/material'
 import { AvatarImage } from 'app/modules/Profile/components/AvatarImage'
 import { selectProfile } from 'app/modules/Profile/slice/selectors'
-import { selectCheckAccess } from 'app/modules/Role/selectors'
 import React, { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
@@ -19,7 +18,6 @@ export const Folder: React.FC<Props> = ({ issue }) => {
     const dispatch = useDispatch()
     const history = useNavigate()
 
-    const checkStatickRole = useSelector(selectCheckAccess)
     const profile = useSelector(selectProfile)
 
     const [fullView, setFullOpen] = useState(false)

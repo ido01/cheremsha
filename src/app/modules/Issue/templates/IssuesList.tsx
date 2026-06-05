@@ -1,11 +1,9 @@
 import { MoreVert as MoreVertIcon } from '@mui/icons-material'
 import { Box, Container, IconButton } from '@mui/material'
 import { Main } from 'app/modules/Layout/templates/Main'
-import { selectProfileRole } from 'app/modules/Profile/slice/selectors'
 import { selectCheckAccess } from 'app/modules/Role/selectors'
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { checkSudoAccess } from 'utils/roles'
 
 import { DeleteModal } from '../components/DeleteModal'
 import { Folder } from '../components/Folder'
@@ -17,7 +15,6 @@ import { IssueForm } from './IssueForm'
 export const IssuesList: React.FC = () => {
     const dispatch = useDispatch()
 
-    const profileRole = useSelector(selectProfileRole)
     const getLists = useSelector(selectIssuesFolder)
     const checkStatickRole = useSelector(selectCheckAccess)
     const lists = getLists('0')

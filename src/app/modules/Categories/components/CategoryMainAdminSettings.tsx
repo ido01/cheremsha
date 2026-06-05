@@ -28,7 +28,7 @@ export const CategoryMainAdminSettings: React.FC<CategoryMainAdminSettingsProps>
                 path,
                 parentId: '0',
                 createdAt: '',
-                icon: '',
+                icon: 'FolderOpen',
                 observers: [],
             })
         )

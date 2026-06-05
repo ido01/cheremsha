@@ -25,6 +25,7 @@ export interface IMatrix {
     parentId: string
     position: number
     name: string
+    description: string
     author_id: string
     empty: boolean
     author?: IUser

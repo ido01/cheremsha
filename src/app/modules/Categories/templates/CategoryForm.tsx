@@ -69,46 +69,32 @@ export const CategoryForm: React.FC = () => {
                 }}
             >
                 <Grid container spacing={3}>
-                    {formik.values.parentId === '0' && (
-                        <Grid item xs={12} md={6}>
-                            <FormControl fullWidth variant="outlined" error={!!formik.errors?.parentId}>
-                                <InputLabel>Иконка</InputLabel>
-
-                                <Select
-                                    value={formik.values.icon || ''}
-                                    label="Иконка"
-                                    onChange={(e) => {
-                                        const { value } = e.target
-
-                                        formik.setFieldValue('icon', value)
-                                    }}
-                                >
-                                    {iconsFiltered.map((icon, index) => {
-                                        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-                                        // @ts-ignore
-                                        const Icon = Icons[icon]
-                                        return (
-                                            <MenuItem key={index} value={icon}>
-                                                <Icon />
-                                                {icon}
-                                            </MenuItem>
-                                        )
-                                    })}
-                                </Select>
-                            </FormControl>
-                        </Grid>
-                    )}
                     <Grid item xs={12} md={6}>
-                        <TextField
-                            fullWidth
-                            variant="outlined"
-                            label="Название"
-                            name="name"
-                            autoFocus
-                            value={formik.values.name || ''}
-                            error={!!formik.errors.name}
-                            onChange={formik.handleChange}
-                        />
+                        <FormControl fullWidth variant="outlined" error={!!formik.errors?.parentId}>
+                            <InputLabel>Иконка</InputLabel>
+
+                            <Select
+                                value={formik.values.icon || ''}
+                                label="Иконка"
+                                onChange={(e) => {
+                                    const { value } = e.target
+
+                                    formik.setFieldValue('icon', value)
+                                }}
+                            >
+                                {iconsFiltered.map((icon, index) => {
+                                    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+                                    // @ts-ignore
+                                    const Icon = Icons[icon]
+                                    return (
+                                        <MenuItem key={index} value={icon}>
+                                            <Icon />
+                                            {icon}
+                                        </MenuItem>
+                                    )
+                                })}
+                            </Select>
+                        </FormControl>
                     </Grid>
 
                     {formik.values.parentId !== '0' && (
@@ -134,6 +120,19 @@ export const CategoryForm: React.FC = () => {
                             </FormControl>
                         </Grid>
                     )}
+
+                    <Grid item xs={12} md={formik.values.parentId !== '0' ? 12 : 6}>
+                        <TextField
+                            fullWidth
+                            variant="outlined"
+                            label="Название"
+                            name="name"
+                            autoFocus
+                            value={formik.values.name || ''}
+                            error={!!formik.errors.name}
+                            onChange={formik.handleChange}
+                        />
+                    </Grid>
                 </Grid>
             </Box>
         </ModalForm>

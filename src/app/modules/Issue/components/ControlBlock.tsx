@@ -1,5 +1,8 @@
+import AddCommentIcon from '@mui/icons-material/AddComment'
 import CreateIcon from '@mui/icons-material/Create'
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever'
+import Face5Icon from '@mui/icons-material/Face5'
+import LoupeIcon from '@mui/icons-material/Loupe'
 import { LoadingButton } from '@mui/lab'
 import { Box, Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle } from '@mui/material'
 import { commentsActions } from 'app/modules/Comments/slice'
@@ -157,19 +160,37 @@ export const ControlBlock: React.FC<Props> = ({ issue }) => {
                     </Button>
                 )}
 
-                <Box sx={{ display: 'flex', gap: 1 }}>
+                <Box sx={{ display: 'flex', gap: 1, flexDirection: { xs: 'column', sm: 'row' } }}>
                     {issueRoleCheck(profile, issue.access_update, issue) && (
-                        <Button variant="contained" size="small" color="grey" onClick={handleAdd}>
+                        <Button
+                            startIcon={<LoupeIcon />}
+                            variant="contained"
+                            size="small"
+                            color="grey"
+                            onClick={handleAdd}
+                        >
                             Добавить подзадачу
                         </Button>
                     )}
                     {issueRoleCheck(profile, issue.access_view, issue) && (
-                        <Button variant="contained" size="small" color="grey" onClick={handleAddComment}>
+                        <Button
+                            startIcon={<AddCommentIcon />}
+                            variant="contained"
+                            size="small"
+                            color="grey"
+                            onClick={handleAddComment}
+                        >
                             Добавить комментарий
                         </Button>
                     )}
                     {!issue.executor && issueRoleCheck(profile, issue.access_update, issue) && (
-                        <Button variant="contained" size="small" color="grey" onClick={handleExecutor}>
+                        <Button
+                            startIcon={<Face5Icon />}
+                            variant="contained"
+                            size="small"
+                            color="grey"
+                            onClick={handleExecutor}
+                        >
                             Назначить исполнителя
                         </Button>
                     )}
@@ -177,7 +198,7 @@ export const ControlBlock: React.FC<Props> = ({ issue }) => {
             </Box>
 
             {issueRoleCheck(profile, issue.access_update, issue) && (
-                <Box sx={{ display: 'flex', gap: 2 }}>
+                <Box sx={{ display: 'flex', gap: 2, flexDirection: { xs: 'column', sm: 'row' } }}>
                     <Box sx={{ display: 'flex', gap: 1 }}>
                         {issue.status === 'open' && (
                             <>
@@ -258,6 +279,7 @@ export const ControlBlock: React.FC<Props> = ({ issue }) => {
                         {issue.status === 'done' && (
                             <>
                                 <LoadingButton
+                                    fullWidth
                                     loading={steps.loading && steps.id === issue.id && steps.status === 'open'}
                                     variant="contained"
                                     color="grey"

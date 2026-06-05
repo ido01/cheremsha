@@ -6,6 +6,7 @@ export const initMatrix: IMatrix = {
     author_id: '',
     position: 1,
     name: '',
+    description: '',
     empty: false,
     blocks: [],
 }
