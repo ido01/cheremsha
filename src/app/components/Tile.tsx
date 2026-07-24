@@ -21,15 +21,16 @@ export const Tile: React.FC<ITileProps> = ({ data, onClick }) => (
             p: 4,
             display: 'flex',
             flexDirection: 'column',
-            bgcolor: '#FDFDFD',
+            bgcolor: '#FFFFFF',
             justifyContent: 'center',
             alignItems: 'center',
             borderRadius: 4,
             gap: 4,
             cursor: 'pointer',
-            boxShadow: '0px 1px 4px rgba(0, 0, 0, 0.2)',
+            border: '1px solid #E0E0E0',
             '&:hover': {
-                boxShadow: '0px 2px 4px rgba(0, 0, 0, 0.3)',
+                bgcolor: '#F5F5F5',
+                border: '1px solid #D0D0D0',
             },
         }}
         onClick={() => onClick(data)}

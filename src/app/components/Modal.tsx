@@ -24,8 +24,8 @@ export const Modal: React.FC<ModalProps> = ({ pl = 3, small, children, open, tit
                     width: { xs: '100%', md: small ? '70%' : '90%' },
                     height: small ? 'calc(100% - 140px)' : 'calc(100% - 40px)', //{ xs: 'calc(100% - 40px)', md: '100%' },
                     margin: '0 auto',
-                    borderTopLeftRadius: '32px', //{ xs: '10px', md: '0px' },
-                    borderTopRightRadius: '32px', //{ xs: '10px', md: '0px' },
+                    borderTopLeftRadius: '16px', //{ xs: '10px', md: '0px' },
+                    borderTopRightRadius: '16px', //{ xs: '10px', md: '0px' },
                     maxWidth: '100%',
                 },
             }}
@@ -47,14 +47,13 @@ export const Modal: React.FC<ModalProps> = ({ pl = 3, small, children, open, tit
                         justifyContent={'space-between'}
                         alignItems={'center'}
                         sx={{
-                            borderRadius: 8,
+                            borderRadius: 4,
                             bgcolor: '#FDFDFD30',
-                            boxShadow: '0px 4px 4px #3332',
                             p: 1,
                             pl,
                             m: { sm: 1, md: 0.5 },
                             backdropFilter: 'blur(4px)',
-                            border: '1px solid #F5F5F5',
+                            border: '1px solid #EEEEEE',
                         }}
                     >
                         <Typography

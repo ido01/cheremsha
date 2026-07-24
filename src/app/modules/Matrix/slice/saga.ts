@@ -7,6 +7,7 @@ import {
     IMatrix,
     IMatrixCollectionResponse,
     IMatrixItemResponse,
+    IMatrixManyRequest,
     IMatrixPositionFindResponse,
     IMatrixUserRequest,
 } from 'types/IMatrix'
@@ -96,6 +97,32 @@ export function* empty(action: PayloadAction<string>) {
     }
 }
 
+export function* emptyMany(action: PayloadAction<IMatrixManyRequest>) {
+    try {
+        const response: IMatrixCollectionResponse = yield call(request, `matrix/emptyMany`, {
+            method: 'POST',
+            data: action.payload,
+        })
+
+        yield put(matrixActions.matrixLoaded(response.data))
+    } catch (error: any) {
+        yield put(matrixActions.statusError())
+    }
+}
+
+export function* stockMany(action: PayloadAction<IMatrixManyRequest>) {
+    try {
+        const response: IMatrixCollectionResponse = yield call(request, `matrix/stockMany`, {
+            method: 'POST',
+            data: action.payload,
+        })
+
+        yield put(matrixActions.matrixLoaded(response.data))
+    } catch (error: any) {
+        yield put(matrixActions.statusError())
+    }
+}
+
 export function* stock(action: PayloadAction<string>) {
     try {
         const response: IMatrixItemResponse = yield call(request, `matrix/${action.payload}/stock`, {
@@ -166,6 +193,8 @@ export function* matrixWatcher() {
     yield takeLeading(matrixActions.user.type, user)
     yield takeLeading(matrixActions.userDelete.type, userDelete)
     yield takeLeading(matrixActions.empty.type, empty)
+    yield takeLeading(matrixActions.emptyMany.type, emptyMany)
+    yield takeLeading(matrixActions.stockMany.type, stockMany)
     yield takeLeading(matrixActions.stock.type, stock)
     yield takeLeading(matrixActions.send.type, send)
     yield takeLeading(matrixActions.stockAll.type, stockAll)

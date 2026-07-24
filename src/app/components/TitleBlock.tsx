@@ -56,13 +56,12 @@ export const TitleBlock: React.FC<TitleBlockProps> = ({
                 justifyContent={'space-between'}
                 alignItems={'center'}
                 sx={{
-                    borderRadius: 8,
-                    bgcolor: '#FDFDFD30',
-                    boxShadow: '0px 4px 4px #3332',
+                    borderRadius: 4,
+                    bgcolor: '#CDCDCD30',
+                    border: '1px solid #EEEEEE',
                     p: 1,
-                    pl: !!breadcrumbsItemsMobile?.link && isMobile ? 1 : 3,
+                    pl: !!breadcrumbsItemsMobile?.link && isMobile ? 2 : 3,
                     m: 1,
-                    mx: { xs: 2, md: 1 },
                     backdropFilter: 'blur(4px)',
                     position: 'relative',
                     overflow: 'hidden',

@@ -105,7 +105,7 @@ export const Table: React.FC<TableProps> = ({
                     display: 'flex',
                     flexDirection: nocolumn ? 'row' : 'column',
                     flexWrap: nocolumn ? 'wrap' : undefined,
-                    gap: 0.5,
+                    gap: 1,
                 }}
             >
                 {items.map((item, index) => (

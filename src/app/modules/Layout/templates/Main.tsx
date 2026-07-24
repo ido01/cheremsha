@@ -17,7 +17,8 @@ export const Main: React.FC<MainProps> = ({ children, ...props }) => {
                 pb={{ sm: 11, md: 1 }}
                 flex="1 0 100%"
                 sx={{
-                    px: 1,
+                    position: 'relative',
+                    px: 2,
                     overflow: 'auto',
                     minHeight: { xs: '100vh', md: 'calc( 100vh - 18px )' },
                 }}

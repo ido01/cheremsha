@@ -33,7 +33,15 @@ export const Layout: React.FC<LayoutProps> = ({ children }) => {
                             <CircularProgress size={50} />
                         </Box>
                     ) : (
-                        <Box display="flex" height={'100%'}>
+                        <Box
+                            display="flex"
+                            height={'100%'}
+                            sx={{
+                                bgcolor: '#FFF',
+                                // backgroundImage:
+                                //     'radial-gradient(farthest-corner at 30% 30%, #fff 0%, #fff 60%, #ECEFF1 100%)',
+                            }}
+                        >
                             {!isMobile && <LeftMenu />}
 
                             <Box
@@ -44,21 +52,15 @@ export const Layout: React.FC<LayoutProps> = ({ children }) => {
                                 overflow={'auto'}
                                 sx={{
                                     position: 'relative',
-                                    bgcolor: '#FFF',
-                                    backgroundImage:
-                                        'radial-gradient(farthest-corner at 30% 30%, #fff 0%, #fff 60%, #ECEFF1 100%)',
-                                    borderRadius: { xs: 0, md: 8 },
-                                    m: { sm: 0, md: 1 },
                                     boxSizing: 'border-box',
-                                    border: !isMobile ? '1px solid #EEEEEE' : undefined,
-                                    height: { xs: 'calc( 100vh - 2px )', md: 'calc( 100vh - 18px )' },
+                                    height: { xs: 'calc( 100vh - 2px )', md: 'calc( 100vh )' },
                                 }}
                             >
                                 <Box
                                     display="flex"
                                     flexDirection="column"
                                     sx={{
-                                        minHeight: { xs: '100vh', md: 'calc( 100vh - 18px )' },
+                                        minHeight: { xs: '100vh', md: 'calc( 100vh )' },
                                     }}
                                 >
                                     {children}

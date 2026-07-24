@@ -13,3 +13,8 @@ export interface IStat {
 export type IStatsCollectionResponse = {
     data: IStat[]
 }
+
+export type IStatsResponse = {
+    data: number[]
+    all?: number[]
+}

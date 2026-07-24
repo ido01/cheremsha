@@ -32,15 +32,15 @@ export const DragTableItem: React.FC<DragTableItemProps> = ({
             key={item.id}
             sx={{
                 mt: { xs: 1, md: fullBorder ? 1 : 0 },
-                bgcolor: '#FDFDFD',
-                borderRadius: 8,
+                bgcolor: '#FFFFFF',
+                borderRadius: 4,
                 cursor: handleClickRow ? 'pointer' : 'default',
-                border: '1px solid #F5F5F5',
-                boxShadow: '0px 1px 1px #3332',
+                border: '1px solid #E0E0E0',
                 p: isMobile ? 1 : 0,
                 '&:hover': handleClickRow
                     ? {
-                          bgcolor: '#F4F6FB',
+                          bgcolor: '#F5F5F5',
+                          border: '1px solid #D0D0D0',
                       }
                     : undefined,
             }}

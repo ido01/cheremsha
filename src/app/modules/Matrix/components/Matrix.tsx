@@ -1,3 +1,4 @@
+import DoneIcon from '@mui/icons-material/Done'
 import { Avatar, AvatarGroup, Box } from '@mui/material'
 import React from 'react'
 import { useDispatch } from 'react-redux'
@@ -7,13 +8,20 @@ import { matrixActions } from '../slice'
 
 interface Props {
     matrix: IMatrix
+    selected: boolean
+    onSelected: (id: string) => void
 }
 
-export const Matrix: React.FC<Props> = ({ matrix }) => {
+export const Matrix: React.FC<Props> = ({ matrix, selected, onSelected }) => {
     const dispatch = useDispatch()
 
     const handleOpen = () => {
         dispatch(matrixActions.showModal(matrix.id))
+    }
+
+    const handleSelectClick = (e: React.MouseEvent<HTMLElement>) => {
+        e.stopPropagation()
+        onSelected(matrix.id)
     }
 
     return (
@@ -59,8 +67,9 @@ export const Matrix: React.FC<Props> = ({ matrix }) => {
                         fontSize: '20px',
                         flexShrink: 0,
                     }}
+                    onClick={handleSelectClick}
                 >
-                    {matrix.position}
+                    {selected ? <DoneIcon /> : matrix.position}
                 </Box>
                 <Box
                     sx={{

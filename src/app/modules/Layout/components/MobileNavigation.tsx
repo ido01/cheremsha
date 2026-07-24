@@ -87,15 +87,13 @@ export const MobileNavigation: React.FC = () => {
                 bottom: '12px',
                 left: 0,
                 m: 1,
-                mx: 2,
-                width: 'calc( 100% - 32px )',
+                width: 'calc( 100% - 16px )',
                 p: 1,
                 zIndex: 2,
-                borderRadius: 8,
+                borderRadius: 4,
                 backdropFilter: 'blur(4px)',
                 bgcolor: '#FFFFFF30',
-                boxShadow: '0px 4px 4px #3332',
-                border: '1px solid #F5F5F5',
+                border: '1px solid #EEEEEE',
                 overflow: 'hidden',
             }}
         >

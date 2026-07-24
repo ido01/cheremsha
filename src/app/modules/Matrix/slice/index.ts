@@ -1,6 +1,6 @@
 import { createEntityAdapter, createSlice, PayloadAction } from '@reduxjs/toolkit'
 import { EStatus } from 'types'
-import { IMatrix, IMatrixUserRequest } from 'types/IMatrix'
+import { IMatrix, IMatrixManyRequest, IMatrixUserRequest } from 'types/IMatrix'
 
 import { initMatrix } from './constants'
 import { IMatrixState } from './types'
@@ -59,6 +59,9 @@ const slice = createSlice({
         matrixLoaded(state, action: PayloadAction<IMatrix[]>) {
             matrixAdapter.setAll(state, action.payload)
             state.status.main = EStatus.FINISHED
+            state.form.status = EStatus.FINISHED
+            state.status.empty = EStatus.FINISHED
+            state.status.stock = EStatus.FINISHED
         },
         openSend(state, action: PayloadAction<string>) {
             state.send.isOpen = true
@@ -87,6 +90,14 @@ const slice = createSlice({
         },
         empty(state, action: PayloadAction<string>) {
             state.status.empty = EStatus.PENDING
+            action
+        },
+        emptyMany(state, action: PayloadAction<IMatrixManyRequest>) {
+            state.status.empty = EStatus.PENDING
+            action
+        },
+        stockMany(state, action: PayloadAction<IMatrixManyRequest>) {
+            state.status.stock = EStatus.PENDING
             action
         },
         stock(state, action: PayloadAction<string>) {

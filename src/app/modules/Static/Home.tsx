@@ -1,5 +1,6 @@
 import {
     AssistWalker as AssistWalkerIcon,
+    AttachMoney as AttachMoneyIcon,
     Ballot as BallotIcon,
     CalendarMonth as CalendarMonthIcon,
     Contacts as ContactsIcon,
@@ -87,6 +88,16 @@ export const Home: React.FC = () => {
             icon: <SsidChartIcon fontSize="large" />,
             title: 'Статистика',
             path: '/stats',
+        })
+    }
+
+    if (checkStatickRole('show_motivation')) {
+        links.push({
+            icon: <AttachMoneyIcon fontSize="large" />,
+            title: 'Мотивации Брендов',
+            onClick: () => {
+                window.open('https://motivation.chernikashop.net', '_blank')
+            },
         })
     }
 

@@ -11,6 +11,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { useParams } from 'react-router-dom'
 
 import { Matrix } from '../components/Matrix'
+import { PopupSelected } from '../components/PopupSelected'
 import { matrixActions } from '../slice'
 import { selectMatrix, selectMatrixEmpty, selectMatrixNoempty } from '../slice/selectors'
 import { MatrixAdminSettings } from './MatrixAdminSettings'
@@ -26,6 +27,7 @@ export const MatrixCategoriesView: React.FC = () => {
     const [value, setValue] = useState<string>('all')
     const [open, setOpen] = useState<boolean>(false)
     const [search, setSearch] = useState<string>('')
+    const [selected, setSelected] = useState<string[]>([])
 
     const getMatrix = useSelector(selectMatrix)
     const matrix = getMatrix(id || '0')
@@ -111,6 +113,19 @@ export const MatrixCategoriesView: React.FC = () => {
         }
     }
 
+    const handleSelected = (id: string) => {
+        setSelected((value) => {
+            if (value.includes(id)) {
+                return value.filter((element) => element !== id)
+            }
+            return [...value, id]
+        })
+    }
+
+    const onClose = () => {
+        setSelected([])
+    }
+
     return (
         <Main
             title={category?.name || 'Матрица'}
@@ -172,8 +187,22 @@ export const MatrixCategoriesView: React.FC = () => {
                             }}
                         >
                             {search
-                                ? filteredMatrix.map((m, key) => <Matrix key={key} matrix={m} />)
-                                : matrix.map((m, key) => <Matrix key={key} matrix={m} />)}
+                                ? filteredMatrix.map((m, key) => (
+                                      <Matrix
+                                          key={key}
+                                          matrix={m}
+                                          selected={selected.includes(m.id)}
+                                          onSelected={handleSelected}
+                                      />
+                                  ))
+                                : matrix.map((m, key) => (
+                                      <Matrix
+                                          key={key}
+                                          matrix={m}
+                                          selected={selected.includes(m.id)}
+                                          onSelected={handleSelected}
+                                      />
+                                  ))}
                         </Box>
                     </TabPanel>
                     <TabPanel value="empty" sx={{ p: 0 }}>
@@ -186,8 +215,22 @@ export const MatrixCategoriesView: React.FC = () => {
                             }}
                         >
                             {search
-                                ? filteredMatrix.map((m, key) => <Matrix key={key} matrix={m} />)
-                                : empty.map((m, key) => <Matrix key={key} matrix={m} />)}
+                                ? filteredMatrix.map((m, key) => (
+                                      <Matrix
+                                          key={key}
+                                          matrix={m}
+                                          selected={selected.includes(m.id)}
+                                          onSelected={handleSelected}
+                                      />
+                                  ))
+                                : empty.map((m, key) => (
+                                      <Matrix
+                                          key={key}
+                                          selected={selected.includes(m.id)}
+                                          matrix={m}
+                                          onSelected={handleSelected}
+                                      />
+                                  ))}
                         </Box>
                     </TabPanel>
                     <TabPanel value="noempty" sx={{ p: 0 }}>
@@ -200,13 +243,28 @@ export const MatrixCategoriesView: React.FC = () => {
                             }}
                         >
                             {search
-                                ? filteredMatrix.map((m, key) => <Matrix key={key} matrix={m} />)
-                                : noempty.map((m, key) => <Matrix key={key} matrix={m} />)}
+                                ? filteredMatrix.map((m, key) => (
+                                      <Matrix
+                                          key={key}
+                                          matrix={m}
+                                          selected={selected.includes(m.id)}
+                                          onSelected={handleSelected}
+                                      />
+                                  ))
+                                : noempty.map((m, key) => (
+                                      <Matrix
+                                          key={key}
+                                          matrix={m}
+                                          selected={selected.includes(m.id)}
+                                          onSelected={handleSelected}
+                                      />
+                                  ))}
                         </Box>
                     </TabPanel>
                 </TabContext>
             </Container>
 
+            <PopupSelected id={id || ''} selected={selected} onClose={onClose} />
             <MatrixView />
             <UsersModal />
             <SendModal />

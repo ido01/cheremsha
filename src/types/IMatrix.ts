@@ -32,6 +32,11 @@ export interface IMatrix {
     blocks: IMatrixBlock[]
 }
 
+export interface IMatrixManyRequest {
+    parent_id: string
+    ids: string[]
+}
+
 export interface IMatrixCollectionResponse {
     data: IMatrix[]
 }
