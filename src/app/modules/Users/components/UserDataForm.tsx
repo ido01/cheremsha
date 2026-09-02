@@ -5,8 +5,9 @@ import { selectLocationsFilter } from 'app/modules/Locations/slice/selectors'
 import { selectPositions } from 'app/modules/Positions/slice/selectors'
 import dayjs from 'dayjs'
 import { useFormik } from 'formik'
-import React, { useMemo } from 'react'
+import React, { useEffect, useMemo } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
+import { useNavigate } from 'react-router-dom'
 import { ERole, EStatus } from 'types'
 import * as yup from 'yup'
 
@@ -14,6 +15,7 @@ import { usersActions } from '../slice'
 import { selectForm } from '../slice/selectors'
 
 export const UserDataForm: React.FC = () => {
+    const history = useNavigate()
     const dispatch = useDispatch()
 
     const { data, status } = useSelector(selectForm)
@@ -38,6 +40,12 @@ export const UserDataForm: React.FC = () => {
             dispatch(usersActions.updateUser(values))
         },
     })
+
+    useEffect(() => {
+        if (status === EStatus.FINISHED) {
+            history(`/users/${data.id}`)
+        }
+    }, [status])
 
     return (
         <Box
@@ -244,6 +252,42 @@ export const UserDataForm: React.FC = () => {
                                 formik.setFieldValue('birthday', val?.format('YYYY-MM-DD'))
                             }
                         }}
+                    />
+                </Grid>
+
+                <Grid item xs={12} md={4}>
+                    <TextField
+                        fullWidth
+                        variant="outlined"
+                        label="VK"
+                        name="vk"
+                        value={formik.values.vk || ''}
+                        error={!!formik.errors.vk && formik.touched.vk}
+                        onChange={formik.handleChange}
+                    />
+                </Grid>
+
+                <Grid item xs={12} md={4}>
+                    <TextField
+                        fullWidth
+                        variant="outlined"
+                        label="TG"
+                        name="tg"
+                        value={formik.values.tg || ''}
+                        error={!!formik.errors.tg && formik.touched.tg}
+                        onChange={formik.handleChange}
+                    />
+                </Grid>
+
+                <Grid item xs={12} md={4}>
+                    <TextField
+                        fullWidth
+                        variant="outlined"
+                        label="Inst"
+                        name="inst"
+                        value={formik.values.inst || ''}
+                        error={!!formik.errors.inst && formik.touched.inst}
+                        onChange={formik.handleChange}
                     />
                 </Grid>
 

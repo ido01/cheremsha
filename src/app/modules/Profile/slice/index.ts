@@ -38,6 +38,9 @@ const initialProfile: IUser = {
     favorite: false,
     createdAt: '',
     access: [],
+    vk: '',
+    inst: '',
+    tg: '',
 }
 
 const initialState: IProfileState = {

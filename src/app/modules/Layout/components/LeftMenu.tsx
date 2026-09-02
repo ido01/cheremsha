@@ -1,5 +1,6 @@
 import {
     AssistWalker as AssistWalkerIcon,
+    AttachMoney as AttachMoneyIcon,
     Ballot as BallotIcon,
     CalendarMonth as CalendarMonthIcon,
     Contacts as ContactsIcon,
@@ -104,6 +105,16 @@ export const LeftMenu: React.FC = () => {
             icon: <BallotIcon />,
             title: 'Матрица',
             path: '/matrix',
+        })
+    }
+
+    if (checkStatickRole('show_motivation')) {
+        menuItems.push({
+            icon: <AttachMoneyIcon />,
+            title: 'Мотивации',
+            onClick: () => {
+                window.open('https://motivation.znaem.site', '_blank')
+            },
         })
     }
 

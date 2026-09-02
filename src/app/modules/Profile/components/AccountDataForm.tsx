@@ -193,6 +193,45 @@ export const AccountDataForm: React.FC<AccountDataFormProps> = ({ onEditFinish }
                     <TextField
                         fullWidth
                         variant="outlined"
+                        label="VK"
+                        name="vk"
+                        value={formik.values.vk || ''}
+                        error={!!formik.errors.vk && formik.touched.vk}
+                        onChange={formik.handleChange}
+                        onBlur={handleBlur}
+                    />
+                </Grid>
+
+                <Grid item xs={12} md={4}>
+                    <TextField
+                        fullWidth
+                        variant="outlined"
+                        label="TG"
+                        name="tg"
+                        value={formik.values.tg || ''}
+                        error={!!formik.errors.tg && formik.touched.tg}
+                        onChange={formik.handleChange}
+                        onBlur={handleBlur}
+                    />
+                </Grid>
+
+                <Grid item xs={12} md={4}>
+                    <TextField
+                        fullWidth
+                        variant="outlined"
+                        label="Inst"
+                        name="inst"
+                        value={formik.values.inst || ''}
+                        error={!!formik.errors.inst && formik.touched.inst}
+                        onChange={formik.handleChange}
+                        onBlur={handleBlur}
+                    />
+                </Grid>
+
+                <Grid item xs={12} md={4}>
+                    <TextField
+                        fullWidth
+                        variant="outlined"
                         label="Хобби"
                         name="hobby"
                         value={formik.values.hobby || ''}

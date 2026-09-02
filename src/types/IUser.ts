@@ -90,6 +90,9 @@ export interface IUser {
     hands?: string[]
     contract?: string
     activities?: IActivity[]
+    vk: string
+    inst: string
+    tg: string
 }
 
 export interface ITinyUser {

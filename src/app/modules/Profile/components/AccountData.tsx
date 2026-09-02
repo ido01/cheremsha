@@ -100,6 +100,51 @@ export const AccountData: React.FC = () => {
                     <LabelText label="Дата рождения" text={profile.birthday} />
                 </Grid>
 
+                <Grid item xs={12} md={4}>
+                    <LabelText
+                        label="VK"
+                        node={
+                            profile?.vk ? (
+                                <Typography variant="body1">
+                                    <a href={profile.vk}>{profile.vk}</a>
+                                </Typography>
+                            ) : (
+                                ''
+                            )
+                        }
+                    />
+                </Grid>
+
+                <Grid item xs={12} md={4}>
+                    <LabelText
+                        label="TG"
+                        node={
+                            profile?.tg ? (
+                                <Typography variant="body1">
+                                    <a href={profile.tg}>{profile.tg}</a>
+                                </Typography>
+                            ) : (
+                                ''
+                            )
+                        }
+                    />
+                </Grid>
+
+                <Grid item xs={12} md={4}>
+                    <LabelText
+                        label="Inst"
+                        node={
+                            profile?.vk ? (
+                                <Typography variant="body1">
+                                    <a href={profile.inst}>{profile.inst}</a>
+                                </Typography>
+                            ) : (
+                                ''
+                            )
+                        }
+                    />
+                </Grid>
+
                 <Grid item xs={12} md={4} />
 
                 <Grid item xs={12} md={4}>

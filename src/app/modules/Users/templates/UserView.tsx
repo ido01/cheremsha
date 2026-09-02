@@ -1,0 +1,171 @@
+import { StarBorder as StarBorderIcon, StarRate as StarRateIcon } from '@mui/icons-material'
+import { TabContext, TabList, TabPanel } from '@mui/lab'
+import { Box, Container, IconButton, Modal as ModalComponent, Tab, Typography } from '@mui/material'
+import { Modal } from 'app/components/Modal'
+import { UserActionsList } from 'app/modules/Actions/templates/UserActionList'
+import { UserList } from 'app/modules/Hands/templates/UserList'
+import { Main } from 'app/modules/Layout/templates/Main'
+import { logActions } from 'app/modules/Log/slice'
+import { LogList } from 'app/modules/Log/templates/LogList'
+import { AvatarImage } from 'app/modules/Profile/components/AvatarImage'
+import { selectProfileRole } from 'app/modules/Profile/slice/selectors'
+import { ResultUserList } from 'app/modules/Results/templates/ResultUserList'
+import { selectCheckAccess } from 'app/modules/Role/selectors'
+import React, { useEffect, useState } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
+import { useParams } from 'react-router-dom'
+import { checkAdminAccess } from 'utils/roles'
+
+import { UserModalContent } from '../components/UserModalContent'
+import { usersActions } from '../slice'
+import { selectModal, selectUserById } from '../slice/selectors'
+
+export const UserView: React.FC = () => {
+    const dispatch = useDispatch()
+    const { id } = useParams<{ id: string }>()
+
+    const [openPhoto, setOpenPhoto] = useState<boolean>(false)
+    const [value, setValue] = useState<string>('user')
+
+    const profileRole = useSelector(selectProfileRole)
+    const getUser = useSelector(selectUserById)
+    const user = getUser(id || '')
+    const checkStatickRole = useSelector(selectCheckAccess)
+
+    const handleClose = () => {
+        dispatch(usersActions.hideModal())
+    }
+
+    const handleOpenAvatar = () => {
+        setOpenPhoto(true)
+    }
+
+    const handleAddFavorite = () => {
+        if (user) {
+            dispatch(usersActions.addFavorite(user.id))
+        }
+    }
+
+    const handleDeleteFavorite = () => {
+        if (user) {
+            dispatch(usersActions.deleteFavorite(user.id))
+        }
+    }
+
+    const handleChange = (event: React.SyntheticEvent, newValue: string) => {
+        setValue(newValue)
+    }
+
+    useEffect(() => {
+        if (user && checkAdminAccess(profileRole)) {
+            dispatch(logActions.loadLog(user?.id))
+        }
+    }, [user?.id])
+
+    useEffect(() => {
+        dispatch(usersActions.loadUser(id || ''))
+    }, [])
+
+    return (
+        <Main
+            startNode={
+                <AvatarImage
+                    name={`${user?.last_name} ${user?.name}`}
+                    image={user?.avatar?.thumb}
+                    size={42}
+                    onClick={handleOpenAvatar}
+                    achieve={user?.achieve}
+                />
+            }
+            title={`${user?.last_name} ${user?.name}`}
+            afterTitleNode={
+                <>
+                    {checkStatickRole('update_user_favorite') && (
+                        <>
+                            {!!user?.favorite && (
+                                <IconButton onClick={handleDeleteFavorite}>
+                                    <StarRateIcon color="warning" />
+                                </IconButton>
+                            )}
+
+                            {!user?.favorite && (
+                                <IconButton onClick={handleAddFavorite}>
+                                    <StarBorderIcon />
+                                </IconButton>
+                            )}
+                        </>
+                    )}
+
+                    {!checkStatickRole('update_user_favorite') && (
+                        <>
+                            {!!user?.favorite && <StarRateIcon color="warning" />}
+
+                            {!user?.favorite && <StarBorderIcon />}
+                        </>
+                    )}
+                </>
+            }
+            searchDisabled
+        >
+            <Box
+                pb={10}
+                sx={{
+                    flexGrow: 1,
+                    display: 'flex',
+                    flexDirection: 'column',
+                    overflow: 'auto',
+                    maxHeight: 'calc( 100% )',
+                }}
+            >
+                <Container>
+                    <TabContext value={value}>
+                        {checkStatickRole('show_user_tab') && (
+                            <TabList onChange={handleChange}>
+                                <Tab label="Профиль" value="user" sx={{ px: 3 }} />
+                                {checkStatickRole('show_user_test_tab') && (
+                                    <Tab label="Тестирование" value="test" sx={{ px: 3 }} />
+                                )}
+                                {checkStatickRole('actions_view') && <Tab label="Логи" value="log" sx={{ px: 3 }} />}
+                                {checkStatickRole('show_user_history_tab') && (
+                                    <Tab label="Изменения" value="history" sx={{ px: 3 }} />
+                                )}
+                                {checkStatickRole('update_hands') && (
+                                    <Tab label="Доступы" value="access" sx={{ px: 3 }} />
+                                )}
+                            </TabList>
+                        )}
+                        <TabPanel value="user" sx={{ p: 0 }}>
+                            {user && (
+                                <UserModalContent handleClose={handleClose} profileRole={profileRole} user={user} />
+                            )}
+                        </TabPanel>
+                        <TabPanel value="test" sx={{ p: 0 }}>
+                            {user && <ResultUserList user={user} />}
+                        </TabPanel>
+                        <TabPanel value="log" sx={{ p: 0 }}>
+                            <UserActionsList />
+                        </TabPanel>
+                        <TabPanel value="history" sx={{ p: 0 }}>
+                            <LogList />
+                        </TabPanel>
+                        <TabPanel value="access" sx={{ p: 0 }}>
+                            {user && <UserList user={user} />}
+                        </TabPanel>
+                    </TabContext>
+                </Container>
+            </Box>
+
+            <ModalComponent
+                open={openPhoto}
+                onClose={() => setOpenPhoto(false)}
+                sx={{
+                    display: 'flex',
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                }}
+            >
+                <Box component={'img'} src={user?.avatar?.url} sx={{ maxWidth: '90%', maxHeight: '90%' }} />
+            </ModalComponent>
+        </Main>
+    )
+}

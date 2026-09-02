@@ -94,9 +94,9 @@ export const Home: React.FC = () => {
     if (checkStatickRole('show_motivation')) {
         links.push({
             icon: <AttachMoneyIcon fontSize="large" />,
-            title: 'Мотивации Брендов',
+            title: 'Мотивации',
             onClick: () => {
-                window.open('https://motivation.chernikashop.net', '_blank')
+                window.open('https://motivation.znaem.site', '_blank')
             },
         })
     }

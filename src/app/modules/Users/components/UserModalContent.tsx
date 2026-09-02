@@ -113,7 +113,7 @@ export const UserModalContent: React.FC<UserModalContentProps> = ({ user, handle
         if (user) {
             handleClose?.()
             dispatch(usersActions.setForm(user))
-            history(`/users/${user.id}`)
+            history(`/users/${user.id}/edit`)
         }
     }
 
@@ -277,6 +277,63 @@ export const UserModalContent: React.FC<UserModalContentProps> = ({ user, handle
                 <Grid item xs={isMobile ? 12 : 6}>
                     <LabelText label="День рождения" text={user?.birthday || ''} />
                 </Grid>
+
+                {user?.vk ? (
+                    <Grid item xs={isMobile ? 12 : 6}>
+                        <LabelText
+                            label="VK"
+                            node={
+                                user?.vk ? (
+                                    <Typography variant="body1">
+                                        <a target="_blank" href={user.vk} rel="noreferrer">
+                                            {user.vk}
+                                        </a>
+                                    </Typography>
+                                ) : null
+                            }
+                        />
+                    </Grid>
+                ) : (
+                    ''
+                )}
+
+                {user?.tg ? (
+                    <Grid item xs={isMobile ? 12 : 6}>
+                        <LabelText
+                            label="TG"
+                            node={
+                                user?.tg ? (
+                                    <Typography variant="body1">
+                                        <a target="_blank" href={user.tg} rel="noreferrer">
+                                            {user.tg}
+                                        </a>
+                                    </Typography>
+                                ) : null
+                            }
+                        />
+                    </Grid>
+                ) : (
+                    ''
+                )}
+
+                {user?.inst ? (
+                    <Grid item xs={isMobile ? 12 : 6}>
+                        <LabelText
+                            label="Inst"
+                            node={
+                                user?.inst ? (
+                                    <Typography variant="body1">
+                                        <a target="_blank" href={user.inst} rel="noreferrer">
+                                            {user.inst}
+                                        </a>
+                                    </Typography>
+                                ) : null
+                            }
+                        />
+                    </Grid>
+                ) : (
+                    ''
+                )}
 
                 <Grid item xs={isMobile ? 12 : 6}>
                     <LabelText label="Место работы" text={getLocation(user?.place_id)} />

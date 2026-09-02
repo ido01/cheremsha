@@ -13,6 +13,8 @@ export interface TitleBlockProps {
     breadcrumbsItemsMobile?: BreadcrumbItem
     value?: string
     endNode?: React.ReactNode
+    startNode?: React.ReactNode
+    afterTitleNode?: React.ReactNode
     onSearch?: (query: string) => void
 }
 
@@ -24,6 +26,8 @@ export const TitleBlock: React.FC<TitleBlockProps> = ({
     breadcrumbsItemsMobile,
     value = '',
     endNode,
+    startNode,
+    afterTitleNode,
     onSearch,
 }) => {
     const history = useNavigate()
@@ -89,13 +93,19 @@ export const TitleBlock: React.FC<TitleBlockProps> = ({
                             </IconButton>
                         )}
 
-                        <Typography
-                            variant={isMobile ? 'h5' : 'h4'}
-                            fontWeight={700}
-                            sx={{ whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}
-                        >
-                            {title}
-                        </Typography>
+                        <Box display="flex" gap={1}>
+                            {startNode}
+
+                            <Typography
+                                variant={isMobile ? 'h5' : 'h4'}
+                                fontWeight={700}
+                                sx={{ whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}
+                            >
+                                {title}
+                            </Typography>
+
+                            {afterTitleNode}
+                        </Box>
 
                         {!!count && (
                             <Typography variant={isMobile ? 'h6' : 'h5'} ml={1} fontWeight={400} color="grey.400">

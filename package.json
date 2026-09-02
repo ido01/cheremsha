@@ -2,7 +2,7 @@
   "name": "chernika_platform",
   "version": "0.1.2",
   "private": true,
-  "proxy": "https://api.chernikashop.net",
+  "proxy": "https://api.znaem.site",
   "dependencies": {
     "@emotion/react": "^11.13.3",
     "@emotion/styled": "^11.13.0",

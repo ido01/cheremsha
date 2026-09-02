@@ -1,6 +1,7 @@
 import { Box } from '@mui/material'
 import { TitleBlock, TitleBlockProps } from 'app/components/TitleBlock'
 import { ExcelLoading } from 'app/modules/Excel/templates/ExcelLoading'
+import { Square } from 'app/modules/Square'
 import React from 'react'
 
 interface MainProps extends TitleBlockProps {
@@ -26,6 +27,7 @@ export const Main: React.FC<MainProps> = ({ children, ...props }) => {
                 {children}
 
                 <ExcelLoading />
+                <Square />
             </Box>
         </>
     )
